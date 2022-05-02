@@ -6,6 +6,12 @@ import FirstPage from "./pages/FirstPage";
 import Login from "./pages/Login";
 import Profile from "./pages/Profile";
 import Register from "./pages/Register";
+import Upload from "./components/button/Upload";
+import Send from "./components/button/Send";
+import Delete from "./components/button/Delete";
+import { Password } from "@mui/icons-material";
+import TextField from "./components/form/TextField";
+import Badge from "./components/avatar/Badge";
 
 function App() {
   const [count, setCount] = useState(0);
@@ -17,38 +23,12 @@ function App() {
       <Login></Login>
       <Profile></Profile>
       <Register></Register>
-      
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>Hello Vite + React!</p>
-        <p>
-          <button type="button" onClick={() => setCount((count) => count + 1)}>
-            count is: {count}
-          </button>
-        </p>
-        <p>
-          Edit <code>App.tsx</code> and save to test HMR updates.
-        </p>
-        <p>
-          <a
-            className="App-link"
-            href="https://reactjs.org"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            Learn React
-          </a>
-          {" | "}
-          <a
-            className="App-link"
-            href="https://vitejs.dev/guide/features.html"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            Vite Docs
-          </a>
-        </p>
-      </header>
+      <Upload></Upload>
+      <Send></Send>
+      <Delete></Delete>
+      <Password></Password>
+      <TextField></TextField>
+      <Badge></Badge>
     </div>
   );
 }
