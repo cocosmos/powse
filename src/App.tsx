@@ -1,12 +1,23 @@
 import { useState } from "react";
 import logo from "./assets/logo.svg";
 import "./App.css";
+import Home from "./pages/Home";
+import FirstPage from "./pages/FirstPage";
+import Login from "./pages/Login";
+import Profile from "./pages/Profile";
+import Register from "./pages/Register";
 
 function App() {
   const [count, setCount] = useState(0);
 
   return (
     <div className="App">
+      <Home></Home>
+      <FirstPage></FirstPage>
+      <Login></Login>
+      <Profile></Profile>
+      <Register></Register>
+      
       <header className="App-header">
         <img src={logo} className="App-logo" alt="logo" />
         <p>Hello Vite + React!</p>
