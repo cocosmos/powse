@@ -1,5 +1,4 @@
 import { useState } from "react";
-import logo from "./assets/logo.svg";
 import "./App.css";
 import Home from "./pages/Home";
 import FirstPage from "./pages/FirstPage";
@@ -14,21 +13,19 @@ import TextField from "./components/form/TextField";
 import Badge from "./components/avatar/Badge";
 
 function App() {
-  const [count, setCount] = useState(0);
-
   return (
     <div className="App">
-      <Home></Home>
-      <FirstPage></FirstPage>
-      <Login></Login>
-      <Profile></Profile>
-      <Register></Register>
-      <Upload></Upload>
-      <Send></Send>
-      <Delete></Delete>
-      <Password></Password>
-      <TextField></TextField>
-      <Badge></Badge>
+      <Home />
+      <FirstPage />
+      <Login />
+      <Profile />
+      <Register />
+      <Upload />
+      <Send />
+      <Delete />
+      <Password />
+      <TextField />
+      <Badge />
     </div>
   );
 }
