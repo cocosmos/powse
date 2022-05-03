@@ -1,13 +1,10 @@
-import { Button, TextField } from "@mui/material";
-import { auth } from "../firebase";
-import { signInWithEmailAndPassword } from "firebase/auth";
-import { useState } from "react";
+import LoginForm from "../components/LoginForm";
 
 const Login = () => {
   return (
     <div>
       <h2>login</h2>
-      <Login />
+      <LoginForm />
     </div>
   );
 };

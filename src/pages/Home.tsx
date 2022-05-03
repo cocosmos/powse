@@ -1,13 +1,9 @@
-import React from "react";
-import { SignupForm } from "../components/SignupForm";
+import React from 'react'
 
 const Home = () => {
-  return (
-    <>
-      <h1>test</h1>
-      <SignupForm />
-    </>
-  );
-};
+    return (
+      <h1>Home</h1>  
+    );
+}
 
 export default Home;
