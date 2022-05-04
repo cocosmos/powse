@@ -1,17 +1,8 @@
-interface State {
-  name: string;
-}
-interface NameAction {
-  type: string;
-  payload?: any;
-}
-
-const AuthReducer = (_: State, action: NameAction) => {
-  const { type, payload } = action;
-  switch (type) {
+const AuthReducer = (state: any, action: { type?: any; payload?: any }) => {
+  switch (action.type) {
     case "LOGIN": {
       return {
-        currentUser: payload,
+        currentUser: action.payload,
       };
     }
     case "LOGOUT": {
@@ -20,7 +11,7 @@ const AuthReducer = (_: State, action: NameAction) => {
       };
     }
     default:
-      throw new Error(`Unknown action type: ${type}`);
+      return state;
   }
 };
 

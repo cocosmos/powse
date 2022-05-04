@@ -1,4 +1,4 @@
-import firebase from "firebase/app";
+import { initializeApp } from "firebase/app";
 import { getAuth } from "firebase/auth";
 import { getAnalytics } from "firebase/analytics";
 import { getFirestore } from "firebase/firestore";
@@ -12,8 +12,7 @@ const firebaseConfig = {
   appId: import.meta.env.VITE_APP_ID,
   measurementId: import.meta.env.VITE_APP_MESUEREMENT_ID,
 };
-firebase.initializeApp(firebaseConfig);
+const app = initializeApp(firebaseConfig);
 //const analytics = getAnalytics(firebaseApp);
-export default firebase;
-export const db = getFirestore();
+export const db = getFirestore(app);
 export const auth = getAuth();

@@ -9,13 +9,17 @@ import Event from "./pages/Event";
 import { BrowserRouter, Navigate, Route, Routes } from "react-router-dom";
 import { useContext } from "react";
 import { AuthContext } from "./contexts/AuthContext";
-export const UserContext = React.createContext();
+
 function App() {
   const { currentUser } = useContext(AuthContext);
+
   const RequireAuth = ({ children }: any) => {
-    return currentUser ? children : <Navigate to="/login" />;
+    if (currentUser.apiKey === import.meta.env.VITE_APP_FIREBASE_API_KEY) {
+      return children;
+    } else {
+      return <Navigate to="/login" />;
+    }
   };
-  console.log(currentUser);
 
   return (
     <div className="App">

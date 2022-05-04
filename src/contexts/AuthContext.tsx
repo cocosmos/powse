@@ -1,46 +1,18 @@
 import { createContext, useEffect, useReducer } from "react";
-
-enum AuthActionKind {
-  INITIAL_STATE,
-}
-interface AuthAction {
-  type: string;
-  payload?: AuthActionKind;
-  currentUser: {};
-}
+import AuthReducer from "./AuthReducer";
 
 interface ContextType {
-  dispatch: React.Dispatch<AuthAction>;
+  dispatch: React.Dispatch<{ type: any; payload: any }>;
 }
-
-export const AuthContext = createContext<ContextType>({
-  dispatch: () => null,
-});
-
-const AuthReducer = (action: AuthAction) => {
-  const { type, payload } = action;
-  switch (type) {
-    case "LOGIN": {
-      return {
-        currentUser: payload,
-      };
-    }
-    case "LOGOUT": {
-      return {
-        currentUser: null,
-      };
-    }
-    default:
-      throw new Error(`Unknown action type: ${type}`);
-  }
-};
 
 const INITIAL_STATE = {
   currentUser: JSON.parse(localStorage.getItem("user") || "{}"),
 };
 
-export const AuthContextProvider = ({ children }: Props) => {
-  const [state, dispatch] = useReducer(AuthReducer, { INITIAL_STATE: null });
+export const AuthContext = createContext<ContextType | any>(INITIAL_STATE);
+
+export const AuthContextProvider = ({ children }: any) => {
+  const [state, dispatch] = useReducer(AuthReducer, INITIAL_STATE);
 
   useEffect(() => {
     localStorage.setItem("user", JSON.stringify(state.currentUser));
