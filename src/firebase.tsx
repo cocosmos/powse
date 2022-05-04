@@ -3,7 +3,7 @@ import { getAuth } from "firebase/auth";
 import { getAnalytics } from "firebase/analytics";
 
 const firebaseConfig = {
-  apiKey: process.env.REACT_APP_FIREBASE_API_KEY,
+  apiKey: "",
   authDomain: "groupe-3-de3c6.firebaseapp.com",
   projectId: "groupe-3-de3c6",
   storageBucket: "groupe-3-de3c6.appspot.com",

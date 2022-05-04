@@ -1,11 +1,13 @@
 import { Button, TextField } from "@mui/material";
 import { createUserWithEmailAndPassword } from "firebase/auth";
 import React, { useRef, useState } from "react";
+import { useNavigate } from "react-router-dom";
 import { auth } from "../firebase";
 
 export const SignupForm = () => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
+  const navigate = useNavigate();
 
   const handleSignup = (e: any) => {
     console.log(email);
@@ -14,7 +16,7 @@ export const SignupForm = () => {
       .then((userCredential) => {
         // Signed in
         const user = userCredential.user;
-
+        navigate("/instructions");
         // ...
       })
       .catch((error) => {
