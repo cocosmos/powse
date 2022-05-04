@@ -3,21 +3,41 @@ import "./App.css";
 import Home from "./pages/Home";
 import Login from "./pages/Login";
 import Register from "./pages/Register";
-import Upload from "./components/button/Upload";
-import Send from "./components/button/Send";
-import Delete from "./components/button/Delete";
-import { Password } from "@mui/icons-material";
-import TextField from "./components/form/TextField";
-import Badge from "./components/avatar/Badge";
-import { BrowserRouter, Route, Routes } from "react-router-dom";
 
+import Event from "./pages/Event";
+
+import { BrowserRouter, Navigate, Route, Routes } from "react-router-dom";
+import { useContext } from "react";
+import { AuthContext } from "./contexts/AuthContext";
+export const UserContext = React.createContext();
 function App() {
+  const { currentUser } = useContext(AuthContext);
+  const RequireAuth = ({ children }: any) => {
+    return currentUser ? children : <Navigate to="/login" />;
+  };
+  console.log(currentUser);
+
   return (
     <div className="App">
       <BrowserRouter>
         <Routes>
-          <Route path="/" element={<Home />} />
           <Route path="/login" element={<Login />} />
+          <Route
+            path="/"
+            element={
+              <RequireAuth>
+                <Home />
+              </RequireAuth>
+            }
+          />
+          <Route
+            path="/event"
+            element={
+              <RequireAuth>
+                <Event />
+              </RequireAuth>
+            }
+          />
           <Route path="/register" element={<Register />} />
         </Routes>
       </BrowserRouter>

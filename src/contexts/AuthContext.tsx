@@ -1,29 +1,54 @@
-/* import React, { createContext, useContext } from "react";
-import { useState } from "react";
-import { auth } from "../components/firebase";
-import { User } from "../types/user";
-//const AuthContext = createContext();
+import { createContext, useEffect, useReducer } from "react";
 
-export const useAuth = () => {
-  //return useContext(AuthContext);
-};
+enum AuthActionKind {
+  INITIAL_STATE,
+}
+interface AuthAction {
+  type: string;
+  payload?: AuthActionKind;
+  currentUser: {};
+}
 
-export const AuthProvider = ({ children }: any) => {
-  const [currentUser, setCurrentUser] = useState();
+interface ContextType {
+  dispatch: React.Dispatch<AuthAction>;
+}
 
-    function signup(email: User, password: User) {
-    auth.createUserWithEmailAndPassword(email, password);
+export const AuthContext = createContext<ContextType>({
+  dispatch: () => null,
+});
+
+const AuthReducer = (action: AuthAction) => {
+  const { type, payload } = action;
+  switch (type) {
+    case "LOGIN": {
+      return {
+        currentUser: payload,
+      };
+    }
+    case "LOGOUT": {
+      return {
+        currentUser: null,
+      };
+    }
+    default:
+      throw new Error(`Unknown action type: ${type}`);
   }
-
-  const value = {
-    currentUser,
-  }; 
-
-  return <AuthContext.Provider value={value}>{children}</AuthContext.Provider>;
-};
- */
-const AuthContext = () => {
-  return <div>test</div>;
 };
 
-export default AuthContext;
+const INITIAL_STATE = {
+  currentUser: JSON.parse(localStorage.getItem("user") || "{}"),
+};
+
+export const AuthContextProvider = ({ children }: Props) => {
+  const [state, dispatch] = useReducer(AuthReducer, { INITIAL_STATE: null });
+
+  useEffect(() => {
+    localStorage.setItem("user", JSON.stringify(state.currentUser));
+  }, [state.currentUser]);
+
+  return (
+    <AuthContext.Provider value={{ currentUser: state.currentUser, dispatch }}>
+      {children}
+    </AuthContext.Provider>
+  );
+};

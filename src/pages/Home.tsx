@@ -1,9 +1,9 @@
-import React from 'react'
+import React from "react";
 
 const Home = () => {
-    return (
-      <h1>Home</h1>  
-    );
-}
+  const value = React.useContext(UserContext);
+
+  return <h1>Home{value}</h1>;
+};
 
 export default Home;
