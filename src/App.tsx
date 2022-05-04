@@ -3,12 +3,9 @@ import "./App.css";
 import Home from "./pages/Home";
 import Login from "./pages/Login";
 import Register from "./pages/Register";
-import Upload from "./components/button/Upload";
-import Send from "./components/button/Send";
-import Delete from "./components/button/Delete";
+import Event from "./pages/Event";
 import { Password } from "@mui/icons-material";
 import TextField from "./components/form/TextField";
-import Badge from "./components/avatar/Badge";
 import { BrowserRouter, Route, Routes } from "react-router-dom";
 
 function App() {
@@ -19,6 +16,7 @@ function App() {
           <Route path="/" element={<Home />} />
           <Route path="/login" element={<Login />} />
           <Route path="/register" element={<Register />} />
+          <Route path="/event" element={<Event />} />
         </Routes>
       </BrowserRouter>
     </div>
