@@ -6,6 +6,7 @@ import {
   InputAdornment,
   InputLabel,
   Link,
+  makeStyles,
   TextField,
   Typography,
 } from "@mui/material";
@@ -16,11 +17,13 @@ import { auth } from "../firebase";
 import { useContext } from "react";
 import { AuthContext } from "../contexts/AuthContext";
 import { Visibility, VisibilityOff } from "@mui/icons-material";
+
 interface State {
   password: string;
   showPassword: boolean;
   email: string;
 }
+
 const LoginForm = (props) => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
@@ -82,6 +85,7 @@ const LoginForm = (props) => {
         onChange={handleInput("email")}
         fullWidth
         color="secondary"
+        sx={{ borderRadius: 25 }}
       />
       <FormControl variant="filled" fullWidth color="secondary">
         <InputLabel htmlFor="passwordLogin">Password</InputLabel>
@@ -116,15 +120,8 @@ const LoginForm = (props) => {
       >
         Se connecter
       </Button>
-      <Typography variant="body2" display="block" gutterBottom>
-        Vous n’avez pas encore de compte ?{" "}
-        <Link href="/register">Inscrivez-vous.</Link>
-      </Typography>
     </form>
   );
 };
 
 export default LoginForm;
-function useStyles() {
-  throw new Error("Function not implemented.");
-}

@@ -44,7 +44,7 @@ const getPaletteMode = (mode: PaletteMode) => ({
             black: "#000",
           }, */
           primary: {
-            main: "#5754D9",
+            main: "#020077",
             contrastText: "#FEF8EA",
           },
           secondary: {

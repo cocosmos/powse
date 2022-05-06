@@ -71,6 +71,30 @@ function App() {
               fontFamily: ["'Fonarto', 'sans-serif'"].join(","),
             }, */
           },
+          components: {
+            MuiFilledInput: {
+              styleOverrides: {
+                root: {
+                  borderRadius: 12,
+                  backgroundColor: "#F3EFFA",
+                  ":hover": {
+                    backgroundColor: "#F3EFFA",
+                  },
+                  ":before": {
+                    display: "none",
+                  },
+                  ":after": {
+                    display: "none",
+                  },
+                },
+                input: {
+                  backgroundColor: "#F3EFFA",
+                  borderRadius: 12,
+                },
+              },
+            },
+          },
+
           breakpoints: {
             keys: ["xs", "sm", "md", "lg", "xl"],
             values: {
