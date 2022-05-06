@@ -10,6 +10,7 @@ const Login = () => {
       textAlign="center"
       alignItems={"center"}
     >
+      {/*logo*/}
       <Box component="span" mt={20}>
         <svg
           width="262"

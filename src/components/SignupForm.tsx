@@ -1,4 +1,4 @@
-import { Autocomplete, Button, TextField } from "@mui/material";
+import { Autocomplete, Box, Button, FormControl, Link, TextField } from "@mui/material";
 import {
   createUserWithEmailAndPassword,
   signInWithEmailAndPassword,
@@ -98,46 +98,99 @@ export const SignupForm = () => {
             type={"text"}
             onChange={handleInputCompany}
             defaultValue=""
+            fullWidth
+            color="secondary"
+            sx={{ mb: 3 }}
           />
           <Button type="submit" variant="contained" color="success" fullWidth>
             Submit
           </Button>
         </form>
       ) : (
+      <Box flexGrow={1} display={"flex"} mt={5}>
         <form onSubmit={handleSignup}>
+        <FormControl
+          variant="filled"
+          fullWidth
+          color="secondary"
+          sx={{ mb: 4 }}
+          >
           <TextField
             helperText="Please enter your name"
             id="name"
             label="Nom"
             type={"text"}
             onChange={handleInput}
-          />
+            fullWidth
+            color="secondary"
+            sx={{ mb: 3 }}
+            />
+        </FormControl>
+        <FormControl
+          variant="filled"
+          fullWidth
+          color="secondary"
+          sx={{ mb: 4 }}
+        >
           <TextField
             helperText="Please enter your email"
             id="email"
             label="Email"
             type={"email"}
             onChange={handleInput}
+            fullWidth
+            color="secondary"
+            sx={{ mb: 3 }}
           />
+        </FormControl>
+        <FormControl
+          variant="filled"
+          fullWidth
+          color="secondary"
+          sx={{ mb: 4 }}
+        >
           <TextField
             helperText="Please enter your Password"
             id="password"
             label="Password"
             type={"password"}
             onChange={handleInput}
-          />
+            fullWidth
+            color="secondary"
+            sx={{ mb: 3 }}
+            />
+        </FormControl>
+        <FormControl
+          variant="filled"
+          fullWidth
+          color="secondary"
+          sx={{ mb: 4 }}
+        >
           <TextField
             helperText="Please confirm your Password"
             id="passwordConfirm"
             label="Confirm Password"
             type={"password"}
             onChange={handleInput}
+            fullWidth
+            color="secondary"
+            sx={{ mb: 3 }}
           />
-
-          <Button type="submit" variant="contained" color="success" fullWidth>
+        </FormControl>
+        <Link href="#" underline="hover">
+          Mot de passe oublié ?
+        </Link>
+          <Button 
+          type="submit"
+          variant="contained"
+          color="primary"
+          sx={{ borderRadius: 25, textTransform: "unset", mt: 4, p: 1.5 }}
+          fullWidth
+          >
             Submit
           </Button>
         </form>
+      </Box>
       )}
     </div>
   );
