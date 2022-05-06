@@ -1,14 +1,38 @@
-import { Button, TextField } from "@mui/material";
+import {
+  Box,
+  Button,
+  FilledInput,
+  FormControl,
+  IconButton,
+  InputAdornment,
+  InputLabel,
+  Link,
+  makeStyles,
+  Stack,
+  TextField,
+  Typography,
+} from "@mui/material";
 import { signInWithEmailAndPassword } from "firebase/auth";
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { auth } from "../firebase";
+import { useContext } from "react";
+import { AuthContext } from "../contexts/AuthContext";
+import { Visibility, VisibilityOff } from "@mui/icons-material";
 
-const LoginForm = () => {
+interface State {
+  password: string;
+  showPassword: boolean;
+  email: string;
+}
+
+const LoginForm = (props) => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
 
   const navigate = useNavigate();
+
+  const { dispatch } = useContext(AuthContext);
 
   const handleLogin = (e: any) => {
     e.preventDefault();
@@ -16,7 +40,7 @@ const LoginForm = () => {
       .then((userCredential) => {
         // Signed in
         const user = userCredential.user;
-        console.log(user);
+        dispatch({ type: "LOGIN", payload: user });
         navigate("/");
         // ...
       })
@@ -26,26 +50,86 @@ const LoginForm = () => {
         // ..
       });
   };
+
+  /*Password Shows*/
+
+  const [values, setValues] = useState<State>({
+    password: "",
+    showPassword: false,
+    email: "",
+  });
+
+  const handleInput =
+    (prop: keyof State) => (event: React.ChangeEvent<HTMLInputElement>) => {
+      setValues({ ...values, [prop]: event.target.value });
+    };
+
+  const handleClickShowPassword = () => {
+    setValues({
+      ...values,
+      showPassword: !values.showPassword,
+    });
+  };
+
+  const handleMouseDownPassword = (
+    event: React.MouseEvent<HTMLButtonElement>
+  ) => {
+    event.preventDefault();
+  };
+
   return (
-    <form onSubmit={handleLogin}>
-      <TextField
-        helperText="Please enter your email"
-        id="emailLogin"
-        label="Email"
-        type={"email"}
-        onChange={(e) => setEmail(e.target.value)}
-      />
-      <TextField
-        helperText="Please enter your Password"
-        id="passwordLogin"
-        label="Password"
-        type={"password"}
-        onChange={(e) => setPassword(e.target.value)}
-      />
-      <Button type="submit" variant="contained" color="success">
-        Submit
-      </Button>
-    </form>
+    <Box flexGrow={1} display={"flex"} mt={5}>
+      <form onSubmit={handleLogin}>
+        <TextField
+          id="emailLogin"
+          label="Adresse e-mail"
+          type={"email"}
+          variant="filled"
+          onChange={handleInput("email")}
+          fullWidth
+          color="secondary"
+          sx={{ mb: 3 }}
+        />
+        <FormControl
+          variant="filled"
+          fullWidth
+          color="secondary"
+          sx={{ mb: 4 }}
+        >
+          <InputLabel htmlFor="passwordLogin">Mot de passe</InputLabel>
+          <FilledInput
+            id="passwordLogin"
+            type={values.showPassword ? "text" : "password"}
+            value={values.password}
+            onChange={handleInput("password")}
+            endAdornment={
+              <InputAdornment position="end">
+                <IconButton
+                  aria-label="toggle password visibility"
+                  onClick={handleClickShowPassword}
+                  onMouseDown={handleMouseDownPassword}
+                  edge="end"
+                >
+                  {values.showPassword ? <VisibilityOff /> : <Visibility />}
+                </IconButton>
+              </InputAdornment>
+            }
+          />
+        </FormControl>
+        <Link href="#" underline="hover">
+          Mot de passe oublié ?
+        </Link>
+        <Button
+          type="submit"
+          variant="contained"
+          color="primary"
+          sx={{ borderRadius: 25, textTransform: "unset", mt: 4, p: 1.5 }}
+          fullWidth
+        >
+          Se connecter
+        </Button>
+      </form>
+    </Box>
   );
 };
 

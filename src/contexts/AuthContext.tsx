@@ -1,29 +1,26 @@
-/* import React, { createContext, useContext } from "react";
-import { useState } from "react";
-import { auth } from "../components/firebase";
-import { User } from "../types/user";
-//const AuthContext = createContext();
+import { createContext, useEffect, useReducer } from "react";
+import AuthReducer from "./AuthReducer";
 
-export const useAuth = () => {
-  //return useContext(AuthContext);
+interface ContextType {
+  dispatch: React.Dispatch<{ type: any; payload: any }>;
+}
+
+const INITIAL_STATE = {
+  currentUser: JSON.parse(localStorage.getItem("user") || "{}"),
 };
 
-export const AuthProvider = ({ children }: any) => {
-  const [currentUser, setCurrentUser] = useState();
+export const AuthContext = createContext<ContextType | any>(INITIAL_STATE);
 
-    function signup(email: User, password: User) {
-    auth.createUserWithEmailAndPassword(email, password);
-  }
+export const AuthContextProvider = ({ children }: any) => {
+  const [state, dispatch] = useReducer(AuthReducer, INITIAL_STATE);
 
-  const value = {
-    currentUser,
-  }; 
+  useEffect(() => {
+    localStorage.setItem("user", JSON.stringify(state.currentUser));
+  }, [state.currentUser]);
 
-  return <AuthContext.Provider value={value}>{children}</AuthContext.Provider>;
+  return (
+    <AuthContext.Provider value={{ currentUser: state.currentUser, dispatch }}>
+      {children}
+    </AuthContext.Provider>
+  );
 };
- */
-const AuthContext = () => {
-  return <div>test</div>;
-};
-
-export default AuthContext;
