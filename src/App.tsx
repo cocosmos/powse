@@ -18,6 +18,7 @@ import {
 } from "@mui/material";
 import getPaletteMode from "./theme/getPaletteMode";
 import useLocalStorage from "./hooks/localStorage";
+import Header from "./components/Header";
 
 function App() {
   const { currentUser } = useContext(AuthContext);
@@ -121,14 +122,6 @@ function App() {
         <BrowserRouter>
           <Routes>
             <Route
-              path="/login"
-              element={
-                /*  <AlreadyAuth> */
-                <Login />
-                /*  </AlreadyAuth> */
-              }
-            />
-            <Route
               path="/"
               element={
                 /*  <RequireAuth> */
@@ -142,6 +135,15 @@ function App() {
                 /*   <RequireAuth> */
                 <Event />
                 /*  </RequireAuth> */
+              }
+            />
+
+            <Route
+              path="/login"
+              element={
+                /*  <AlreadyAuth> */
+                <Login />
+                /*  </AlreadyAuth> */
               }
             />
             <Route

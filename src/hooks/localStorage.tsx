@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { AES, enc } from "crypto-js";
+//import { AES, enc } from "crypto-js";
 
 const secret_key = import.meta.env.VITE_APP_KEY_LOCAL_STORAGE;
 
@@ -13,7 +13,9 @@ export default function useLocalStorage<T>(key: string, initialValue: T) {
       const item = window.localStorage.getItem(key);
       // Parse stored json or if none return initialValue
       return item
-        ? JSON.parse(AES.decrypt(item, secret_key).toString(enc.Utf8))
+        ? JSON.parse(
+            item /* AES.decrypt(item, secret_key).toString(enc.Utf8) */
+          )
         : initialValue;
     } catch (error) {
       // If error also return initialValue
@@ -31,10 +33,7 @@ export default function useLocalStorage<T>(key: string, initialValue: T) {
       // Save state
       setStoredValue(valueToStore);
       // Save to local storage
-      window.localStorage.setItem(
-        key,
-        AES.encrypt(JSON.stringify(valueToStore), secret_key).toString()
-      );
+      window.localStorage.setItem(key, JSON.stringify(valueToStore));
     } catch (error) {
       // A more advanced implementation would handle the error case
       console.log(error);

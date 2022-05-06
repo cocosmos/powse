@@ -22,9 +22,12 @@ import "./event.css";
   /*importer le compostant*/
 }
 import Filter from "../components/Filter";
+import SegmentedControl from "../components/SegmentedControl";
+import Header from "../components/Header";
 
 const Event = () => {
   const [data, setData] = useState({});
+  const [value, setValue] = useState();
   const navigate = useNavigate();
   const handleAdd = async (e) => {
     e.preventDefault();
@@ -39,24 +42,16 @@ const Event = () => {
     }
   };
   return (
-    <Container maxWidth="sm">
-      <Stack spacing={2}>
-        {/* <SegmentedControl
-            color="primary"
-            options={[
-              {
-                label: 'Présentiel',
-                value: 1
-              },
-              {
-                label: 'Télé-travail',
-                value: 2
-              }
-            ]
-          }
-          value={value}
-          onChange={setValue}
-          /> */}
+    <>
+      <Header />
+      <Stack
+        justifyContent="center"
+        //height={"100%"}
+        textAlign="center"
+        alignItems={"center"}
+        spacing={2}
+      >
+        <SegmentedControl value={value} onChange={setValue} />
 
         <Stack spacing={2} direction="row">
           {/*label pour le debut*/}
@@ -114,7 +109,7 @@ const Event = () => {
         />
         <Button variant="contained">VALIDER</Button>
       </Stack>
-    </Container>
+    </>
   );
 };
 export default Event;

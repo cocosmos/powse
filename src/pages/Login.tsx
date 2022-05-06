@@ -51,7 +51,7 @@ const Login = () => {
       <LoginForm />
 
       <Typography variant="body2">
-        Vous n’avez pas encore de compte ?{" "}
+        Vous n’avez pas encore de compte ?
         <Link href="/register">Inscrivez-vous.</Link>
       </Typography>
     </Stack>

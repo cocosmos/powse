@@ -31,7 +31,7 @@ const getPaletteMode = (mode: PaletteMode) => ({
           divider: "transparent",
           background: {
             default: "#FCFCFC",
-            paper: "#08090a",
+            paper: "#F3EFFA",
           },
           /*  mainWindow: {
             background: "#FCFCFC",
