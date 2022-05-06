@@ -1,68 +1,108 @@
 import React from 'react'
 import { styled } from '@mui/material/styles';
+{/*pour l'élément card*/}
 import Card from '@mui/material/Card';
 import CardHeader from '@mui/material/CardHeader';
-import CardMedia from '@mui/material/CardMedia';
 import CardContent from '@mui/material/CardContent';
 import CardActions from '@mui/material/CardActions';
-import Collapse from '@mui/material/Collapse';
-import Avatar from '@mui/material/Avatar';
-import IconButton, { IconButtonProps } from '@mui/material/IconButton';
+
+{/*importer le compostant Typography*/}
 import Typography from '@mui/material/Typography';
-import { red } from '@mui/material/colors';
-import FavoriteIcon from '@mui/icons-material/Favorite';
-import ShareIcon from '@mui/icons-material/Share';
-import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
-import PersonOutlineOutlined from '@mui/icons-material/PersonOutlineOutlined';
+
+import Container from '@mui/material/Container';
 import Button from '@mui/material/Button';
 import Stack from '@mui/material/Stack';
 import CssBaseline from '@mui/material/CssBaseline';
-import Box from '@mui/material/Box';
-import Container from '@mui/material/Container';
 
+{/*importer tous les icons*/}
+import IconButton, { IconButtonProps } from '@mui/material/IconButton';
+import PersonOutlineOutlined from '@mui/icons-material/PersonOutlineOutlined';
 import AccessTimeSharpIcon from '@mui/icons-material/AccessTimeSharp';
 import FmdGoodSharpIcon from '@mui/icons-material/FmdGoodSharp';
+import WorkspacesIcon from '@mui/icons-material/Workspaces';
 
+{/*importer le cssy*/}
+import './home.css';
+{/*importer le compostant*/}
+import Filter from '../components/Filter';
 
+import { useState } from 'react';
+import SegmentedControl from 'mui-segmented-control';
 
+{/*début script*/}
 const Home = () => {
+  const [value, setValue] = useState(1);
   return ( <div>
   <h1>Home</h1> 
-  <Container maxWidth="sm">
-    <Card>
-        <CardMedia
-          component="img"
-          image="/static/images/cards/paella.jpg"
-        />
-      <CardHeader
-        action={
-          <IconButton aria-label="participant">
-            <PersonOutlineOutlined/>
-          </IconButton>
-        }
-        title={
-          <Stack>
-            <Typography variant="h5" gutterBottom component="div">
-            Midi au thaï
-            </Typography>
-            <Typography variant="h6" gutterBottom component="div">
-            Julien Rochat
-            </Typography>
-          </Stack>
+  {/*wapper*/}
+    <Container maxWidth="sm">
+      <Stack spacing={2}>
+      <SegmentedControl
+            color="primary"
+            options={[
+              {
+                label: 'Présentiel',
+                value: 1
+              },
+              {
+                label: 'Télé-travail',
+                value: 2
+              }
+            ]
           }
-      />
-      <CardContent>
-        <Stack  direction="row" >
+          value={value}
+          onChange={setValue}
+          />
+        {/*composant "filter"*/}
+        <Filter/>
+      </Stack>
+      {/*debut de la card*/}
+      <Card className="c-break">
+        <CardContent>
+          {/*haut de la carte avec les participants*/}
+          <CardHeader
+            action={
+              <IconButton aria-label="participant">
+                <PersonOutlineOutlined/>
+              </IconButton>
+            }
+          />    
+           {/*description de la pause avec le nom, l'instigateur, la date, l'heure et le lieu (avec les icons)*/}        
+          <Stack  direction="row" spacing={2} >
+            <WorkspacesIcon/>
+            <Stack>
+              <Typography className='left' component="div">
+                Midi au thaï
+              </Typography>
+              <Typography className='left' gutterBottom component="div">
+                Julien Rochat
+              </Typography>
+            </Stack>
+          </Stack >
+          <Stack  direction="row" spacing={2} >
             <AccessTimeSharpIcon/>
-        </Stack >
-        <Stack  direction="row" >
+            <Stack>
+              <Typography className='left' component="div">
+                jeudi, 5 mai 2022
+              </Typography>
+              <Typography className='left' gutterBottom component="div" >
+                13:00 à 14:00
+              </Typography>
+            </Stack>
+          </Stack >
+          <Stack  direction="row"  spacing={2}>
             <FmdGoodSharpIcon/>
-        </Stack >
-      </CardContent>
-      <CardActions disableSpacing>
-        <Button variant="contained">Rejoindre</Button>
-      </CardActions>
-    </Card>
+            <Typography className='left' gutterBottom component="div">
+              Mama Thaï Genève
+            </Typography>
+          </Stack >
+        </CardContent>
+
+        {/*bouton rejoindre*/}   
+          <CardActions disableSpacing className='right'>
+            <Button className="button" variant="contained">Rejoindre</Button>
+          </CardActions>
+      </Card>
     </Container>
   </div> 
     );
