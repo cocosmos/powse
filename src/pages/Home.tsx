@@ -1,5 +1,7 @@
-import React from 'react'
-import { styled } from '@mui/material/styles';
+import Container from '@mui/material/Container';
+import Button from '@mui/material/Button';
+import Stack from '@mui/material/Stack';
+
 {/*pour l'élément card*/}
 import Card from '@mui/material/Card';
 import CardHeader from '@mui/material/CardHeader';
@@ -9,13 +11,9 @@ import CardActions from '@mui/material/CardActions';
 {/*importer le compostant Typography*/}
 import Typography from '@mui/material/Typography';
 
-import Container from '@mui/material/Container';
-import Button from '@mui/material/Button';
-import Stack from '@mui/material/Stack';
-import CssBaseline from '@mui/material/CssBaseline';
 
 {/*importer tous les icons*/}
-import IconButton, { IconButtonProps } from '@mui/material/IconButton';
+import IconButton from '@mui/material/IconButton';
 import PersonOutlineOutlined from '@mui/icons-material/PersonOutlineOutlined';
 import AccessTimeSharpIcon from '@mui/icons-material/AccessTimeSharp';
 import FmdGoodSharpIcon from '@mui/icons-material/FmdGoodSharp';
@@ -23,9 +21,11 @@ import WorkspacesIcon from '@mui/icons-material/Workspaces';
 
 {/*importer le cssy*/}
 import './home.css';
+
 {/*importer le compostant*/}
 import Filter from '../components/Filter';
 
+{/*https://libraries.io/npm/mui-segmented-control*/}
 import { useState } from 'react';
 import SegmentedControl from 'mui-segmented-control';
 
@@ -37,24 +37,23 @@ const Home = () => {
   {/*wapper*/}
     <Container maxWidth="sm">
       <Stack spacing={2}>
-      <SegmentedControl
-            color="primary"
-            options={[
-              {
-                label: 'Présentiel',
-                value: 1
-              },
-              {
-                label: 'Télé-travail',
-                value: 2
-              }
-            ]
+        <SegmentedControl
+          color="primary"
+          options={[
+            {
+          label: 'Présentiel',
+          value: 1
+          },
+          {
+            label: 'Télé-travail',
+            value: 2
           }
-          value={value}
-          onChange={setValue}
-          />
-        {/*composant "filter"*/}
-        <Filter/>
+          ]}
+            value={value}
+            onChange={setValue}
+        />
+          {/*composant "filter"*/}
+          <Filter/>
       </Stack>
       {/*debut de la card*/}
       <Card className="c-break">

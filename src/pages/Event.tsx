@@ -1,18 +1,21 @@
-import Box from '@mui/material/Box';
-import TextField from '@mui/material/TextField';
-import Stack from '@mui/material/Stack';
-import Checkbox from '@mui/material/Checkbox';
-import Button from '@mui/material/Button';
-import TextareaAutosize from '@mui/material/TextareaAutosize';
-import './event.css';
-import CssBaseline from '@mui/material/CssBaseline';
 import Container from '@mui/material/Container';
-import Typography from '@mui/material/Typography';
+import Button from '@mui/material/Button';
+import Stack from '@mui/material/Stack';
 
+import Checkbox from '@mui/material/Checkbox';
+
+{/*importer le compostant Typography/ TextField*/}
+import Typography from '@mui/material/Typography';
+import TextField from '@mui/material/TextField';
+
+{/*importer le cssy*/}
+import './event.css';
+
+{/*importer le compostant*/}
 import Filter from '../components/Filter';
 
+{/*https://libraries.io/npm/mui-segmented-control*/}
 import { useState } from 'react';
-
 import SegmentedControl from 'mui-segmented-control';
 
 const Event = () => {
