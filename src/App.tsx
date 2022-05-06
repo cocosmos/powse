@@ -131,17 +131,17 @@ function App() {
             <Route
               path="/"
               element={
-                <RequireAuth>
-                  <Home />
-                </RequireAuth>
+                /*  <RequireAuth> */
+                <Home />
+                /*  </RequireAuth> */
               }
             />
             <Route
               path="/event"
               element={
-                <RequireAuth>
-                  <Event />
-                </RequireAuth>
+                /*   <RequireAuth> */
+                <Event />
+                /*  </RequireAuth> */
               }
             />
             <Route
