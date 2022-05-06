@@ -20,12 +20,26 @@ function App() {
       return <Navigate to="/login" />;
     }
   };
+  /*  const AlreadyAuth = ({ children }: any) => {
+    if (currentUser.apiKey === import.meta.env.VITE_APP_FIREBASE_API_KEY) {
+      return <Navigate to="/" />;
+    } else {
+      return children;
+    }
+  }; */
 
   return (
     <div className="App">
       <BrowserRouter>
         <Routes>
-          <Route path="/login" element={<Login />} />
+          <Route
+            path="/login"
+            element={
+              /*  <AlreadyAuth> */
+              <Login />
+              /*  </AlreadyAuth> */
+            }
+          />
           <Route
             path="/"
             element={
@@ -42,7 +56,14 @@ function App() {
               </RequireAuth>
             }
           />
-          <Route path="/register" element={<Register />} />
+          <Route
+            path="/register"
+            element={
+              /*   <AlreadyAuth> */
+              <Register />
+              /*   </AlreadyAuth> */
+            }
+          />
         </Routes>
       </BrowserRouter>
     </div>

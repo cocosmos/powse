@@ -4,7 +4,9 @@ export interface Roles {
 }
 
 export interface User {
-  uid: string;
   email: string;
-  roles: Roles;
+  name: string;
+  timeStamp: Date;
+  password: string;
+  company: string;
 }
