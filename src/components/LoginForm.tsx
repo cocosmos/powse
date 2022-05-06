@@ -1,4 +1,5 @@
 import {
+  Box,
   Button,
   FilledInput,
   FormControl,
@@ -7,6 +8,7 @@ import {
   InputLabel,
   Link,
   makeStyles,
+  Stack,
   TextField,
   Typography,
 } from "@mui/material";
@@ -76,51 +78,58 @@ const LoginForm = (props) => {
   };
 
   return (
-    <form onSubmit={handleLogin}>
-      <TextField
-        id="emailLogin"
-        label="Email"
-        type={"email"}
-        variant="filled"
-        onChange={handleInput("email")}
-        fullWidth
-        color="secondary"
-        sx={{ borderRadius: 25 }}
-      />
-      <FormControl variant="filled" fullWidth color="secondary">
-        <InputLabel htmlFor="passwordLogin">Password</InputLabel>
-        <FilledInput
-          id="passwordLogin"
-          type={values.showPassword ? "text" : "password"}
-          value={values.password}
-          onChange={handleInput("password")}
-          endAdornment={
-            <InputAdornment position="end">
-              <IconButton
-                aria-label="toggle password visibility"
-                onClick={handleClickShowPassword}
-                onMouseDown={handleMouseDownPassword}
-                edge="end"
-              >
-                {values.showPassword ? <VisibilityOff /> : <Visibility />}
-              </IconButton>
-            </InputAdornment>
-          }
+    <Box flexGrow={1} display={"flex"} mt={5}>
+      <form onSubmit={handleLogin}>
+        <TextField
+          id="emailLogin"
+          label="Adresse e-mail"
+          type={"email"}
+          variant="filled"
+          onChange={handleInput("email")}
+          fullWidth
+          color="secondary"
+          sx={{ mb: 3 }}
         />
-      </FormControl>
-      <Link href="#" underline="hover">
-        Mot de passe oublié ?
-      </Link>
-      <Button
-        type="submit"
-        variant="contained"
-        color="primary"
-        sx={{ borderRadius: 25, textTransform: "unset" }}
-        fullWidth
-      >
-        Se connecter
-      </Button>
-    </form>
+        <FormControl
+          variant="filled"
+          fullWidth
+          color="secondary"
+          sx={{ mb: 4 }}
+        >
+          <InputLabel htmlFor="passwordLogin">Mot de passe</InputLabel>
+          <FilledInput
+            id="passwordLogin"
+            type={values.showPassword ? "text" : "password"}
+            value={values.password}
+            onChange={handleInput("password")}
+            endAdornment={
+              <InputAdornment position="end">
+                <IconButton
+                  aria-label="toggle password visibility"
+                  onClick={handleClickShowPassword}
+                  onMouseDown={handleMouseDownPassword}
+                  edge="end"
+                >
+                  {values.showPassword ? <VisibilityOff /> : <Visibility />}
+                </IconButton>
+              </InputAdornment>
+            }
+          />
+        </FormControl>
+        <Link href="#" underline="hover">
+          Mot de passe oublié ?
+        </Link>
+        <Button
+          type="submit"
+          variant="contained"
+          color="primary"
+          sx={{ borderRadius: 25, textTransform: "unset", mt: 4, p: 1.5 }}
+          fullWidth
+        >
+          Se connecter
+        </Button>
+      </form>
+    </Box>
   );
 };
 

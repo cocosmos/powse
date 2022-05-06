@@ -70,6 +70,9 @@ function App() {
               // fontSize: 23,
               fontFamily: ["'Fonarto', 'sans-serif'"].join(","),
             }, */
+            body2: {
+              fontSize: 13,
+            },
           },
           components: {
             MuiFilledInput: {
@@ -114,7 +117,7 @@ function App() {
   return (
     <ThemeProvider theme={theme}>
       <CssBaseline />
-      <Box component="main" padding={5}>
+      <Box component="main" padding={3} pb={7} height={"100vh"}>
         <BrowserRouter>
           <Routes>
             <Route
