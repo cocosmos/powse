@@ -1,12 +1,27 @@
-import { Button, TextField } from "@mui/material";
+import {
+  Button,
+  FilledInput,
+  FormControl,
+  IconButton,
+  InputAdornment,
+  InputLabel,
+  Link,
+  TextField,
+  Typography,
+} from "@mui/material";
 import { signInWithEmailAndPassword } from "firebase/auth";
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { auth } from "../firebase";
 import { useContext } from "react";
 import { AuthContext } from "../contexts/AuthContext";
-
-const LoginForm = () => {
+import { Visibility, VisibilityOff } from "@mui/icons-material";
+interface State {
+  password: string;
+  showPassword: boolean;
+  email: string;
+}
+const LoginForm = (props) => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
 
@@ -30,27 +45,86 @@ const LoginForm = () => {
         // ..
       });
   };
+
+  /*Password Shows*/
+
+  const [values, setValues] = useState<State>({
+    password: "",
+    showPassword: false,
+    email: "",
+  });
+
+  const handleInput =
+    (prop: keyof State) => (event: React.ChangeEvent<HTMLInputElement>) => {
+      setValues({ ...values, [prop]: event.target.value });
+    };
+
+  const handleClickShowPassword = () => {
+    setValues({
+      ...values,
+      showPassword: !values.showPassword,
+    });
+  };
+
+  const handleMouseDownPassword = (
+    event: React.MouseEvent<HTMLButtonElement>
+  ) => {
+    event.preventDefault();
+  };
+
   return (
     <form onSubmit={handleLogin}>
       <TextField
-        helperText="Please enter your email"
         id="emailLogin"
         label="Email"
         type={"email"}
-        onChange={(e) => setEmail(e.target.value)}
+        variant="filled"
+        onChange={handleInput("email")}
+        fullWidth
+        color="secondary"
       />
-      <TextField
-        helperText="Please enter your Password"
-        id="passwordLogin"
-        label="Password"
-        type={"password"}
-        onChange={(e) => setPassword(e.target.value)}
-      />
-      <Button type="submit" variant="contained" color="success">
-        Submit
+      <FormControl variant="filled" fullWidth color="secondary">
+        <InputLabel htmlFor="passwordLogin">Password</InputLabel>
+        <FilledInput
+          id="passwordLogin"
+          type={values.showPassword ? "text" : "password"}
+          value={values.password}
+          onChange={handleInput("password")}
+          endAdornment={
+            <InputAdornment position="end">
+              <IconButton
+                aria-label="toggle password visibility"
+                onClick={handleClickShowPassword}
+                onMouseDown={handleMouseDownPassword}
+                edge="end"
+              >
+                {values.showPassword ? <VisibilityOff /> : <Visibility />}
+              </IconButton>
+            </InputAdornment>
+          }
+        />
+      </FormControl>
+      <Link href="#" underline="hover">
+        Mot de passe oublié ?
+      </Link>
+      <Button
+        type="submit"
+        variant="contained"
+        color="primary"
+        sx={{ borderRadius: 25, textTransform: "unset" }}
+        fullWidth
+      >
+        Se connecter
       </Button>
+      <Typography variant="body2" display="block" gutterBottom>
+        Vous n’avez pas encore de compte ?{" "}
+        <Link href="/register">Inscrivez-vous.</Link>
+      </Typography>
     </form>
   );
 };
 
 export default LoginForm;
+function useStyles() {
+  throw new Error("Function not implemented.");
+}
