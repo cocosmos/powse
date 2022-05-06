@@ -5,18 +5,21 @@ import Checkbox from '@mui/material/Checkbox';
 import Button from '@mui/material/Button';
 import TextareaAutosize from '@mui/material/TextareaAutosize';
 import './event.css';
+import CssBaseline from '@mui/material/CssBaseline';
+import Container from '@mui/material/Container';
+import Typography from '@mui/material/Typography';
 
 
 const Event = () => {
   return <div>
     <h1>Event</h1>
+    <Container maxWidth="sm">
       <Stack spacing={2}>
         {/*label pour le lieu*/}
-          <TextField fullWidth className="text-field" id="lieu" label="Lieu" variant="outlined"  />
+          <TextField fullWidth  id="lieu" label="Lieu" variant="outlined"  />
         {/*label pour le debut*/}
         
-          <TextField 
-          className="text-field" 
+          <TextField  
           id="time" 
           label="Heure de début" 
           type="time" 
@@ -32,7 +35,6 @@ const Event = () => {
         
           {/*label pour la fin*/}
           <TextField  
-          className="text-field"
           id="time" 
           label="Heure de fin" 
           type="time" 
@@ -46,7 +48,7 @@ const Event = () => {
           />
         
         {/*label pour le nb de personnes*/}
-        <Box>
+        <Stack direction='row'>
           <TextField  
           id="nbperso" 
           label="Nombre de personnes" 
@@ -62,19 +64,22 @@ const Event = () => {
           <Checkbox
             inputProps={{ 'aria-label': 'controlled' }}
           />
-          Ouvert à tous
-        </Box>
+          <Typography variant="subtitle1" gutterBottom component="div">
+            Ouvert à tous
+          </Typography>
+          
+        </Stack>
 
         {/*label pour la description*/}
           <TextField
-          className="text-field"
           id="description"
           label="Coute description "
           multiline
           maxRows={4}
           />
           <Button variant="contained">VALIDER</Button>
-          </Stack>
+        </Stack>
+      </Container>
   </div>
 };
 
