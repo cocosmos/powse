@@ -1,7 +1,9 @@
 import * as React from "react";
 import {
+  Checkbox,
   FormControl,
   FormControlLabel,
+  FormGroup,
   Radio,
   RadioGroup,
   Stack,
@@ -13,59 +15,63 @@ import Activity from "../assets/categories/Activity";
 import Free from "../assets/categories/Free";
 import Food from "../assets/categories/Food";
 
-export default function Categories({ handleInput, category }) {
+export default function CategoriesHome({ handleInput, category }) {
   const theme = useTheme();
   const [colorRadioA, setColorRadioA] = useState(
-    theme.palette.background.default
+    theme.palette.background.paper
   );
   const [colorRadioB, setColorRadioB] = useState(
-    theme.palette.background.default
+    theme.palette.background.paper
   );
   const [colorRadioC, setColorRadioC] = useState(
-    theme.palette.background.default
+    theme.palette.background.paper
   );
 
-  const handleRadioChange = (e) => {
+  const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     handleInput(e);
 
-    switch (e.target.value) {
+    switch (e.target.name) {
       case "food":
-        setColorRadioA(theme.palette.background.paper);
-        setColorRadioB(theme.palette.background.default);
-        setColorRadioC(theme.palette.background.default);
+        if (e.target.checked) {
+          setColorRadioA(theme.palette.background.paper);
+        } else {
+          setColorRadioA(theme.palette.background.default);
+        }
         break;
       case "activity":
-        setColorRadioB(theme.palette.background.paper);
-        setColorRadioA(theme.palette.background.default);
-        setColorRadioC(theme.palette.background.default);
-
+        if (e.target.checked) {
+          setColorRadioB(theme.palette.background.paper);
+        } else {
+          setColorRadioB(theme.palette.background.default);
+        }
         break;
       case "free":
-        setColorRadioC(theme.palette.background.paper);
-        setColorRadioA(theme.palette.background.default);
-        setColorRadioB(theme.palette.background.default);
-
-        break;
-      default:
-        setColorRadioA(theme.palette.background.default);
-        setColorRadioB(theme.palette.background.default);
-        setColorRadioC(theme.palette.background.default);
+        if (e.target.checked) {
+          setColorRadioC(theme.palette.background.paper);
+        } else {
+          setColorRadioC(theme.palette.background.default);
+        }
         break;
     }
   };
 
   return (
-    <RadioGroup
+    <FormGroup
       row
-      name="category"
       defaultValue="top"
-      value={category}
-      onChange={handleRadioChange}
+      //onChange={handleChange}
       sx={{ flexWrap: "nowrap" }}
     >
       <FormControlLabel
         value="food"
-        control={<Radio sx={{ display: "none" }} />}
+        control={
+          <Checkbox
+            sx={{ display: "none" }}
+            checked={category.food}
+            onChange={handleChange}
+            name="food"
+          />
+        }
         label={
           <Stack alignItems={"center"}>
             <Stack
@@ -87,7 +93,14 @@ export default function Categories({ handleInput, category }) {
       />
       <FormControlLabel
         value="activity"
-        control={<Radio sx={{ display: "none" }} />}
+        control={
+          <Checkbox
+            sx={{ display: "none" }}
+            checked={category.activity}
+            onChange={handleChange}
+            name="activity"
+          />
+        }
         label={
           <Stack alignItems={"center"}>
             <Stack
@@ -109,7 +122,14 @@ export default function Categories({ handleInput, category }) {
       />
       <FormControlLabel
         value="free"
-        control={<Radio sx={{ display: "none" }} />}
+        control={
+          <Checkbox
+            sx={{ display: "none" }}
+            checked={category.free}
+            onChange={handleChange}
+            name="free"
+          />
+        }
         label={
           <Stack alignItems={"center"}>
             <Stack
@@ -129,6 +149,6 @@ export default function Categories({ handleInput, category }) {
         }
         labelPlacement="bottom"
       />
-    </RadioGroup>
+    </FormGroup>
   );
 }

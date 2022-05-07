@@ -1,16 +1,32 @@
-import React from "react";
+import React, { Suspense } from "react";
 import ReactDOM from "react-dom/client";
 import App from "./App";
 import "./index.css";
+import logo from "./assets/logo/logo.svg";
 import { AuthContextProvider } from "./contexts/AuthContext";
 
+const loadingMarkup = (
+  <div
+    style={{
+      height: "100vh",
+      display: "flex",
+      justifyContent: "center",
+      alignItems: "center",
+    }}
+  >
+    <img src={logo} alt="loading" height={300} width={300} />
+  </div>
+);
+
 ReactDOM.createRoot(document.getElementById("root")!).render(
-  <React.StrictMode>
-    <AuthContextProvider>
-      <App />
-    </AuthContextProvider>
-    {/*   <AuthProvider>
+  <Suspense fallback={loadingMarkup}>
+    <React.StrictMode>
+      <AuthContextProvider>
+        <App />
+      </AuthContextProvider>
+      {/*   <AuthProvider>
       <App />
     </AuthProvider> */}
-  </React.StrictMode>
+    </React.StrictMode>
+  </Suspense>
 );

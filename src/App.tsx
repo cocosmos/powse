@@ -18,7 +18,6 @@ import {
 } from "@mui/material";
 import getPaletteMode from "./theme/getPaletteMode";
 import useLocalStorage from "./hooks/localStorage";
-import Header from "./components/Header";
 
 function App() {
   const { currentUser } = useContext(AuthContext);
@@ -66,13 +65,15 @@ function App() {
             h5: {
               // fontSize: 20,
               fontFamily: ["'Fonarto', 'sans-serif'"].join(","),
-            },
+            },*/
             h6: {
               // fontSize: 23,
-              fontFamily: ["'Fonarto', 'sans-serif'"].join(","),
-            }, */
+              //fontFamily: ["'Fonarto', 'sans-serif'"].join(","),
+              fontWeight: 600,
+              fontSize: 19,
+            },
             body2: {
-              fontSize: 13,
+              // fontSize: 13,
             },
             subtitle1: {
               fontSize: 13,
