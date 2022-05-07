@@ -135,9 +135,10 @@ export const SignupForm = () => {
           <TextField
             helperText="Please enter your email"
             id="email"
-            label="Email"
+            label="Adresse e-mail"
             type={"email"}
-            onChange={handleInput}
+            variant="filled"
+            onChange={handleInput("email")}
             fullWidth
             color="secondary"
             sx={{ mb: 3 }}
@@ -186,8 +187,7 @@ export const SignupForm = () => {
           color="primary"
           sx={{ borderRadius: 25, textTransform: "unset", mt: 4, p: 1.5 }}
           fullWidth
-          >
-            Submit
+          > Submit
           </Button>
         </form>
       </Box>
