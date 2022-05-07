@@ -74,6 +74,10 @@ function App() {
             body2: {
               fontSize: 13,
             },
+            subtitle1: {
+              fontSize: 13,
+              fontWeight: 600,
+            },
           },
           components: {
             MuiFilledInput: {
@@ -94,6 +98,23 @@ function App() {
                 input: {
                   backgroundColor: "#F3EFFA",
                   borderRadius: 12,
+                },
+              },
+            },
+            MuiInput: {
+              styleOverrides: {
+                root: {
+                  borderRadius: 12,
+                  backgroundColor: "#DED1F4",
+                  ":hover": {
+                    backgroundColor: "#DED1F4",
+                  },
+                  ":before": {
+                    display: "none",
+                  },
+                  ":after": {
+                    display: "none",
+                  },
                 },
               },
             },
