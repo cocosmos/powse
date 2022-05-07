@@ -54,7 +54,6 @@ export default function Asynchronous() {
         setOpen(false);
       }}
       isOptionEqualToValue={(option, value) => option.title === value.title}
-      getOptionLabel={(option) => option.title}
       options={options}
       loading={loading}
       renderInput={(params) => (
