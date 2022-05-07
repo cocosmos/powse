@@ -104,11 +104,11 @@ function App() {
             MuiInput: {
               styleOverrides: {
                 root: {
-                  borderRadius: 12,
+                  /* borderRadius: 12,
                   backgroundColor: "#DED1F4",
                   ":hover": {
                     backgroundColor: "#DED1F4",
-                  },
+                  }, */
                   ":before": {
                     display: "none",
                   },

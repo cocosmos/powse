@@ -1,5 +1,5 @@
 {
-  "name": "groupe3",
+  "name": "powse",
   "private": true,
   "version": "0.0.0",
   "scripts": {
@@ -15,7 +15,6 @@
     "crypto-js": "^4.1.1",
     "dotenv": "^16.0.0",
     "firebase": "^9.7.0",
-    "mui-segmented-control": "^1.1.6",
     "process": "^0.11.10",
     "react": "^18.0.0",
     "react-dom": "^18.0.0",

@@ -14,6 +14,7 @@ const getPaletteMode = (mode: PaletteMode) => ({
             main: "#5754D9",
             contrastText: "#FEF8EA",
           },
+
           secondary: {
             main: "#D179B3",
             contrastText: "#000",
@@ -23,9 +24,13 @@ const getPaletteMode = (mode: PaletteMode) => ({
             main: "#2d2d2d",
             contrastText: "#363636",
           },
+
           text: {
             primary: "#000000",
             secondary: "#000000",
+          },
+          info: {
+            main: "#DED1F4",
           },
 
           divider: "transparent",

@@ -1,10 +1,10 @@
-import * as React from "react";
+import { useState } from "react";
 import ToggleButton from "@mui/material/ToggleButton";
 import ToggleButtonGroup from "@mui/material/ToggleButtonGroup";
 import { Box } from "@mui/material";
 
 export default function ColorToggleButton() {
-  const [alignment, setAlignment] = React.useState("present");
+  const [alignment, setAlignment] = useState("present");
 
   const handleChange = (
     event: React.MouseEvent<HTMLElement>,
@@ -41,14 +41,12 @@ export default function ColorToggleButton() {
           sx={{
             p: 0.8,
             borderRadius: 25,
-            borderTopRightRadius: 25,
-            borderBottomRightRadius: 25,
           }}
         >
-          Présentiel
+          Général
         </ToggleButton>
         <ToggleButton value="home" sx={{ p: 0.8, borderRadius: 25 }}>
-          Télétravail
+          Télé-travail
         </ToggleButton>
       </ToggleButtonGroup>
     </Box>
