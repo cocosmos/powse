@@ -11,13 +11,13 @@ export interface User {
   company: string;
 }
 export interface EventType {
-  present: "present" | "home";
-  category: "food" | "activity" | "free";
+  present: "general" | "home";
+  category: "food" | "activity" | "free" | string;
   title: string;
   date: Date | string;
   dateStart: Date | string;
   dateEnd: Date | string;
   unlimited: boolean;
-  space: number;
+  space: number | undefined;
   location: string;
 }

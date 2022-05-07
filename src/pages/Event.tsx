@@ -79,8 +79,8 @@ const Event = () => {
     padTo2Digits(newDate.getHours()) + ":" + padTo2Digits(newDate.getMinutes());
 
   const [values, setValues] = useState<EventType>({
-    present: "present",
-    category: "food",
+    present: "general",
+    category: "",
     title: "",
     date: today.toISOString().slice(0, 10),
     dateStart: dateStart,
@@ -93,6 +93,8 @@ const Event = () => {
   const handleInput =
     (prop: keyof EventType) => (event: React.ChangeEvent<HTMLInputElement>) => {
       setValues({ ...values, [prop]: event.target.value });
+      setHelperText("");
+      setError(false);
     };
 
   const handleCheckbox = (event: React.ChangeEvent<HTMLInputElement>) => {
@@ -100,6 +102,7 @@ const Event = () => {
       setValues((prevState) => ({
         ...prevState,
         unlimited: true,
+        space: 1,
       }));
       setColorCheked(theme.palette.info.main);
       setColorCounter(theme.palette.background.paper);
@@ -107,6 +110,7 @@ const Event = () => {
       setValues((prevState) => ({
         ...prevState,
         unlimited: false,
+        space: 5,
       }));
       setColorCounter(theme.palette.info.main);
       setColorCheked(theme.palette.background.paper);
@@ -116,13 +120,25 @@ const Event = () => {
     setValues((prevState) => ({
       ...prevState,
       unlimited: false,
+      space: 5,
     }));
     setColorCounter(theme.palette.info.main);
     setColorCheked(theme.palette.background.paper);
   };
+  const [error, setError] = useState(false);
+  const [helperText, setHelperText] = useState("");
 
-  const handleSubmit = (e) => {
-    e.prevent.default;
+  const handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
+    event.preventDefault();
+
+    if (values.category === "") {
+      setHelperText("Veuillez selectionner une catégorie.");
+      setError(true);
+    } else {
+      console.log(values);
+      setHelperText("");
+      setError(false);
+    }
   };
 
   return (
@@ -135,14 +151,25 @@ const Event = () => {
           alignItems={"center"}
           spacing={3}
         >
-          <SegmentedControl />
-          <Categories />
-
+          <SegmentedControl
+            present={values.present}
+            handleInput={handleInput("present")}
+          />
+          <FormControl sx={{ m: 3 }} error={error} variant="standard">
+            <Categories
+              category={values.category}
+              handleInput={handleInput("category")}
+            />
+            <FormHelperText sx={{ textAlign: "center" }}>
+              {helperText}
+            </FormHelperText>
+          </FormControl>
           <FormControl
             sx={{ mb: 3 }}
             variant="filled"
             fullWidth
-            color="secondary"
+            color="primary"
+            required
           >
             <InputLabel htmlFor="event-title">Titre</InputLabel>
             <FilledInput
@@ -164,9 +191,9 @@ const Event = () => {
             value={values.date}
             onChange={handleInput("date")}
             fullWidth
-            color="secondary"
+            color="primary"
             sx={{ mb: 3 }}
-            focused
+            required
           />
           <Stack spacing={2} direction="row" sx={{ width: "100%" }}>
             {/*label pour le debut*/}
@@ -179,6 +206,7 @@ const Event = () => {
               onChange={handleInput("dateStart")}
               InputLabelProps={{ shrink: true }}
               fullWidth
+              required
               inputProps={{
                 step: 300, // 5 min
               }}
@@ -193,6 +221,7 @@ const Event = () => {
               value={values.dateEnd}
               onChange={handleInput("dateEnd")}
               InputLabelProps={{ shrink: true }}
+              required
               fullWidth
               inputProps={{
                 step: 300, // 5 min
@@ -209,7 +238,7 @@ const Event = () => {
               p: 2,
             }}
           >
-            <FormHelperText>Nombre de participants</FormHelperText>
+            <FormHelperText>Nombre de participants*</FormHelperText>
             <Stack direction="row" mt={1} flexWrap="wrap">
               {/*Button Counter*/}
               <Stack
@@ -244,6 +273,7 @@ const Event = () => {
                   value={values.space}
                   onChange={handleInput("space")}
                   sx={{ justifyContent: "center" }}
+                  required
                   inputProps={{
                     min: 1,
                     max: 999,
@@ -297,6 +327,7 @@ const Event = () => {
             label="Lieu du rendez-vous"
             variant="filled"
             onChange={handleInput("location")}
+            required
           />
           <Button
             type="submit"

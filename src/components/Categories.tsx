@@ -1,58 +1,78 @@
 import * as React from "react";
-import FormatAlignLeftIcon from "@mui/icons-material/FormatAlignLeft";
-import FormatAlignCenterIcon from "@mui/icons-material/FormatAlignCenter";
-import FormatAlignRightIcon from "@mui/icons-material/FormatAlignRight";
-import LaptopIcon from "@mui/icons-material/Laptop";
-import TvIcon from "@mui/icons-material/Tv";
-import PhoneAndroidIcon from "@mui/icons-material/PhoneAndroid";
-import Stack from "@mui/material/Stack";
-import ToggleButton from "@mui/material/ToggleButton";
-import ToggleButtonGroup from "@mui/material/ToggleButtonGroup";
 import {
-  Box,
+  FormControl,
   FormControlLabel,
-  FormHelperText,
   Radio,
   RadioGroup,
+  Stack,
+  useTheme,
 } from "@mui/material";
 import Typography from "@mui/material/Typography";
 import { useState } from "react";
 
-export default function Categories() {
-  const [alignment, setAlignment] = React.useState("");
-  const [devices, setDevices] = React.useState(() => ["phone"]);
+export default function Categories({ handleInput, category }) {
+  const theme = useTheme();
+  const [colorRadioA, setColorRadioA] = useState(
+    theme.palette.background.default
+  );
+  const [colorRadioB, setColorRadioB] = useState(
+    theme.palette.background.default
+  );
+  const [colorRadioC, setColorRadioC] = useState(
+    theme.palette.background.default
+  );
 
-  const handleAlignment = (
-    event: React.MouseEvent<HTMLElement>,
-    newAlignment: string
-  ) => {
-    setAlignment(newAlignment);
-  };
-  const [radioValue, setRadioValue] = useState("");
-  const [error, setError] = useState(false);
-  const [helperText, setHelperText] = useState("Choose wisely");
-  const handleRadioChange = (event: React.ChangeEvent<HTMLInputElement>) => {
-    setRadioValue((event.target as HTMLInputElement).value);
-    setHelperText(" ");
-    setError(false);
-    console.log(radioValue);
+  const handleRadioChange = (e) => {
+    handleInput(e);
+
+    switch (e.target.value) {
+      case "food":
+        setColorRadioA(theme.palette.background.paper);
+        setColorRadioB(theme.palette.background.default);
+        setColorRadioC(theme.palette.background.default);
+        break;
+      case "activity":
+        setColorRadioB(theme.palette.background.paper);
+        setColorRadioA(theme.palette.background.default);
+        setColorRadioC(theme.palette.background.default);
+
+        break;
+      case "free":
+        setColorRadioC(theme.palette.background.paper);
+        setColorRadioA(theme.palette.background.default);
+        setColorRadioB(theme.palette.background.default);
+
+        break;
+      default:
+        setColorRadioA(theme.palette.background.default);
+        setColorRadioB(theme.palette.background.default);
+        setColorRadioC(theme.palette.background.default);
+        break;
+    }
   };
 
   return (
-    <>
-      <RadioGroup
-        row
-        aria-labelledby="demo-form-control-label-placement"
-        name="position"
-        defaultValue="top"
-        value={radioValue}
-        onChange={handleRadioChange}
-      >
-        <FormControlLabel
-          value="food"
-          control={<Radio sx={{ display: "none" }} />}
-          label={
-            <>
+    <RadioGroup
+      row
+      name="category"
+      defaultValue="top"
+      value={category}
+      onChange={handleRadioChange}
+      sx={{ flexWrap: "nowrap" }}
+    >
+      <FormControlLabel
+        value="food"
+        control={<Radio sx={{ display: "none" }} />}
+        label={
+          <Stack alignItems={"center"}>
+            <Stack
+              bgcolor={colorRadioA}
+              justifyContent={"center"}
+              width={"70px"}
+              height={"70px"}
+              alignItems={"center"}
+              borderRadius={3}
+            >
               <svg
                 width="49"
                 height="49"
@@ -65,18 +85,27 @@ export default function Categories() {
                   fill="#D771C0"
                 />
               </svg>
-              <Typography variant="subtitle1" color={"primary"}>
-                Powse repas
-              </Typography>
-            </>
-          }
-          labelPlacement="bottom"
-        />
-        <FormControlLabel
-          value="activity"
-          control={<Radio sx={{ display: "none" }} />}
-          label={
-            <>
+            </Stack>
+            <Typography variant="subtitle1" color={"primary"}>
+              Powse repas
+            </Typography>
+          </Stack>
+        }
+        labelPlacement="bottom"
+      />
+      <FormControlLabel
+        value="activity"
+        control={<Radio sx={{ display: "none" }} />}
+        label={
+          <Stack alignItems={"center"}>
+            <Stack
+              bgcolor={colorRadioB}
+              justifyContent={"center"}
+              width={"70px"}
+              height={"70px"}
+              alignItems={"center"}
+              borderRadius={3}
+            >
               <svg
                 width="47"
                 height="47"
@@ -95,18 +124,27 @@ export default function Categories() {
                   />
                 </g>
               </svg>
-              <Typography variant="subtitle1" color={"primary"}>
-                Powse activités
-              </Typography>
-            </>
-          }
-          labelPlacement="bottom"
-        />{" "}
-        <FormControlLabel
-          value="free"
-          control={<Radio sx={{ display: "none" }} />}
-          label={
-            <>
+            </Stack>
+            <Typography variant="subtitle1" color={"primary"}>
+              Powse activités
+            </Typography>
+          </Stack>
+        }
+        labelPlacement="bottom"
+      />
+      <FormControlLabel
+        value="free"
+        control={<Radio sx={{ display: "none" }} />}
+        label={
+          <Stack alignItems={"center"}>
+            <Stack
+              bgcolor={colorRadioC}
+              justifyContent={"center"}
+              width={"70px"}
+              height={"70px"}
+              alignItems={"center"}
+              borderRadius={3}
+            >
               <svg
                 width="47"
                 height="47"
@@ -119,14 +157,14 @@ export default function Categories() {
                   fill="#FFBBF0"
                 />
               </svg>
-              <Typography variant="subtitle1" color={"primary"}>
-                Powse libre
-              </Typography>
-            </>
-          }
-          labelPlacement="bottom"
-        />
-      </RadioGroup>
-    </>
+            </Stack>
+            <Typography variant="subtitle1" color={"primary"}>
+              Powse libre
+            </Typography>
+          </Stack>
+        }
+        labelPlacement="bottom"
+      />
+    </RadioGroup>
   );
 }

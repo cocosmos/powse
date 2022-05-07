@@ -3,18 +3,7 @@ import ToggleButton from "@mui/material/ToggleButton";
 import ToggleButtonGroup from "@mui/material/ToggleButtonGroup";
 import { Box } from "@mui/material";
 
-export default function ColorToggleButton() {
-  const [alignment, setAlignment] = useState("present");
-
-  const handleChange = (
-    event: React.MouseEvent<HTMLElement>,
-    newAlignment: string | null
-  ) => {
-    if (newAlignment !== null) {
-      setAlignment(newAlignment);
-    }
-  };
-
+export default function ColorToggleButton({ present, handleInput }) {
   return (
     <Box
       sx={{
@@ -29,15 +18,18 @@ export default function ColorToggleButton() {
       }}
     >
       <ToggleButtonGroup
-        color="primary"
-        value={alignment}
+        color="standard"
+        value={present}
         exclusive
-        onChange={handleChange}
+        onChange={handleInput}
         fullWidth
-        sx={{ p: 0.5, borderRadius: 25 }}
+        sx={{
+          p: 0.5,
+          borderRadius: 25,
+        }}
       >
         <ToggleButton
-          value="present"
+          value="general"
           sx={{
             p: 0.8,
             borderRadius: 25,
@@ -45,7 +37,13 @@ export default function ColorToggleButton() {
         >
           Général
         </ToggleButton>
-        <ToggleButton value="home" sx={{ p: 0.8, borderRadius: 25 }}>
+        <ToggleButton
+          value="home"
+          sx={{
+            p: 0.8,
+            borderRadius: 25,
+          }}
+        >
           Télé-travail
         </ToggleButton>
       </ToggleButtonGroup>
