@@ -55,6 +55,7 @@ const Login = () => {
         Vous n’avez pas encore de compte ?{" "}
         <Link href="/register">Inscrivez-vous.</Link>
       </Typography>
+      
     </Stack>
   );
 };

@@ -3,8 +3,9 @@ import "./App.css";
 import Home from "./pages/Home";
 import Login from "./pages/Login";
 import Register from "./pages/Register";
-
 import Event from "./pages/Event";
+import ResetPassword from "./pages/ResetPassword";
+import ForgotPassword from "./pages/ForgotPassword";
 
 import { BrowserRouter, Navigate, Route, Routes } from "react-router-dom";
 import { useContext } from "react";
@@ -149,6 +150,22 @@ function App() {
               element={
                 /*   <AlreadyAuth> */
                 <Register />
+                /*   </AlreadyAuth> */
+              }
+            />
+            <Route
+              path="/resetpassword"
+              element={
+                /*   <AlreadyAuth> */
+                <ResetPassword />
+                /*   </AlreadyAuth> */
+              }
+            />
+            <Route
+              path="/forgotpassword"
+              element={
+                /*   <AlreadyAuth> */
+                <ForgotPassword />
                 /*   </AlreadyAuth> */
               }
             />

@@ -1,4 +1,5 @@
-import { Autocomplete, Box, Button, FormControl, Link, TextField } from "@mui/material";
+import { Visibility, VisibilityOff } from "@mui/icons-material";
+import { Autocomplete, Box, Button, FilledInput, FormControl, IconButton, InputAdornment, InputLabel, Link, TextField, Typography } from "@mui/material";
 import {
   createUserWithEmailAndPassword,
   signInWithEmailAndPassword,
@@ -17,6 +18,13 @@ import { AuthContext } from "../contexts/AuthContext";
 import { auth, db } from "../firebase";
 import { User } from "../types/user";
 import Asynchronous from "./AutoComplete";
+
+interface State {
+  password: string;
+  showPassword: boolean;
+  email: string;
+  name:string;
+}
 
 export const SignupForm = () => {
   const [data, setData] = useState<User>();
@@ -56,12 +64,12 @@ export const SignupForm = () => {
   };
   console.log(currentUser);
 
-  const handleInput = (e) => {
-    const id = e.target.id;
-    const value = e.target.value;
+  // const handleInput = (e) => {
+  //   const id = e.target.id;
+  //   const value = e.target.value;
 
-    setData({ ...data, [id]: value });
-  };
+  //   setData({ ...data, [id]: value });
+  // };
 
   const handleInputCompany = (f) => {
     const id = f.target.id;
@@ -84,10 +92,41 @@ export const SignupForm = () => {
     navigate("/");
   };
 
-  console.log(data);
+    /*Password Shows*/
 
+    const [values, setValues] = useState<State>({
+      password: "",
+      showPassword: false,
+      email: "",
+      name:"",
+    });
+  
+    const handleInput =
+      (prop: keyof State) => (event: React.ChangeEvent<HTMLInputElement>) => {
+        setValues({ ...values, [prop]: event.target.value });
+      };
+  
+    const handleClickShowPassword = () => {
+      setValues({
+        ...values,
+        showPassword: !values.showPassword,
+      });
+    };
+  
+    const handleMouseDownPassword = (
+      event: React.MouseEvent<HTMLButtonElement>
+    ) => {
+      event.preventDefault();
+    };
+  console.log(data);
+  console.log(values);
   return (
     <div>
+
+      <Typography variant="h3">
+        Viens te Powser avec nous !
+      </Typography>
+
       {currentUser.uid ? (
         <form onSubmit={handleCompany}>
           <h2>Company</h2>
@@ -97,43 +136,30 @@ export const SignupForm = () => {
             label="Entreprise"
             type={"text"}
             onChange={handleInputCompany}
+            variant="filled"
             defaultValue=""
             fullWidth
             color="secondary"
             sx={{ mb: 3 }}
           />
           <Button type="submit" variant="contained" color="success" fullWidth>
-            Submit
+            Suivant
           </Button>
         </form>
       ) : (
       <Box flexGrow={1} display={"flex"} mt={5}>
         <form onSubmit={handleSignup}>
-        <FormControl
-          variant="filled"
-          fullWidth
-          color="secondary"
-          sx={{ mb: 4 }}
-          >
           <TextField
-            helperText="Please enter your name"
             id="name"
-            label="Nom"
+            label="Nom complet"
+            variant="filled"
             type={"text"}
-            onChange={handleInput}
+            onChange={handleInput("name")}
             fullWidth
             color="secondary"
             sx={{ mb: 3 }}
             />
-        </FormControl>
-        <FormControl
-          variant="filled"
-          fullWidth
-          color="secondary"
-          sx={{ mb: 4 }}
-        >
           <TextField
-            helperText="Please enter your email"
             id="email"
             label="Adresse e-mail"
             type={"email"}
@@ -143,51 +169,65 @@ export const SignupForm = () => {
             color="secondary"
             sx={{ mb: 3 }}
           />
-        </FormControl>
-        <FormControl
-          variant="filled"
-          fullWidth
-          color="secondary"
-          sx={{ mb: 4 }}
-        >
-          <TextField
-            helperText="Please enter your Password"
-            id="password"
-            label="Password"
-            type={"password"}
-            onChange={handleInput}
+          <FormControl
+            variant="filled"
             fullWidth
             color="secondary"
-            sx={{ mb: 3 }}
+            sx={{ mb: 4 }}
+          >
+            <InputLabel htmlFor="passwordLogin">Creéer un mot de passe</InputLabel>
+            <FilledInput
+              id="passwordLogin"
+              type={values.showPassword ? "text" : "password"}
+              value={values.password}
+              onChange={handleInput("password")}
+              endAdornment={
+                <InputAdornment position="end">
+                  <IconButton
+                    aria-label="toggle password visibility"
+                    onClick={handleClickShowPassword}
+                    onMouseDown={handleMouseDownPassword}
+                    edge="end"
+                  >
+                    {values.showPassword ? <VisibilityOff /> : <Visibility />}
+                  </IconButton>
+                </InputAdornment>
+              }
             />
-        </FormControl>
-        <FormControl
-          variant="filled"
-          fullWidth
-          color="secondary"
-          sx={{ mb: 4 }}
-        >
-          <TextField
-            helperText="Please confirm your Password"
-            id="passwordConfirm"
-            label="Confirm Password"
-            type={"password"}
-            onChange={handleInput}
+          </FormControl>
+          <FormControl
+            variant="filled"
             fullWidth
             color="secondary"
-            sx={{ mb: 3 }}
-          />
-        </FormControl>
-        <Link href="#" underline="hover">
-          Mot de passe oublié ?
-        </Link>
+            sx={{ mb: 4 }}
+          >
+            <InputLabel htmlFor="passwordLogin">Confirmer le mot de passe</InputLabel>
+            <FilledInput
+              id="passwordConfirm"
+              type={values.showPassword ? "text" : "password"}
+              value={values.password}
+              onChange={handleInput("password")}
+              endAdornment={
+                <InputAdornment position="end">
+                  <IconButton
+                    aria-label="toggle password visibility"
+                    onClick={handleClickShowPassword}
+                    onMouseDown={handleMouseDownPassword}
+                    edge="end"
+                  >
+                    {values.showPassword ? <VisibilityOff /> : <Visibility />}
+                  </IconButton>
+                </InputAdornment>
+              }
+            />
+          </FormControl>
           <Button 
           type="submit"
           variant="contained"
           color="primary"
           sx={{ borderRadius: 25, textTransform: "unset", mt: 4, p: 1.5 }}
           fullWidth
-          > Submit
+          > Suivant
           </Button>
         </form>
       </Box>
