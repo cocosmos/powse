@@ -3,8 +3,10 @@ import "./App.css";
 import Home from "./pages/Home";
 import Login from "./pages/Login";
 import Register from "./pages/Register";
-
 import Event from "./pages/Event";
+import ResetPassword from "./pages/ResetPassword";
+import ForgotPassword from "./pages/ForgotPassword";
+import Choice from "./pages/Choice";
 
 import { BrowserRouter, Navigate, Route, Routes } from "react-router-dom";
 import { useContext } from "react";
@@ -117,7 +119,7 @@ function App() {
   return (
     <ThemeProvider theme={theme}>
       <CssBaseline />
-      <Box component="main" padding={3} pb={7} height={"100vh"}>
+      <Box component="main" padding={3} pb={8} height={"100vh"}>
         <BrowserRouter>
           <Routes>
             <Route
@@ -149,6 +151,30 @@ function App() {
               element={
                 /*   <AlreadyAuth> */
                 <Register />
+                /*   </AlreadyAuth> */
+              }
+            />
+            <Route
+              path="/resetpassword"
+              element={
+                /*   <AlreadyAuth> */
+                <ResetPassword />
+                /*   </AlreadyAuth> */
+              }
+            />
+            <Route
+              path="/forgotpassword"
+              element={
+                /*   <AlreadyAuth> */
+                <ForgotPassword />
+                /*   </AlreadyAuth> */
+              }
+            />
+          <Route
+              path="/choice"
+              element={
+                /*   <AlreadyAuth> */
+                <Choice />
                 /*   </AlreadyAuth> */
               }
             />
