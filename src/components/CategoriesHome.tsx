@@ -60,7 +60,7 @@ export default function CategoriesHome({ handleInput, category }) {
       row
       defaultValue="top"
       //onChange={handleChange}
-      sx={{ flexWrap: "nowrap" }}
+      sx={{ flexWrap: "nowrap", justifyContent: "center" }}
     >
       <FormControlLabel
         value="food"

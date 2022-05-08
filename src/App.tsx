@@ -64,19 +64,22 @@ function App() {
             h4: {
               // fontSize: 25,
               fontFamily: ["'Fonarto', 'sans-serif'"].join(","),
-            },
+            },*/
             h5: {
               // fontSize: 20,
-              fontFamily: ["'Fonarto', 'sans-serif'"].join(","),
-            },*/
+              //fontFamily: ["'Fonarto', 'sans-serif'"].join(","),
+              fontSize: 15,
+            },
             h6: {
-              // fontSize: 23,
               //fontFamily: ["'Fonarto', 'sans-serif'"].join(","),
               fontWeight: 600,
               fontSize: 19,
             },
             body2: {
               // fontSize: 13,
+            },
+            subtitle1: {
+              fontSize: 11,
             },
           },
           components: {
@@ -101,6 +104,23 @@ function App() {
                 },
               },
             },
+            MuiInput: {
+              styleOverrides: {
+                root: {
+                  /* borderRadius: 12,
+                  backgroundColor: "#DED1F4",
+                  ":hover": {
+                    backgroundColor: "#DED1F4",
+                  }, */
+                  ":before": {
+                    display: "none",
+                  },
+                  ":after": {
+                    display: "none",
+                  },
+                },
+              },
+            },
           },
 
           breakpoints: {
@@ -122,7 +142,13 @@ function App() {
   return (
     <ThemeProvider theme={theme}>
       <CssBaseline />
-      <Box component="main" padding={3} pb={8} height={"100vh"}>
+      <Box
+        component="main"
+        padding={2}
+        pb={8}
+        height={"100%"}
+        minHeight={"100vh"}
+      >
         <BrowserRouter>
           <Routes>
             <Route

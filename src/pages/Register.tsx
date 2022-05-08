@@ -6,7 +6,7 @@ import { AuthContext } from "../contexts/AuthContext";
 const Register = () => {
   return (
     <Stack
-      spacing={10}
+      spacing={5}
       justifyContent="center"
       height={"100%"}
       textAlign="center"

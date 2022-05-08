@@ -81,6 +81,7 @@ const Home = () => {
           left: 0,
           right: 0,
           height: 70,
+          boxShadow: "1px -4px 20px -8px rgba(87,84,217,0.75)",
         }}
       >
         <BottomNavigationAction

@@ -239,7 +239,7 @@ export const SignupForm = () => {
               type="submit"
               variant="contained"
               color="primary"
-              sx={{ borderRadius: 25, textTransform: "unset", mt: 4, p: 1.5 }}
+              sx={{ borderRadius: 25, textTransform: "unset", mt: 2, p: 1.5 }}
               fullWidth
             >
               {" "}

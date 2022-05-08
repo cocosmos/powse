@@ -98,20 +98,18 @@ const Event = () => {
       setColorCheked(theme.palette.info.main);
       setColorCounter(theme.palette.background.paper);
     } else {
-      setValues((prevState) => ({
-        ...prevState,
+      setValues((preState) => ({
+        ...preState,
         unlimited: false,
-        space: 5,
       }));
       setColorCounter(theme.palette.info.main);
       setColorCheked(theme.palette.background.paper);
     }
   };
   const handleCounter = () => {
-    setValues((prevState) => ({
-      ...prevState,
+    setValues((preState) => ({
+      ...preState,
       unlimited: false,
-      space: 5,
     }));
     setColorCounter(theme.palette.info.main);
     setColorCheked(theme.palette.background.paper);
@@ -135,7 +133,7 @@ const Event = () => {
   return (
     <>
       <Header />
-      <form onSubmit={handleSubmit}>
+      <form onSubmit={handleSubmit} style={{ marginBottom: 10 }}>
         <Stack
           //height={"100%"}
           textAlign="center"
@@ -319,7 +317,6 @@ const Event = () => {
             variant="filled"
             onChange={handleInput("location")}
             required
-            sx={{ mb: "30px!important" }}
           />
           <Button
             type="submit"
