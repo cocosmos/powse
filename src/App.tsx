@@ -46,32 +46,32 @@ function App() {
       responsiveFontSizes(
         createTheme({
           typography: {
-            fontFamily: ["'Inter', 'sans-serif'"].join(","),
-            // fontSize: 20,
-            /*  h1: {
+            fontFamily: ["'degular', 'sans-serif'"].join(","),
+            fontSize: 20,
+            h1: {
               // letterSpacing: 0,
               // fontSize: 50,
-              fontFamily: ["'Fonarto', 'sans-serif'"].join(","),
+              fontFamily: ["'bely', 'sans-serif'"].join(","),
             },
             h2: {
               // fontSize: 40,
-              fontFamily: ["'Fonarto', 'sans-serif'"].join(","),
+              fontFamily: ["'bely', 'sans-serif'"].join(","),
             },
             h3: {
               // fontSize: 30,
-              fontFamily: ["'Fonarto', 'sans-serif'"].join(","),
+              fontFamily: ["'bely', 'sans-serif'"].join(","),
             },
             h4: {
               // fontSize: 25,
-              fontFamily: ["'Fonarto', 'sans-serif'"].join(","),
-            },*/
+              fontFamily: ["'bely', 'sans-serif'"].join(","),
+            },
             h5: {
               // fontSize: 20,
-              //fontFamily: ["'Fonarto', 'sans-serif'"].join(","),
+              fontFamily: ["'bely', 'sans-serif'"].join(","),
               fontSize: 15,
             },
             h6: {
-              //fontFamily: ["'Fonarto', 'sans-serif'"].join(","),
+              fontFamily: ["'bely', 'sans-serif'"].join(","),
               fontWeight: 600,
               fontSize: 19,
             },
