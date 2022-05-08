@@ -7,6 +7,7 @@ import Event from "./pages/Event";
 import ResetPassword from "./pages/ResetPassword";
 import ForgotPassword from "./pages/ForgotPassword";
 import Choice from "./pages/Choice";
+import Error from "./pages/Error";
 
 import { BrowserRouter, Navigate, Route, Routes } from "react-router-dom";
 import { useContext } from "react";
@@ -67,13 +68,15 @@ function App() {
             h5: {
               // fontSize: 20,
               fontFamily: ["'Fonarto', 'sans-serif'"].join(","),
-            },
+            },*/
             h6: {
               // fontSize: 23,
-              fontFamily: ["'Fonarto', 'sans-serif'"].join(","),
-            }, */
+              //fontFamily: ["'Fonarto', 'sans-serif'"].join(","),
+              fontWeight: 600,
+              fontSize: 19,
+            },
             body2: {
-              fontSize: 13,
+              // fontSize: 13,
             },
           },
           components: {
@@ -175,6 +178,14 @@ function App() {
               element={
                 /*   <AlreadyAuth> */
                 <Choice />
+                /*   </AlreadyAuth> */
+              }
+            />
+            <Route
+              path="*"
+              element={
+                /*   <AlreadyAuth> */
+                <Error />
                 /*   </AlreadyAuth> */
               }
             />

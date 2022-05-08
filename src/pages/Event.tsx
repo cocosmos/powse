@@ -22,7 +22,7 @@ import {
 } from "@mui/material";
 import AddIcon from "@mui/icons-material/Add";
 import RemoveIcon from "@mui/icons-material/Remove";
-import AllInclusiveIcon from "@mui/icons-material/AllInclusive";
+
 import { doc, serverTimestamp, setDoc } from "firebase/firestore";
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
@@ -30,24 +30,15 @@ import AddData from "../components/AddData";
 import { db } from "../firebase";
 
 {
-  /*importer le cssy*/
-}
-import "./event.css";
-
-{
   /*importer le compostant*/
 }
-import Filter from "../components/Filter";
 import SegmentedControl from "../components/SegmentedControl";
 import Header from "../components/Header";
 import Categories from "../components/Categories";
-import { display } from "@mui/system";
 import { EventType } from "../types/Type";
-import getPaletteMode from "../theme/getPaletteMode";
 
 const Event = () => {
   const theme = useTheme();
-  const [data, setData] = useState({});
   const navigate = useNavigate();
   const [colorChecked, setColorCheked] = useState(
     theme.palette.background.paper
@@ -149,7 +140,7 @@ const Event = () => {
           //height={"100%"}
           textAlign="center"
           alignItems={"center"}
-          spacing={3}
+          spacing={2}
         >
           <SegmentedControl
             present={values.present}
@@ -248,7 +239,7 @@ const Event = () => {
                 sx={{
                   backgroundColor: colorCounter,
                   borderRadius: 32,
-                  p: 2.5,
+                  p: 2,
                   width: "50%",
                   textAlign: "center",
                   minWidth: "140px",
@@ -297,7 +288,7 @@ const Event = () => {
                 sx={{
                   backgroundColor: colorChecked,
                   borderRadius: 32,
-                  p: 2.5,
+                  p: 1.5,
                   width: "50%",
                   textAlign: "center",
                   minWidth: "140px",
@@ -328,12 +319,13 @@ const Event = () => {
             variant="filled"
             onChange={handleInput("location")}
             required
+            sx={{ mb: "30px!important" }}
           />
           <Button
             type="submit"
             variant="contained"
             color="primary"
-            sx={{ borderRadius: 25, textTransform: "unset", mt: 4 }}
+            sx={{ borderRadius: 25, textTransform: "unset" }}
             fullWidth
             size="large"
           >

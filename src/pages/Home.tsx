@@ -23,103 +23,81 @@ import PersonOutlineOutlined from "@mui/icons-material/PersonOutlineOutlined";
 import AccessTimeSharpIcon from "@mui/icons-material/AccessTimeSharp";
 import FmdGoodSharpIcon from "@mui/icons-material/FmdGoodSharp";
 import WorkspacesIcon from "@mui/icons-material/Workspaces";
-
-{
-  /*importer le cssy*/
-}
-import "./home.css";
-
-{
-  /*importer le compostant*/
-}
-import Filter from "../components/Filter";
-
-{
-  /*https://libraries.io/npm/mui-segmented-control*/
-}
+import AllInclusiveIcon from "@mui/icons-material/AllInclusive";
+import Header from "../components/Header";
+import RecipeReviewCard from "../components/EventCard";
+import AddCircleIcon from "@mui/icons-material/AddCircle";
+import {
+  Avatar,
+  BottomNavigation,
+  BottomNavigationAction,
+} from "@mui/material";
 import { useState } from "react";
-//import SegmentedControl from 'mui-segmented-control';
+import CategoriesHome from "../components/CategoriesHome";
+import Filter from "../components/Filter";
+import EventCard from "../components/EventCard";
+import EventCardHome from "../components/EventCardHome";
+import ControlHome from "../components/ControlHome";
+import { useNavigate } from "react-router-dom";
 
-{
-  /*début script*/
-}
 const Home = () => {
-  const [value, setValue] = useState(1);
-  return (
-    <div>
-      <h1>Home</h1>
-      {/*wapper*/}
-      <Container maxWidth="sm">
-        <Stack spacing={2}>
-          {/* <SegmentedControl
-          color="primary"
-          options={[
-            {
-          label: 'Présentiel',
-          value: 1
-          },
-          {
-            label: 'Télé-travail',
-            value: 2
-          }
-          ]}
-            value={value}
-            onChange={setValue}
-        /> */}
-          {/*composant "filter"*/}
-          <Filter />
-        </Stack>
-        {/*debut de la card*/}
-        <Card className="c-break">
-          <CardContent>
-            {/*haut de la carte avec les participants*/}
-            <CardHeader
-              action={
-                <IconButton aria-label="participant">
-                  <PersonOutlineOutlined />
-                </IconButton>
-              }
-            />
-            {/*description de la pause avec le nom, l'instigateur, la date, l'heure et le lieu (avec les icons)*/}
-            <Stack direction="row" spacing={2}>
-              <WorkspacesIcon />
-              <Stack>
-                <Typography className="left" component="div">
-                  Midi au thaï
-                </Typography>
-                <Typography className="left" gutterBottom component="div">
-                  Julien Rochat
-                </Typography>
-              </Stack>
-            </Stack>
-            <Stack direction="row" spacing={2}>
-              <AccessTimeSharpIcon />
-              <Stack>
-                <Typography className="left" component="div">
-                  jeudi, 5 mai 2022
-                </Typography>
-                <Typography className="left" gutterBottom component="div">
-                  13:00 à 14:00
-                </Typography>
-              </Stack>
-            </Stack>
-            <Stack direction="row" spacing={2}>
-              <FmdGoodSharpIcon />
-              <Typography className="left" gutterBottom component="div">
-                Mama Thaï Genève
-              </Typography>
-            </Stack>
-          </CardContent>
+  const navigate = useNavigate();
 
-          {/*bouton rejoindre*/}
-          <CardActions disableSpacing className="right">
-            <Button className="button" variant="contained">
-              Rejoindre
-            </Button>
-          </CardActions>
-        </Card>
-      </Container>
-    </div>
+  const [category, setCategory] = useState({
+    food: true,
+    activity: true,
+    free: true,
+  });
+
+  const handleInput = (event: React.ChangeEvent<HTMLInputElement>) => {
+    setCategory({
+      ...category,
+      [event.target.name]: event.target.checked,
+    });
+  };
+  function navi() {
+    navigate("/event");
+  }
+
+  return (
+    <>
+      <Header />
+      {/*debut de la card*/}
+      <Stack spacing={4} sx={{ pb: 10 }}>
+        <ControlHome />
+        <CategoriesHome handleInput={handleInput} category={category} />
+
+        <Stack spacing={4}>
+          <EventCard />
+          <EventCardHome />
+          <EventCardHome />
+        </Stack>
+      </Stack>
+      <BottomNavigation
+        sx={{
+          backgroundColor: "background.default",
+          position: "fixed",
+          bottom: 0,
+          left: 0,
+          right: 0,
+          height: 70,
+        }}
+      >
+        <BottomNavigationAction
+          label="Add events"
+          onClick={navi}
+          icon={
+            <AddCircleIcon
+              color="primary"
+              sx={{
+                width: 60,
+                height: 60,
+              }}
+            />
+          }
+        />
+      </BottomNavigation>
+    </>
   );
 };
 
