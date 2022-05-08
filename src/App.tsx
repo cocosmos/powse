@@ -3,8 +3,11 @@ import "./App.css";
 import Home from "./pages/Home";
 import Login from "./pages/Login";
 import Register from "./pages/Register";
-
 import Event from "./pages/Event";
+import ResetPassword from "./pages/ResetPassword";
+import ForgotPassword from "./pages/ForgotPassword";
+import Choice from "./pages/Choice";
+import Error from "./pages/Error";
 
 import { BrowserRouter, Navigate, Route, Routes } from "react-router-dom";
 import { useContext } from "react";
@@ -18,7 +21,6 @@ import {
 } from "@mui/material";
 import getPaletteMode from "./theme/getPaletteMode";
 import useLocalStorage from "./hooks/localStorage";
-import Header from "./components/Header";
 
 function App() {
   const { currentUser } = useContext(AuthContext);
@@ -62,17 +64,22 @@ function App() {
             h4: {
               // fontSize: 25,
               fontFamily: ["'Fonarto', 'sans-serif'"].join(","),
-            },
+            },*/
             h5: {
               // fontSize: 20,
-              fontFamily: ["'Fonarto', 'sans-serif'"].join(","),
+              //fontFamily: ["'Fonarto', 'sans-serif'"].join(","),
+              fontSize: 15,
             },
             h6: {
-              // fontSize: 23,
-              fontFamily: ["'Fonarto', 'sans-serif'"].join(","),
-            }, */
+              //fontFamily: ["'Fonarto', 'sans-serif'"].join(","),
+              fontWeight: 600,
+              fontSize: 19,
+            },
             body2: {
-              fontSize: 13,
+              // fontSize: 13,
+            },
+            subtitle1: {
+              fontSize: 11,
             },
           },
           components: {
@@ -97,6 +104,23 @@ function App() {
                 },
               },
             },
+            MuiInput: {
+              styleOverrides: {
+                root: {
+                  /* borderRadius: 12,
+                  backgroundColor: "#DED1F4",
+                  ":hover": {
+                    backgroundColor: "#DED1F4",
+                  }, */
+                  ":before": {
+                    display: "none",
+                  },
+                  ":after": {
+                    display: "none",
+                  },
+                },
+              },
+            },
           },
 
           breakpoints: {
@@ -118,7 +142,13 @@ function App() {
   return (
     <ThemeProvider theme={theme}>
       <CssBaseline />
-      <Box component="main" padding={3} pb={7} height={"100vh"}>
+      <Box
+        component="main"
+        padding={2}
+        pb={8}
+        height={"calc(100vh)"}
+        //minHeight={"100vh"}
+      >
         <BrowserRouter>
           <Routes>
             <Route
@@ -130,15 +160,6 @@ function App() {
               }
             />
             <Route
-              path="/event"
-              element={
-                /*   <RequireAuth> */
-                <Event />
-                /*  </RequireAuth> */
-              }
-            />
-
-            <Route
               path="/login"
               element={
                 /*  <AlreadyAuth> */
@@ -146,11 +167,52 @@ function App() {
                 /*  </AlreadyAuth> */
               }
             />
+
+            <Route
+              path="/event"
+              element={
+                /*   <RequireAuth> */
+                <Event />
+                /*  </RequireAuth> */
+              }
+            />
             <Route
               path="/register"
               element={
                 /*   <AlreadyAuth> */
                 <Register />
+                /*   </AlreadyAuth> */
+              }
+            />
+            <Route
+              path="/resetpassword"
+              element={
+                /*   <AlreadyAuth> */
+                <ResetPassword />
+                /*   </AlreadyAuth> */
+              }
+            />
+            <Route
+              path="/forgotpassword"
+              element={
+                /*   <AlreadyAuth> */
+                <ForgotPassword />
+                /*   </AlreadyAuth> */
+              }
+            />
+            <Route
+              path="/choice"
+              element={
+                /*   <AlreadyAuth> */
+                <Choice />
+                /*   </AlreadyAuth> */
+              }
+            />
+            <Route
+              path="*"
+              element={
+                /*   <AlreadyAuth> */
+                <Error />
                 /*   </AlreadyAuth> */
               }
             />
