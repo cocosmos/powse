@@ -23,8 +23,6 @@ import { User } from "../types/Type";
 interface State {
   password: string;
   showPassword: boolean;
-  email: string;
-  name: string;
 }
 
 const ResetPassword = () => {
@@ -76,8 +74,6 @@ const ResetPassword = () => {
   const [values, setValues] = useState<State>({
     password: "",
     showPassword: false,
-    email: "",
-    name: "",
   });
 
   const handleInput =
@@ -102,14 +98,14 @@ const ResetPassword = () => {
 
   return (
     <Stack
-      spacing={10}
+      spacing={8}
       justifyContent="center"
-      height={"100%"}
+      height={"100vh"}
       textAlign="center"
       alignItems={"center"}
     >
       <Typography variant="h3">Réinitialiser votre mot de passe</Typography>
-      <Stack spacing={2} sx={{ width: "100%" }}>
+      <Stack spacing={1} sx={{ width: "100%" }}>
         <FormControl
           variant="filled"
           fullWidth

@@ -116,7 +116,7 @@ const LoginForm = (props) => {
             }
           />
         </FormControl>
-        <Link href="#" underline="hover">
+        <Link href="/forgotpassword" underline="hover">
           Mot de passe oublié ?
         </Link>
         <Button

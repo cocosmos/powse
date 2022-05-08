@@ -36,6 +36,7 @@ import SegmentedControl from "../components/SegmentedControl";
 import Header from "../components/Header";
 import Categories from "../components/Categories";
 import { EventType } from "../types/Type";
+import { height, width } from "@mui/system";
 
 const Event = () => {
   const theme = useTheme();
@@ -131,9 +132,9 @@ const Event = () => {
   };
 
   return (
-    <>
+    <Container sx={{ p: 0 }}>
       <Header />
-      <form onSubmit={handleSubmit} style={{ marginBottom: 10 }}>
+      <form onSubmit={handleSubmit}>
         <Stack
           //height={"100%"}
           textAlign="center"
@@ -330,7 +331,8 @@ const Event = () => {
           </Button>
         </Stack>
       </form>
-    </>
+      <div style={{ width: "20px", height: "20px" }}></div>
+    </Container>
   );
 };
 export default Event;

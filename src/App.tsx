@@ -146,8 +146,8 @@ function App() {
         component="main"
         padding={2}
         pb={8}
-        height={"100%"}
-        minHeight={"100vh"}
+        height={"calc(100vh)"}
+        //minHeight={"100vh"}
       >
         <BrowserRouter>
           <Routes>
