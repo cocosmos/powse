@@ -275,7 +275,6 @@ const Event = () => {
               sx={{
                 display: "flex",
                 alignItems: "center",
-                justifyContent: "space-around",
               }}
             >
               <Box
@@ -287,7 +286,12 @@ const Event = () => {
                 }}
               >
                 <FormHelperText>Nombre de participants*</FormHelperText>
-                <Stack direction="row" mt={1} flexWrap="wrap">
+                <Stack
+                  direction="row"
+                  mt={1}
+                  flexWrap="wrap"
+                  justifyContent={"center"}
+                >
                   {/*Button Counter*/}
                   <Stack
                     direction="row"
