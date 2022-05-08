@@ -18,7 +18,7 @@ import { useContext, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { AuthContext } from "../contexts/AuthContext";
 import { auth, db } from "../firebase";
-import { User } from "../types/user";
+import { User } from "../types/Type";
 
 interface State {
   password: string;

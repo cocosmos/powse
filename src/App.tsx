@@ -126,14 +126,6 @@ function App() {
         <BrowserRouter>
           <Routes>
             <Route
-              path="/login"
-              element={
-                /*  <AlreadyAuth> */
-                <Login />
-                /*  </AlreadyAuth> */
-              }
-            />
-            <Route
               path="/"
               element={
                 /*  <RequireAuth> */
@@ -141,6 +133,15 @@ function App() {
                 /*  </RequireAuth> */
               }
             />
+            <Route
+              path="/login"
+              element={
+                /*  <AlreadyAuth> */
+                <Login />
+                /*  </AlreadyAuth> */
+              }
+            />
+
             <Route
               path="/event"
               element={
