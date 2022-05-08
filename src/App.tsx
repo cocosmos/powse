@@ -148,15 +148,15 @@ function App() {
             <Route
               path="/"
               element={
-                /*  <RequireAuth> */
-                <Home />
-                /*  </RequireAuth> */
+                <RequireAuth>
+                  <Home />
+                </RequireAuth>
               }
             />
             <Route
               path="/login"
               element={
-                /*  <AlreadyAuth> */
+                /*        <AlreadyAuth> */
                 <Login />
                 /*  </AlreadyAuth> */
               }
@@ -165,9 +165,9 @@ function App() {
             <Route
               path="/event"
               element={
-                /*   <RequireAuth> */
-                <Event />
-                /*  </RequireAuth> */
+                <RequireAuth>
+                  <Event />
+                </RequireAuth>
               }
             />
             <Route
@@ -202,14 +202,7 @@ function App() {
                 /*   </AlreadyAuth> */
               }
             />
-            <Route
-              path="*"
-              element={
-                /*   <AlreadyAuth> */
-                <Error />
-                /*   </AlreadyAuth> */
-              }
-            />
+            <Route path="*" element={<Error />} />
           </Routes>
         </BrowserRouter>
       </Box>

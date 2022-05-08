@@ -1,14 +1,13 @@
 import { Visibility, VisibilityOff } from "@mui/icons-material";
 import {
-  Autocomplete,
   Box,
   Button,
   FilledInput,
   FormControl,
+  FormHelperText,
   IconButton,
   InputAdornment,
   InputLabel,
-  Link,
   TextField,
   Typography,
 } from "@mui/material";
@@ -32,23 +31,23 @@ import { auth, db } from "../firebase";
 import { User } from "../types/Type";
 import Asynchronous from "./AutoComplete";
 
-interface State {
-  password: string;
-  showPassword: boolean;
-  email: string;
-  name: string;
-}
-
 export const SignupForm = () => {
-  const [data, setData] = useState<User>();
+  const [data, setData] = useState<User>({
+    email: "",
+    name: "",
+    timeStamp: new Date(),
+    password: "",
+    confirmPassword: "",
+    showPassword: false,
+    company: "",
+    passwordSame: false,
+    companyChoice: false,
+  });
   const { dispatch, currentUser } = useContext(AuthContext);
-
-  //const [email, setEmail] = useState("");
-  //const [password, setPassword] = useState("");
   const navigate = useNavigate();
 
   const handleSignup = async (e: any) => {
-    // console.log(email);
+    //console.log(email);
     e.preventDefault();
     try {
       const res = await createUserWithEmailAndPassword(
@@ -84,45 +83,33 @@ export const SignupForm = () => {
   //   setData({ ...data, [id]: value });
   // };
 
-  const handleInputCompany = (f) => {
-    const id = f.target.id;
-    const value = f.target.value;
-
-    setData({ ...data, [id]: value });
-  };
-
   const handleCompany = async (e: any) => {
     e.preventDefault();
+
     await setDoc(doc(db, `company/${data.company}/users`, currentUser.uid), {
       name: data.name,
       email: data.email,
       timeStamp: serverTimestamp(),
     });
-    /*  await updateDoc(doc(db, "users", currentUser.uid), {
+    await updateDoc(doc(db, "users", currentUser.uid), {
       company: data.company,
-    }); */
+    });
 
     navigate("/");
+    setData({ ...data, companyChoice: true });
   };
 
   /*Password Shows*/
 
-  const [values, setValues] = useState<State>({
-    password: "",
-    showPassword: false,
-    email: "",
-    name: "",
-  });
-
   const handleInput =
-    (prop: keyof State) => (event: React.ChangeEvent<HTMLInputElement>) => {
-      setValues({ ...values, [prop]: event.target.value });
+    (prop: keyof User) => (event: React.ChangeEvent<HTMLInputElement>) => {
+      setData({ ...data, [prop]: event.target.value });
     };
 
   const handleClickShowPassword = () => {
-    setValues({
-      ...values,
-      showPassword: !values.showPassword,
+    setData({
+      ...data,
+      showPassword: !data.showPassword,
     });
   };
 
@@ -131,13 +118,13 @@ export const SignupForm = () => {
   ) => {
     event.preventDefault();
   };
+
   console.log(data);
-  console.log(values);
+  console.log(currentUser);
   return (
     <div>
       <Typography variant="h3">Viens te Powser avec nous !</Typography>
-
-      {currentUser.uid ? (
+      {currentUser.uid && !data.companyChoice ? (
         <form onSubmit={handleCompany}>
           <h2>Company</h2>
           <TextField
@@ -145,7 +132,7 @@ export const SignupForm = () => {
             id="company"
             label="Entreprise"
             type={"text"}
-            onChange={handleInputCompany}
+            onChange={handleInput("company")}
             variant="filled"
             defaultValue=""
             fullWidth
@@ -168,6 +155,7 @@ export const SignupForm = () => {
               fullWidth
               color="secondary"
               sx={{ mb: 3 }}
+              required
             />
             <TextField
               id="email"
@@ -178,6 +166,7 @@ export const SignupForm = () => {
               fullWidth
               color="secondary"
               sx={{ mb: 3 }}
+              required
             />
             <FormControl
               variant="filled"
@@ -186,13 +175,18 @@ export const SignupForm = () => {
               sx={{ mb: 4 }}
             >
               <InputLabel htmlFor="passwordLogin">
-                Creéer un mot de passe
+                Créer un mot de passe *
               </InputLabel>
               <FilledInput
                 id="passwordLogin"
-                type={values.showPassword ? "text" : "password"}
-                value={values.password}
+                type={data.showPassword ? "text" : "password"}
+                value={data.password}
                 onChange={handleInput("password")}
+                required
+                inputProps={{
+                  min: 8,
+                  max: 999,
+                }}
                 endAdornment={
                   <InputAdornment position="end">
                     <IconButton
@@ -201,11 +195,14 @@ export const SignupForm = () => {
                       onMouseDown={handleMouseDownPassword}
                       edge="end"
                     >
-                      {values.showPassword ? <VisibilityOff /> : <Visibility />}
+                      {data.showPassword ? <VisibilityOff /> : <Visibility />}
                     </IconButton>
                   </InputAdornment>
                 }
               />
+              <FormHelperText id="my-helper-text">
+                Votre mot de passe doit faire minimum 8 charactères.
+              </FormHelperText>
             </FormControl>
             <FormControl
               variant="filled"
@@ -213,14 +210,15 @@ export const SignupForm = () => {
               color="secondary"
               sx={{ mb: 4 }}
             >
-              <InputLabel htmlFor="passwordLogin">
-                Confirmer le mot de passe
+              <InputLabel htmlFor="passwordConfirm">
+                Confirmer le mot de passe *
               </InputLabel>
               <FilledInput
                 id="passwordConfirm"
-                type={values.showPassword ? "text" : "password"}
-                value={values.password}
-                onChange={handleInput("password")}
+                type={data.showPassword ? "text" : "password"}
+                value={data.confirmPassword}
+                onChange={handleInput("confirmPassword")}
+                required
                 endAdornment={
                   <InputAdornment position="end">
                     <IconButton
@@ -229,11 +227,14 @@ export const SignupForm = () => {
                       onMouseDown={handleMouseDownPassword}
                       edge="end"
                     >
-                      {values.showPassword ? <VisibilityOff /> : <Visibility />}
+                      {data.showPassword ? <VisibilityOff /> : <Visibility />}
                     </IconButton>
                   </InputAdornment>
                 }
               />
+              <FormHelperText id="my-helper-text">
+                Les mots de passe ne correspondent pas.
+              </FormHelperText>
             </FormControl>
             <Button
               type="submit"
@@ -242,7 +243,6 @@ export const SignupForm = () => {
               sx={{ borderRadius: 25, textTransform: "unset", mt: 2, p: 1.5 }}
               fullWidth
             >
-              {" "}
               Suivant
             </Button>
           </form>

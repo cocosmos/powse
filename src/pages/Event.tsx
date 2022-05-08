@@ -1,7 +1,6 @@
 import {
   Box,
   Button,
-  ButtonGroup,
   Checkbox,
   Container,
   FilledInput,
@@ -12,20 +11,21 @@ import {
   IconButton,
   InputAdornment,
   InputLabel,
-  Radio,
-  RadioGroup,
   Stack,
   TextField,
-  ToggleButton,
-  ToggleButtonGroup,
-  Typography,
   useTheme,
 } from "@mui/material";
 import AddIcon from "@mui/icons-material/Add";
 import RemoveIcon from "@mui/icons-material/Remove";
 
-import { doc, serverTimestamp, setDoc } from "firebase/firestore";
-import { useState } from "react";
+import {
+  doc,
+  getDoc,
+  serverTimestamp,
+  setDoc,
+  updateDoc,
+} from "firebase/firestore";
+import { useContext, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import AddData from "../components/AddData";
 import { db } from "../firebase";
@@ -37,12 +37,14 @@ import SegmentedControl from "../components/event/SegmentedControl";
 import Header from "../components/common/Header";
 import Categories from "../components/event/Categories";
 import { EventType } from "../types/Type";
-import { height, width } from "@mui/system";
 import "./Event.css";
+import { AuthContext } from "../contexts/AuthContext";
 
 const Event = () => {
   const theme = useTheme();
   const navigate = useNavigate();
+  const { dispatch, currentUser } = useContext(AuthContext);
+
   const [colorChecked, setColorCheked] = useState(
     theme.palette.background.paper
   );
@@ -120,14 +122,23 @@ const Event = () => {
   const [error, setError] = useState(false);
   const [helperText, setHelperText] = useState("");
 
-  const handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
+  const handleSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
 
     if (values.category === "") {
       setHelperText("Veuillez selectionner une catégorie.");
       setError(true);
     } else {
-      console.log(values);
+      /*  await setDoc(doc(db, `company/${data.company}/users`, currentUser.uid), {
+        name: data.name,
+        email: data.email,
+        timeStamp: serverTimestamp(),
+      });
+      await updateDoc(doc(db, "users", currentUser.uid), {
+        company: data.company,
+      }); */
+
+      navigate("/");
       setHelperText("");
       setError(false);
     }

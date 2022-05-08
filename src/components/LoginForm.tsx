@@ -7,10 +7,7 @@ import {
   InputAdornment,
   InputLabel,
   Link,
-  makeStyles,
-  Stack,
   TextField,
-  Typography,
 } from "@mui/material";
 import { signInWithEmailAndPassword } from "firebase/auth";
 import { useState } from "react";
@@ -29,6 +26,11 @@ interface State {
 const LoginForm = (props) => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
+  const [values, setValues] = useState<State>({
+    password: "",
+    showPassword: false,
+    email: "",
+  });
 
   const navigate = useNavigate();
 
@@ -52,12 +54,6 @@ const LoginForm = (props) => {
   };
 
   /*Password Shows*/
-
-  const [values, setValues] = useState<State>({
-    password: "",
-    showPassword: false,
-    email: "",
-  });
 
   const handleInput =
     (prop: keyof State) => (event: React.ChangeEvent<HTMLInputElement>) => {

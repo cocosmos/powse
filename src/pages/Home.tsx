@@ -20,6 +20,8 @@ import EventCard from "../components/home/EventCard";
 import EventCardHome from "../components/home/EventCardHome";
 import ControlHome from "../components/home/ControlHome";
 import { useNavigate } from "react-router-dom";
+import AddData from "../components/AddData";
+import GetData from "../components/common/GetData";
 
 const Home = () => {
   const navigate = useNavigate();
@@ -41,7 +43,7 @@ const Home = () => {
     navigate("/event");
   }
   const matches = useMediaQuery(theme.breakpoints.up("lg"));
-
+  GetData();
   return (
     <>
       <Header />
