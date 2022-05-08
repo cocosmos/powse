@@ -4,18 +4,20 @@ import TextField from "@mui/material/TextField";
 import Typography from "@mui/material/Typography";
 
 const Choice = () => {
-    return (
-        <Stack
-        spacing={10}
-        justifyContent="center"
-        height={"100%"}
-        textAlign="center"
-        alignItems={"center"}
-      >
-        <Typography variant="h3">
-            Salut Julien, plus qu'une étape avant de prendre ta Powse.
-        </Typography>
-    <Stack spacing={2} sx={{ width: "100%" }}>
+  return (
+    <Stack
+      spacing={10}
+      justifyContent="center"
+      height={"100%"}
+      textAlign="center"
+      alignItems={"center"}
+      maxWidth="sm"
+      sx={{ margin: "0 auto" }}
+    >
+      <Typography variant="h3">
+        Salut Julien, plus qu'une étape avant de prendre ta Powse.
+      </Typography>
+      <Stack spacing={2} sx={{ width: "100%" }}>
         <TextField
           id="entreprise"
           label="Dans quelle entreprise travailles-tu ?"
@@ -25,21 +27,24 @@ const Choice = () => {
           fullWidth
           color="secondary"
           sx={{ mb: 3 }}
-          />
+        />
         <Typography variant="subtitle1">
-            Grâce à cette information, nous pourrons te proposer les powses que tes collègues ont planifié.
+          Grâce à cette information, nous pourrons te proposer les powses que
+          tes collègues ont planifié.
         </Typography>
       </Stack>
-      <Button 
+      <Button
         type="submit"
         variant="contained"
         color="primary"
         sx={{ borderRadius: 25, textTransform: "unset", mt: 4, p: 1.5 }}
         fullWidth
-        > S'inscrire
+      >
+        {" "}
+        S'inscrire
       </Button>
-      </Stack>
-    );
-  };
-  
-  export default Choice;
+    </Stack>
+  );
+};
+
+export default Choice;

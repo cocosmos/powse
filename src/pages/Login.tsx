@@ -9,9 +9,11 @@ const Login = () => {
       height={"100%"}
       textAlign="center"
       alignItems={"center"}
+      maxWidth="sm"
+      sx={{ margin: "0 auto" }}
     >
       {/*logo*/}
-      <Box component="span" mt={6}>
+      <Box component="span" mt={20}>
         <svg
           width="262"
           height="56"

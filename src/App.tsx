@@ -142,13 +142,7 @@ function App() {
   return (
     <ThemeProvider theme={theme}>
       <CssBaseline />
-      <Box
-        component="main"
-        padding={2}
-        pb={8}
-        height={"calc(100vh)"}
-        //minHeight={"100vh"}
-      >
+      <Box component="main" padding={2} pb={8} height={"calc(100vh)"}>
         <BrowserRouter>
           <Routes>
             <Route

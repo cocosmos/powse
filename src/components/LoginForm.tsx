@@ -78,7 +78,7 @@ const LoginForm = (props) => {
   };
 
   return (
-    <Box flexGrow={1} display={"flex"} mt={5}>
+    <Box flexGrow={1} display={"flex"} mt={5} alignItems="flex-start">
       <form onSubmit={handleLogin}>
         <TextField
           id="emailLogin"

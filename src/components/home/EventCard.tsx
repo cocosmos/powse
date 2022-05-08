@@ -19,8 +19,9 @@ import WorkspacesIcon from "@mui/icons-material/Workspaces";
 import AllInclusiveIcon from "@mui/icons-material/AllInclusive";
 import MoreVertIcon from "@mui/icons-material/MoreVert";
 import { PersonSharp } from "@mui/icons-material";
-import Food from "../assets/categories/Food";
+import Food from "../../assets/categories/Food";
 import FmdGoodOutlinedIcon from "@mui/icons-material/FmdGoodOutlined";
+import CheckCircleIcon from "@mui/icons-material/CheckCircle";
 import {
   Button,
   Grid,
@@ -47,21 +48,16 @@ const ExpandMore = styled((props: ExpandMoreProps) => {
   }),*/
 }));
 
-export default function EventCardHome() {
+export default function EventCard() {
   const [expanded, setExpanded] = React.useState(false);
 
   const handleExpandClick = () => {
     setExpanded(!expanded);
   };
+  const joined = true;
 
   return (
-    <Card
-      sx={{
-        maxWidth: 640,
-        borderRadius: 4,
-        backgroundColor: "primary.main",
-      }}
-    >
+    <Card sx={{ maxWidth: 640, borderRadius: 4, width: "100%" }}>
       <Stack
         direction="row"
         sx={{ p: 2, pr: 1, pb: 1 }}
@@ -133,14 +129,22 @@ export default function EventCardHome() {
       </CardContent>
       {/*bouton rejoindre*/}
       <CardActions sx={{ justifyContent: "end" }}>
-        <Button
-          type="submit"
-          variant="contained"
-          size="medium"
-          sx={{ borderRadius: 25, textTransform: "unset", pr: 4, pl: 4 }}
-        >
-          Rejoindre
-        </Button>
+        {joined ? (
+          <CheckCircleIcon
+            color="primary"
+            fontSize="large"
+            sx={{ mr: 1.5, mt: -6 }}
+          />
+        ) : (
+          <Button
+            type="submit"
+            variant="contained"
+            size="medium"
+            sx={{ borderRadius: 25, textTransform: "unset", pr: 4, pl: 4 }}
+          >
+            Rejoindre
+          </Button>
+        )}
       </CardActions>
     </Card>
   );

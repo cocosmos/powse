@@ -8,6 +8,8 @@ const ForgotPassword = () => {
       height={"100%"}
       textAlign="center"
       alignItems={"center"}
+      maxWidth="sm"
+      sx={{ margin: "0 auto" }}
     >
       <Typography variant="h3">Mot de passe oublié</Typography>
       <Stack spacing={2} sx={{ width: "100%" }}>
