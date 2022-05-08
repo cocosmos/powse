@@ -1,15 +1,21 @@
 import { useContext } from "react";
+import { Box, Link, Stack, Typography } from "@mui/material";
 import { SignupForm } from "../components/SignupForm";
 import { AuthContext } from "../contexts/AuthContext";
 
 const Register = () => {
-  const { dispatch, currentUser } = useContext(AuthContext);
-
   return (
-    <>
-      <h1>Register</h1>
+    <Stack
+      spacing={10}
+      justifyContent="center"
+      height={"100%"}
+      textAlign="center"
+      alignItems={"center"}
+    >
+      {/*logo*/}
+
       <SignupForm />
-    </>
+    </Stack>
   );
 };
 
