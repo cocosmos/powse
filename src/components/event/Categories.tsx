@@ -1,9 +1,7 @@
 import * as React from "react";
 import {
-  Checkbox,
   FormControl,
   FormControlLabel,
-  FormGroup,
   Radio,
   RadioGroup,
   Stack,
@@ -11,67 +9,63 @@ import {
 } from "@mui/material";
 import Typography from "@mui/material/Typography";
 import { useState } from "react";
-import Activity from "../assets/categories/Activity";
-import Free from "../assets/categories/Free";
-import Food from "../assets/categories/Food";
+import Activity from "../../assets/categories/Activity";
+import Free from "../../assets/categories/Free";
+import Food from "../../assets/categories/Food";
 
-export default function CategoriesHome({ handleInput, category }) {
+export default function Categories({ handleInput, category }) {
   const theme = useTheme();
   const [colorRadioA, setColorRadioA] = useState(
-    theme.palette.background.paper
+    theme.palette.background.default
   );
   const [colorRadioB, setColorRadioB] = useState(
-    theme.palette.background.paper
+    theme.palette.background.default
   );
   const [colorRadioC, setColorRadioC] = useState(
-    theme.palette.background.paper
+    theme.palette.background.default
   );
 
-  const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+  const handleRadioChange = (e) => {
     handleInput(e);
 
-    switch (e.target.name) {
+    switch (e.target.value) {
       case "food":
-        if (e.target.checked) {
-          setColorRadioA(theme.palette.background.paper);
-        } else {
-          setColorRadioA(theme.palette.background.default);
-        }
+        setColorRadioA(theme.palette.background.paper);
+        setColorRadioB(theme.palette.background.default);
+        setColorRadioC(theme.palette.background.default);
         break;
       case "activity":
-        if (e.target.checked) {
-          setColorRadioB(theme.palette.background.paper);
-        } else {
-          setColorRadioB(theme.palette.background.default);
-        }
+        setColorRadioB(theme.palette.background.paper);
+        setColorRadioA(theme.palette.background.default);
+        setColorRadioC(theme.palette.background.default);
+
         break;
       case "free":
-        if (e.target.checked) {
-          setColorRadioC(theme.palette.background.paper);
-        } else {
-          setColorRadioC(theme.palette.background.default);
-        }
+        setColorRadioC(theme.palette.background.paper);
+        setColorRadioA(theme.palette.background.default);
+        setColorRadioB(theme.palette.background.default);
+
+        break;
+      default:
+        setColorRadioA(theme.palette.background.default);
+        setColorRadioB(theme.palette.background.default);
+        setColorRadioC(theme.palette.background.default);
         break;
     }
   };
 
   return (
-    <FormGroup
+    <RadioGroup
       row
+      name="category"
       defaultValue="top"
-      //onChange={handleChange}
-      sx={{ flexWrap: "nowrap", justifyContent: "center" }}
+      value={category}
+      onChange={handleRadioChange}
+      sx={{ flexWrap: "nowrap" }}
     >
       <FormControlLabel
         value="food"
-        control={
-          <Checkbox
-            sx={{ display: "none" }}
-            checked={category.food}
-            onChange={handleChange}
-            name="food"
-          />
-        }
+        control={<Radio sx={{ display: "none" }} />}
         label={
           <Stack alignItems={"center"}>
             <Stack
@@ -93,14 +87,7 @@ export default function CategoriesHome({ handleInput, category }) {
       />
       <FormControlLabel
         value="activity"
-        control={
-          <Checkbox
-            sx={{ display: "none" }}
-            checked={category.activity}
-            onChange={handleChange}
-            name="activity"
-          />
-        }
+        control={<Radio sx={{ display: "none" }} />}
         label={
           <Stack alignItems={"center"}>
             <Stack
@@ -122,14 +109,7 @@ export default function CategoriesHome({ handleInput, category }) {
       />
       <FormControlLabel
         value="free"
-        control={
-          <Checkbox
-            sx={{ display: "none" }}
-            checked={category.free}
-            onChange={handleChange}
-            name="free"
-          />
-        }
+        control={<Radio sx={{ display: "none" }} />}
         label={
           <Stack alignItems={"center"}>
             <Stack
@@ -149,6 +129,6 @@ export default function CategoriesHome({ handleInput, category }) {
         }
         labelPlacement="bottom"
       />
-    </FormGroup>
+    </RadioGroup>
   );
 }
