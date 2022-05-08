@@ -11,6 +11,8 @@ const Register = () => {
       height={"100%"}
       textAlign="center"
       alignItems={"center"}
+      maxWidth="sm"
+      sx={{ margin: "0 auto" }}
     >
       {/*logo*/}
       <SignupForm />

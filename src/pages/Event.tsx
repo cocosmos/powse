@@ -183,6 +183,9 @@ const Event = () => {
             fullWidth
             color="primary"
             sx={{ mb: 3 }}
+            inputProps={{
+              min: today.toISOString().slice(0, 10), // 5 min
+            }}
             required
           />
           <Stack spacing={2} direction="row" sx={{ width: "100%" }}>

@@ -63,7 +63,7 @@ const Home = () => {
     <>
       <Header />
       {/*debut de la card*/}
-      <Stack spacing={4} sx={{ pb: 10 }}>
+      <Stack spacing={4} sx={{ pb: 10, margin: "0 auto" }} maxWidth="sm">
         <ControlHome />
         <CategoriesHome handleInput={handleInput} category={category} />
 

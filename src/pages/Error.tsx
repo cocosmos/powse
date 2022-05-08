@@ -18,6 +18,8 @@ const Error = () => {
         textAlign: "center",
         alignContent: "center",
         alignItems: "center",
+        maxWidth: "sm",
+        margin: "0 auto",
       }}
     >
       <img src={logo} alt="loading" width={300} />

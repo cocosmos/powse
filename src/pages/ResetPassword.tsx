@@ -103,6 +103,8 @@ const ResetPassword = () => {
       height={"100vh"}
       textAlign="center"
       alignItems={"center"}
+      maxWidth="sm"
+      sx={{ margin: "0 auto" }}
     >
       <Typography variant="h3">Réinitialiser votre mot de passe</Typography>
       <Stack spacing={1} sx={{ width: "100%" }}>
