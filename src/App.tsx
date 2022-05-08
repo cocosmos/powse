@@ -5,6 +5,7 @@ import Login from "./pages/Login";
 import Register from "./pages/Register";
 
 import Event from "./pages/Event";
+import Error from "./pages/Error";
 
 import { BrowserRouter, Navigate, Route, Routes } from "react-router-dom";
 import { useContext } from "react";
@@ -159,7 +160,6 @@ function App() {
                 /*  </RequireAuth> */
               }
             />
-
             <Route
               path="/login"
               element={
@@ -173,6 +173,14 @@ function App() {
               element={
                 /*   <AlreadyAuth> */
                 <Register />
+                /*   </AlreadyAuth> */
+              }
+            />
+            <Route
+              path="*"
+              element={
+                /*   <AlreadyAuth> */
+                <Error />
                 /*   </AlreadyAuth> */
               }
             />
