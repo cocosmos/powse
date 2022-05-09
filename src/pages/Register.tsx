@@ -16,10 +16,6 @@ const Register = () => {
     >
       {/*logo*/}
       <SignupForm />
-
-      <Typography variant="body2">
-        Vous avez déjà un compte ? <Link href="/login">Connectez-vous..</Link>
-      </Typography>
     </Stack>
   );
 };

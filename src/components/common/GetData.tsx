@@ -3,7 +3,7 @@ import { collection, doc, getDoc, getDocs } from "firebase/firestore";
 import { db } from "../../firebase";
 
 const GetData = () => {
-  const colRef = collection(db, "company/9hQGHBPKsssS0b9gsEbl/users");
+  const colRef = collection(db, "users");
   getDocs(colRef)
     .then((snapshot) => {
       console.log(snapshot);

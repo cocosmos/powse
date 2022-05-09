@@ -84,6 +84,8 @@ const Event = () => {
     space: 5,
     unlimited: false,
     location: "",
+    id: "",
+    author: "",
   });
 
   const handleInput =
@@ -147,7 +149,7 @@ const Event = () => {
   return (
     <>
       <Header />
-      <Container sx={{ p: 0, height: "80%" }} maxWidth="lg">
+      <Container sx={{ p: 0 }} maxWidth="lg">
         <form
           onSubmit={handleSubmit}
           style={{
@@ -304,6 +306,7 @@ const Event = () => {
                   justifyContent={"center"}
                 >
                   {/*Button Counter*/}
+
                   <Stack
                     direction="row"
                     position="relative"
@@ -323,11 +326,11 @@ const Event = () => {
                       onClick={() =>
                         setValues((prevState) => ({
                           ...prevState,
-                          space: values.space + 1,
+                          space: values.space - 1,
                         }))
                       }
                     >
-                      <AddIcon fontSize="inherit" />
+                      <RemoveIcon fontSize="inherit" />
                     </IconButton>
                     <TextField
                       id="event-people"
@@ -348,11 +351,11 @@ const Event = () => {
                       onClick={() =>
                         setValues((prevState) => ({
                           ...prevState,
-                          space: values.space - 1,
+                          space: values.space + 1,
                         }))
                       }
                     >
-                      <RemoveIcon fontSize="inherit" />
+                      <AddIcon fontSize="inherit" />
                     </IconButton>
                   </Stack>
 

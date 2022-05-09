@@ -1,4 +1,4 @@
-import * as React from "react";
+import { useState, useEffect } from "react";
 import { styled } from "@mui/material/styles";
 import Card from "@mui/material/Card";
 import CardHeader from "@mui/material/CardHeader";
@@ -22,15 +22,8 @@ import { PersonSharp } from "@mui/icons-material";
 import Food from "../../assets/categories/Food";
 import FmdGoodOutlinedIcon from "@mui/icons-material/FmdGoodOutlined";
 import CheckCircleIcon from "@mui/icons-material/CheckCircle";
-import {
-  Button,
-  Grid,
-  List,
-  ListItem,
-  ListItemIcon,
-  ListItemText,
-  Stack,
-} from "@mui/material";
+import { Button, Grid, Stack } from "@mui/material";
+import { EventType } from "../../types/Type";
 
 interface ExpandMoreProps extends IconButtonProps {
   expand: boolean;
@@ -48,13 +41,63 @@ const ExpandMore = styled((props: ExpandMoreProps) => {
   }),*/
 }));
 
-export default function EventCard() {
-  const [expanded, setExpanded] = React.useState(false);
+export default function EventCard(props: any) {
+  const [expanded, setExpanded] = useState(false);
 
   const handleExpandClick = () => {
     setExpanded(!expanded);
   };
-  const joined = true;
+  const joined = false;
+  const days = [
+    "lundi",
+    "mardi",
+    "mercredi",
+    "jeudi",
+    "vendredi",
+    "samedi",
+    "dimanche",
+  ];
+  const months = [
+    "janvier",
+    "février",
+    "mars",
+    "avril",
+    "mai",
+    "juin",
+    "juillet",
+    "août",
+    "septembre",
+    "octobre",
+    "novembre",
+    "décembre",
+  ];
+  let setdate = { dateEvent: "", dateHour: "", dateEnd: "" };
+
+  if (props.data.date) {
+    let dateEvent = new Date(props.data.date.seconds * 1000);
+    let dateStart = new Date(props.data.dateStart.seconds * 1000);
+    let dateEnd = new Date(props.data.dateEnd.seconds * 1000);
+
+    let displayHours =
+      dateStart.getHours() +
+      ":" +
+      dateStart.getMinutes() +
+      " à " +
+      dateEnd.getHours() +
+      ":" +
+      dateEnd.getMinutes();
+
+    let displayDate =
+      days[dateEvent.getDay() - 1] +
+      ", " +
+      dateEvent.getDate() +
+      " " +
+      months[dateEvent.getMonth()] +
+      " " +
+      dateEvent.getFullYear();
+
+    setdate = { dateEvent: displayDate, dateHour: displayHours, dateEnd: "" };
+  }
 
   return (
     <Card sx={{ maxWidth: 640, borderRadius: 4, width: "100%" }}>
@@ -69,14 +112,18 @@ export default function EventCard() {
           <Food />
         </Avatar>
         <Stack flexGrow={1}>
-          <Typography variant="h6">Midi au thaï</Typography>
+          <Typography>{props.data.title}</Typography>
           <Typography sx={{ fontWeight: 500 }} component="div">
-            Julien Rochat
+            {props.data.author}
           </Typography>
         </Stack>
         <ExpandMore expand={expanded} onClick={handleExpandClick}>
           <PersonSharp />
-          <Typography component="span">3/7</Typography>
+          {props.data.unlimited ? (
+            <AllInclusiveIcon fontSize="small" />
+          ) : (
+            <Typography component="span">0/{props.data.space}</Typography>
+          )}
         </ExpandMore>
       </Stack>
       <Collapse in={expanded} timeout="auto" unmountOnExit>
@@ -116,14 +163,14 @@ export default function EventCard() {
         <Stack direction="row" spacing={2} sx={{ pb: 1 }}>
           <AccessTimeSharpIcon color="disabled" />
           <Stack>
-            <Typography component="div">jeudi, 5 mai 2022</Typography>
-            <Typography component="div">13:00 à 14:00</Typography>
+            <Typography component="div">{setdate.dateEvent}</Typography>
+            <Typography component="div">{setdate.dateHour}</Typography>
           </Stack>
         </Stack>
         <Stack direction="row" spacing={2}>
           <FmdGoodOutlinedIcon color="disabled" />
           <Typography gutterBottom component="div">
-            Mama Thaï Genève
+            {props.data.location}
           </Typography>
         </Stack>
       </CardContent>

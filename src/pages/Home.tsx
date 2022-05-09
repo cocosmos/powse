@@ -14,7 +14,14 @@ import {
   useMediaQuery,
   useTheme,
 } from "@mui/material";
-import { useState } from "react";
+import {
+  JSXElementConstructor,
+  Key,
+  ReactElement,
+  ReactFragment,
+  useEffect,
+  useState,
+} from "react";
 import CategoriesHome from "../components/home/CategoriesHome";
 import EventCard from "../components/home/EventCard";
 import EventCardHome from "../components/home/EventCardHome";
@@ -22,10 +29,39 @@ import ControlHome from "../components/home/ControlHome";
 import { useNavigate } from "react-router-dom";
 import AddData from "../components/AddData";
 import GetData from "../components/common/GetData";
+import { EventType } from "../types/Type";
+import { collection, onSnapshot } from "firebase/firestore";
+import { db } from "../firebase";
 
 const Home = () => {
   const navigate = useNavigate();
   const theme = useTheme();
+  const [events, setEvents] = useState<any>([
+    {
+      present: "",
+      category: "",
+      title: "Loading...",
+      date: null,
+      dateStart: null,
+      dateEnd: null,
+      space: null,
+      unlimited: false,
+      location: "",
+      id: "",
+    },
+  ]);
+  useEffect(
+    () =>
+      onSnapshot(collection(db, "events"), (snapshot) =>
+        setEvents(
+          snapshot.docs.map((doc) => ({
+            ...doc.data(),
+            id: doc.id,
+          }))
+        )
+      ),
+    []
+  );
 
   const [category, setCategory] = useState({
     food: true,
@@ -43,7 +79,7 @@ const Home = () => {
     navigate("/event");
   }
   const matches = useMediaQuery(theme.breakpoints.up("lg"));
-  GetData();
+  // GetData();
   return (
     <>
       <Header />
@@ -79,15 +115,10 @@ const Home = () => {
           </FormGroup>
         )}
         <Stack spacing={4} alignItems="center">
-          <EventCard />
-          <EventCard />
-          <EventCard />
-          <EventCard />
-          <EventCard />
-          <EventCard />
-          <EventCard />
-          <EventCardHome />
-          <EventCardHome />
+          {events.map((event: EventType) => (
+            //<div key={event.id}>{event.title}</div>
+            <EventCard key={event.id} data={event} />
+          ))}
         </Stack>
       </Stack>
       {matches ? (

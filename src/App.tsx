@@ -52,22 +52,27 @@ function App() {
               // letterSpacing: 0,
               // fontSize: 50,
               fontFamily: ["'bely', 'sans-serif'"].join(","),
+              fontWeight: 600,
             },
             h2: {
               // fontSize: 40,
               fontFamily: ["'bely', 'sans-serif'"].join(","),
+              fontWeight: 600,
             },
             h3: {
               // fontSize: 30,
               fontFamily: ["'bely', 'sans-serif'"].join(","),
+              fontWeight: 600,
             },
             h4: {
               // fontSize: 25,
               fontFamily: ["'bely', 'sans-serif'"].join(","),
+              fontWeight: 600,
             },
             h5: {
               // fontSize: 20,
               fontFamily: ["'bely', 'sans-serif'"].join(","),
+              fontWeight: 600,
               fontSize: 15,
             },
             h6: {
