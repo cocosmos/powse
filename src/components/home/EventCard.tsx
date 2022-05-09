@@ -1,29 +1,24 @@
 import { useState, useEffect } from "react";
 import { styled } from "@mui/material/styles";
 import Card from "@mui/material/Card";
-import CardHeader from "@mui/material/CardHeader";
-import CardMedia from "@mui/material/CardMedia";
 import CardContent from "@mui/material/CardContent";
 import CardActions from "@mui/material/CardActions";
 import Collapse from "@mui/material/Collapse";
 import Avatar from "@mui/material/Avatar";
 import IconButton, { IconButtonProps } from "@mui/material/IconButton";
 import Typography from "@mui/material/Typography";
-import { red } from "@mui/material/colors";
-import FavoriteIcon from "@mui/icons-material/Favorite";
-import ShareIcon from "@mui/icons-material/Share";
-import ExpandMoreIcon from "@mui/icons-material/ExpandMore";
+
 import AccessTimeSharpIcon from "@mui/icons-material/AccessTimeSharp";
-import FmdGoodSharpIcon from "@mui/icons-material/FmdGoodSharp";
-import WorkspacesIcon from "@mui/icons-material/Workspaces";
+
 import AllInclusiveIcon from "@mui/icons-material/AllInclusive";
-import MoreVertIcon from "@mui/icons-material/MoreVert";
 import { PersonSharp } from "@mui/icons-material";
 import Food from "../../assets/categories/Food";
 import FmdGoodOutlinedIcon from "@mui/icons-material/FmdGoodOutlined";
 import CheckCircleIcon from "@mui/icons-material/CheckCircle";
 import { Button, Grid, Stack } from "@mui/material";
 import { EventType } from "../../types/Type";
+import Activity from "../../assets/categories/Activity";
+import Free from "../../assets/categories/Free";
 
 interface ExpandMoreProps extends IconButtonProps {
   expand: boolean;
@@ -72,6 +67,26 @@ export default function EventCard(props: any) {
     "décembre",
   ];
   let setdate = { dateEvent: "", dateHour: "", dateEnd: "" };
+  const colorHome =
+    props.data.present === "home" ? "sucess.main" : "background.paper";
+  const colorButton =
+    props.data.present === "home" ? "sucess.contrastText" : "primary.main";
+
+  let categoryEvent = null;
+
+  switch (props.data.category) {
+    case "activity":
+      categoryEvent = <Activity />;
+      break;
+    case "food":
+      categoryEvent = <Food />;
+      break;
+    case "free":
+      categoryEvent = <Free />;
+      break;
+    default:
+      categoryEvent = <Free />;
+  }
 
   if (props.data.date) {
     let dateEvent = new Date(props.data.date.seconds * 1000);
@@ -100,7 +115,14 @@ export default function EventCard(props: any) {
   }
 
   return (
-    <Card sx={{ maxWidth: 640, borderRadius: 4, width: "100%" }}>
+    <Card
+      sx={{
+        maxWidth: 640,
+        borderRadius: 4,
+        width: "100%",
+        backgroundColor: colorHome,
+      }}
+    >
       <Stack
         direction="row"
         sx={{ p: 2, pr: 1, pb: 1 }}
@@ -109,7 +131,7 @@ export default function EventCard(props: any) {
         spacing={1.2}
       >
         <Avatar sx={{ backgroundColor: "background.paper", width: "30px" }}>
-          <Food />
+          {categoryEvent}
         </Avatar>
         <Stack flexGrow={1}>
           <Typography>{props.data.title}</Typography>
@@ -122,36 +144,26 @@ export default function EventCard(props: any) {
           {props.data.unlimited ? (
             <AllInclusiveIcon fontSize="small" />
           ) : (
-            <Typography component="span">0/{props.data.space}</Typography>
+            <Typography component="span">
+              {props.participants}/{props.data.space}
+            </Typography>
           )}
         </ExpandMore>
       </Stack>
       <Collapse in={expanded} timeout="auto" unmountOnExit>
         <CardContent
           sx={{
-            backgroundColor: "primary.main",
+            backgroundColor: colorButton,
             color: "primary.contrastText",
             borderRadius: 4,
           }}
         >
-          <Grid container spacing={1}>
+          <Grid container spacing={1} textAlign={"center"}>
             <Grid item xs={4} sm={4} md={4}>
               <Typography variant="body2">Julien Rochta</Typography>
             </Grid>
             <Grid item xs={4} sm={4} md={4}>
               <Typography variant="body2">Julien Rhta</Typography>
-            </Grid>
-            <Grid item xs={4} sm={4} md={4}>
-              <Typography variant="body2">Julien Rochta</Typography>
-            </Grid>
-            <Grid item xs={4} sm={4} md={4}>
-              <Typography variant="body2">Julien Rochta</Typography>
-            </Grid>
-            <Grid item xs={4} sm={4} md={4}>
-              <Typography variant="body2">Julien Rochta</Typography>
-            </Grid>
-            <Grid item xs={4} sm={4} md={4}>
-              <Typography variant="body2">Julien Rochta</Typography>
             </Grid>
             <Grid item xs={4} sm={4} md={4}>
               <Typography variant="body2">Julien Rochta</Typography>
@@ -187,7 +199,13 @@ export default function EventCard(props: any) {
             type="submit"
             variant="contained"
             size="medium"
-            sx={{ borderRadius: 25, textTransform: "unset", pr: 4, pl: 4 }}
+            sx={{
+              borderRadius: 25,
+              textTransform: "unset",
+              pr: 4,
+              pl: 4,
+              backgroundColor: colorButton,
+            }}
           >
             Rejoindre
           </Button>

@@ -20,6 +20,12 @@ const getPaletteMode = (mode: PaletteMode) => ({
             contrastText: "#000",
             background: "#F3EFFA",
           },
+
+          sucess: {
+            main: "#EFF5FA",
+            contrastText: "#177DDB",
+          },
+
           neutral: {
             main: "#2d2d2d",
             contrastText: "#363636",

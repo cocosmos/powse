@@ -32,6 +32,7 @@ import GetData from "../components/common/GetData";
 import { EventType } from "../types/Type";
 import { collection, onSnapshot } from "firebase/firestore";
 import { db } from "../firebase";
+import { LensTwoTone } from "@mui/icons-material";
 
 const Home = () => {
   const navigate = useNavigate();
@@ -50,6 +51,8 @@ const Home = () => {
       id: "",
     },
   ]);
+  const [participants, setParticipants] = useState<any>([]);
+
   useEffect(
     () =>
       onSnapshot(collection(db, "events"), (snapshot) =>
@@ -60,8 +63,36 @@ const Home = () => {
           }))
         )
       ),
+
     []
   );
+  //let participants = [];
+  useEffect(() => {
+    if (events[0].present) {
+      events.map((event: EventType, index) => {
+        onSnapshot(collection(db, `events/${event.id}/users`), (snapshot) => {
+          setParticipants((oldArray) => [...oldArray, snapshot.docs.length]);
+
+          //participants.push(snapshot.docs.length);
+        });
+      });
+    }
+  }, []);
+  console.log(participants);
+  /* useEffect(() => {
+    events.map((event: EventType) => {
+      onSnapshot(
+        collection(db, `events/${event.id}/users`),
+        (snapshot) => console.log(snapshot.docs.length)
+        /*  setEvents(
+          snapshot.docs.map((doc) => ({
+            ...doc.data(),
+            id: doc.id,
+          }))
+        ) */
+  /*   );
+    });
+  }, []); */
 
   const [category, setCategory] = useState({
     food: true,
@@ -115,9 +146,12 @@ const Home = () => {
           </FormGroup>
         )}
         <Stack spacing={4} alignItems="center">
-          {events.map((event: EventType) => (
-            //<div key={event.id}>{event.title}</div>
-            <EventCard key={event.id} data={event} />
+          {events.map((event: EventType, index) => (
+            <EventCard
+              key={event.id}
+              data={event}
+              participants={participants[index]}
+            />
           ))}
         </Stack>
       </Stack>
@@ -135,36 +169,12 @@ const Home = () => {
           <AddCircleIcon
             color="primary"
             sx={{
-              width: 80,
-              height: 80,
+              width: 70,
+              height: 70,
             }}
           />
         </IconButton>
       ) : (
-        /*  <BottomNavigation
-          sx={{
-            backgroundColor: "background.default",
-            position: "fixed",
-            bottom: 0,
-            left: 0,
-            right: 0,
-            height: 70,
-          }}
-        >
-          <BottomNavigationAction
-            label="Add events"
-            onClick={navi}
-            icon={
-              <AddCircleIcon
-                color="primary"
-                sx={{
-                  width: 60,
-                  height: 60,
-                }}
-              />
-            }
-          />
-        </BottomNavigation> */
         <BottomNavigation
           sx={{
             backgroundColor: "background.default",
