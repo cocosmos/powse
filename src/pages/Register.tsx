@@ -111,7 +111,7 @@ const Register = () => {
         </form>
       ) : ( */}
       <>
-        <Typography variant="h3">Viens te Powser avec nous ! </Typography>
+        <Typography variant="h1" sx={{mt:6}}>Viens te Powser avec nous ! </Typography>
         <Box flexGrow={1} display={"flex"} mt={5}>
           <form onSubmit={handleSignup}>
             <NameField nameRef={nameRef} label={"Nom complet"} />

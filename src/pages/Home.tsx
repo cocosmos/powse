@@ -176,7 +176,7 @@ const Home = () => {
           >
             <CategoriesHome handleInput={handleCategorie} category={category} />
           </FormGroup>
-        ) : (
+          ) : (
           <FormGroup
             row
             defaultValue="top"

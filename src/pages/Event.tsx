@@ -39,6 +39,8 @@ import Categories from "../components/event/Categories";
 import { EventType } from "../types/Type";
 import { AuthContext } from "../contexts/AuthContext";
 
+import './Event.css'
+
 const Event = () => {
   const theme = useTheme();
   const navigate = useNavigate();
@@ -156,6 +158,7 @@ const Event = () => {
   // or provide it yourself - see notes below
   const focused = "";
 
+  
   const colorHome =
     values.present === "home" ? "sucess.contrastText" : "background.paper";
   const colorButton =
@@ -215,7 +218,8 @@ const Event = () => {
                   color="primary"
                   required
                 >
-                  <InputLabel htmlFor="event-title">Titre</InputLabel>
+                  <InputLabel htmlFor="event-title">
+                  Titre</InputLabel>
                   <FilledInput
                     id="event-title"
                     inputProps={{ maxLength: 40 }}

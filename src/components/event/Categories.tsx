@@ -76,7 +76,7 @@ export default function Categories({ handleInput, category }) {
             >
               <Food />
             </Stack>
-            <Typography variant="subtitle1" color={"primary"}>
+            <Typography variant="subtitle2" color={"primary"}>
               Powse repas
             </Typography>
           </Stack>
@@ -98,7 +98,7 @@ export default function Categories({ handleInput, category }) {
             >
               <Activity />
             </Stack>
-            <Typography variant="subtitle1" color={"primary"}>
+            <Typography variant="subtitle2" color={"primary"}>
               Powse activités
             </Typography>
           </Stack>
@@ -120,7 +120,7 @@ export default function Categories({ handleInput, category }) {
             >
               <Free />
             </Stack>
-            <Typography variant="subtitle1" color={"primary"}>
+            <Typography variant="subtitle2" color={"primary"}>
               Powse libre
             </Typography>
           </Stack>
