@@ -1,10 +1,19 @@
-import { Send } from "@mui/icons-material";
 import { Button } from "@mui/material";
 
-const SubmitButton = () => {
+const SubmitButton = ({ label }) => {
   return (
-    <Button variant="contained" endIcon={<Send />} type="submit">
-      Submit
+    <Button
+      type="submit"
+      variant="contained"
+      color="primary"
+      sx={{
+        borderRadius: 25,
+        textTransform: "unset",
+        mt: 4,
+      }}
+      size="large"
+    >
+      {label}
     </Button>
   );
 };

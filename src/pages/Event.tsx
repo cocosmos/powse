@@ -36,7 +36,6 @@ import SegmentedControl from "../components/event/SegmentedControl";
 import Header from "../components/common/Header";
 import Categories from "../components/event/Categories";
 import { EventType } from "../types/Type";
-import "./Event.css";
 import { AuthContext } from "../contexts/AuthContext";
 
 const Event = () => {

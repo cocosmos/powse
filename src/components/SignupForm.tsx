@@ -32,6 +32,7 @@ import { useNavigate } from "react-router-dom";
 import { AuthContext } from "../contexts/AuthContext";
 import { auth, db } from "./common/firebase/config";
 import { User } from "../types/Type";
+import NameField from "./common/inputs/NameField";
 
 export const SignupForm = () => {
   const [data, setData] = useState<User>({
@@ -208,17 +209,7 @@ export const SignupForm = () => {
           <Typography variant="h3">Viens te Powser avec nous ! </Typography>
           <Box flexGrow={1} display={"flex"} mt={5}>
             <form onSubmit={handleSignup}>
-              <TextField
-                id="name"
-                label="Nom complet"
-                variant="filled"
-                type={"text"}
-                onChange={handleInput("name")}
-                fullWidth
-                color="secondary"
-                sx={{ mb: 3 }}
-                required
-              />
+              <NameField nameRef={undefined} label={undefined} />
               <TextField
                 id="email"
                 label="Adresse e-mail"

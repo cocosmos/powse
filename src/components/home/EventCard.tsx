@@ -19,6 +19,7 @@ import { Button, Grid, Stack } from "@mui/material";
 import { EventType } from "../../types/Type";
 import Activity from "../../assets/categories/Activity";
 import Free from "../../assets/categories/Free";
+import SubmitButton from "../common/inputs/SubmitButton";
 
 interface ExpandMoreProps extends IconButtonProps {
   expand: boolean;
@@ -63,9 +64,9 @@ export default function EventCard(props: any) {
   ];
   let setdate = { dateEvent: "", dateHour: "", dateEnd: "" };
   const colorHome =
-    props.data.present === "home" ? "sucess.contrastText" : "background.paper";
+    props.data.present === "home" ? "home.background" : "background.paper";
   const colorButton =
-    props.data.present === "home" ? "sucess.main" : "primary.main";
+    props.data.present === "home" ? "home.main" : "primary.main";
 
   let categoryEvent = null;
 
@@ -196,7 +197,7 @@ export default function EventCard(props: any) {
           <CheckCircleIcon
             color="primary"
             fontSize="large"
-            sx={{ mr: 1.5, mt: -6 }}
+            sx={{ mr: 1.5, mt: -6, backgroundColor: colorButton }}
           />
         ) : (
           <Button

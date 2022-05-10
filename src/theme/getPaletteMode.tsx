@@ -3,15 +3,27 @@ import { useMemo } from "react";
 declare module "@mui/material/styles" {
   interface Palette {
     disabled: string;
+    home: {
+      main: string;
+      background: string;
+    };
   }
   interface PaletteOptions {
     disabled: string;
+    home: {
+      main: string;
+      background: string;
+    };
   }
 }
 
 declare module "@mui/material/Button" {
   interface ButtonPropsColorOverrides {
     disabled: true;
+    home: {
+      main: true;
+      background: true;
+    };
   }
 }
 
@@ -120,10 +132,11 @@ export const theme = responsiveFontSizes(
         main: "#D179B3",
         contrastText: "#000",
       },
-      success: {
+      home: {
         main: "#177DDB",
-        contrastText: "#EFF5FA",
+        background: "#EFF5FA",
       },
+
       disabled: "#717171",
 
       text: {

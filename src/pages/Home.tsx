@@ -47,7 +47,7 @@ const Home = () => {
   });
   const [home, setHome] = useState({ general: true, home: false });
 
-  const colorHome = home.home ? "sucess.main" : "primary.main";
+  const colorHome = home.home ? "home.main" : "primary.main";
 
   useEffect(
     () =>

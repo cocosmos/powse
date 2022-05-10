@@ -1,18 +1,19 @@
 import { TextField } from "@mui/material";
 
-const EmailField = ({ emailRef, defaultValue = "" }) => {
+const EmailField = ({ emailRef }) => {
   return (
     <TextField
-      autoFocus
-      margin="normal"
-      variant="standard"
       id="email"
-      label="Email Address"
-      type="email"
-      fullWidth
-      required
+      label="Adresse e-mail"
+      type={"email"}
+      variant="filled"
+      //  onChange={handleInput("email")}
+      // value={values.email}
       inputRef={emailRef}
-      defaultValue={defaultValue}
+      required
+      fullWidth
+      color="secondary"
+      sx={{ mb: 3 }}
     />
   );
 };
