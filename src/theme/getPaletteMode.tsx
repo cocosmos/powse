@@ -62,7 +62,7 @@ export const theme = responsiveFontSizes(
       h6: {
         fontFamily: ["'bely', 'sans-serif'"].join(","),
         fontWeight: 600,
-        fontSize: 19,
+        fontSize: 25,
       },
       body2: {
         // fontSize: 13,

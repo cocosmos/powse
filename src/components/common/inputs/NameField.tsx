@@ -8,7 +8,6 @@ const NameField = ({ nameRef, label }) => {
       inputRef={nameRef}
       variant="filled"
       type={"text"}
-      // onChange={handleInput("name")}
       fullWidth
       color="secondary"
       required

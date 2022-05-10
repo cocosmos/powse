@@ -7,8 +7,6 @@ const EmailField = ({ emailRef }) => {
       label="Adresse e-mail"
       type={"email"}
       variant="filled"
-      //  onChange={handleInput("email")}
-      // value={values.email}
       inputRef={emailRef}
       required
       fullWidth
