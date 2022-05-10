@@ -40,6 +40,7 @@ import { EventType } from "../types/Type";
 import { AuthContext } from "../contexts/AuthContext";
 
 import './Event.css'
+import ControlEvent from "../components/event/ControlEvent";
 
 const Event = () => {
   const theme = useTheme();
@@ -148,7 +149,7 @@ const Event = () => {
   };
 
   // height of the TextField
-  const height = 50;
+  const height = 53;
 
   // magic number which must be set appropriately for height
   const labelOffset = -6;
@@ -167,6 +168,7 @@ const Event = () => {
   return (
     <>
       <Header />
+      
       <Container sx={{ p: 0 }} maxWidth="lg">
         <form
           onSubmit={handleSubmit}

@@ -3,7 +3,7 @@ import { useState } from "react";
 
 const ControlEvent = ({ handleHome, home }) => {
   const theme = useTheme();
-  const [colorHome, setColorEvent] = useState(theme.palette.background.paper);
+  const [colorHome, setColorHome] = useState(theme.palette.background.paper);
   const [colorPresent, setColorPresent] = useState(theme.palette.info.main);
   const [indexH, setIndexH] = useState(0);
   const [indexP, setIndexP] = useState(1);
@@ -14,14 +14,14 @@ const ControlEvent = ({ handleHome, home }) => {
       case "general":
         if (event.target.checked) {
           setColorPresent(theme.palette.info.main);
-          setColorEvent(theme.palette.background.paper);
+          setColorHome(theme.palette.background.paper);
           setIndexH(0);
           setIndexP(1);
         }
         break;
       case "home":
         if (event.target.checked) {
-          setColorEvent(theme.palette.info.main);
+          setColorHome(theme.palette.info.main);
 
           setColorPresent(theme.palette.background.paper);
           setIndexP(0);
