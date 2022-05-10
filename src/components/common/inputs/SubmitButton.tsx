@@ -6,6 +6,7 @@ const SubmitButton = ({ label }) => {
       type="submit"
       variant="contained"
       color="primary"
+      fullWidth
       sx={{
         borderRadius: 25,
         textTransform: "unset",

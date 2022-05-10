@@ -28,6 +28,7 @@ import {
 import { useContext, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { db } from "../components/common/firebase/config";
+import "./Event.css";
 
 {
   /*importer le compostant*/
