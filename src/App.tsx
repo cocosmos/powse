@@ -19,8 +19,7 @@ import {
   responsiveFontSizes,
   ThemeProvider,
 } from "@mui/material";
-import getPaletteMode from "./theme/getPaletteMode";
-import useLocalStorage from "./hooks/localStorage";
+import { theme } from "./theme/getPaletteMode";
 
 function App() {
   const { currentUser } = useContext(AuthContext);
@@ -39,105 +38,6 @@ function App() {
       return children;
     }
   }; */
-  const [mode, setMode] = useLocalStorage<"light" | "dark">("theme", "light");
-
-  const theme = useMemo(
-    () =>
-      responsiveFontSizes(
-        createTheme({
-          typography: {
-            fontFamily: ["'degular', 'sans-serif'"].join(","),
-            fontSize: 20,
-            h1: {
-              // letterSpacing: 0,
-              // fontSize: 50,
-              fontFamily: ["'bely', 'sans-serif'"].join(","),
-            },
-            h2: {
-              // fontSize: 40,
-              fontFamily: ["'bely', 'sans-serif'"].join(","),
-            },
-            h3: {
-              // fontSize: 30,
-              fontFamily: ["'bely', 'sans-serif'"].join(","),
-            },
-            h4: {
-              // fontSize: 25,
-              fontFamily: ["'bely', 'sans-serif'"].join(","),
-            },
-            h5: {
-              // fontSize: 20,
-              fontFamily: ["'bely', 'sans-serif'"].join(","),
-              fontSize: 15,
-            },
-            h6: {
-              fontFamily: ["'bely', 'sans-serif'"].join(","),
-              fontWeight: 600,
-              fontSize: 19,
-            },
-            body2: {
-              // fontSize: 13,
-            },
-            subtitle1: {
-              fontSize: 11,
-            },
-          },
-          components: {
-            MuiFilledInput: {
-              styleOverrides: {
-                root: {
-                  borderRadius: 12,
-                  backgroundColor: "#F3EFFA",
-                  ":hover": {
-                    backgroundColor: "#F3EFFA",
-                  },
-                  ":before": {
-                    display: "none",
-                  },
-                  ":after": {
-                    display: "none",
-                  },
-                },
-                input: {
-                  backgroundColor: "#F3EFFA",
-                  borderRadius: 12,
-                },
-              },
-            },
-            MuiInput: {
-              styleOverrides: {
-                root: {
-                  /* borderRadius: 12,
-                  backgroundColor: "#DED1F4",
-                  ":hover": {
-                    backgroundColor: "#DED1F4",
-                  }, */
-                  ":before": {
-                    display: "none",
-                  },
-                  ":after": {
-                    display: "none",
-                  },
-                },
-              },
-            },
-          },
-
-          breakpoints: {
-            keys: ["xs", "sm", "md", "lg", "xl"],
-            values: {
-              xs: 0,
-              sm: 600,
-              md: 900,
-              lg: 1200,
-              xl: 1536,
-            },
-          },
-          ...getPaletteMode(mode),
-        })
-      ),
-    [mode]
-  );
 
   return (
     <ThemeProvider theme={theme}>
@@ -148,15 +48,15 @@ function App() {
             <Route
               path="/"
               element={
-                /*  <RequireAuth> */
-                <Home />
-                /*  </RequireAuth> */
+                <RequireAuth>
+                  <Home />
+                </RequireAuth>
               }
             />
             <Route
               path="/login"
               element={
-                /*  <AlreadyAuth> */
+                /*        <AlreadyAuth> */
                 <Login />
                 /*  </AlreadyAuth> */
               }
@@ -165,9 +65,9 @@ function App() {
             <Route
               path="/event"
               element={
-                /*   <RequireAuth> */
-                <Event />
-                /*  </RequireAuth> */
+                <RequireAuth>
+                  <Event />
+                </RequireAuth>
               }
             />
             <Route
@@ -202,14 +102,7 @@ function App() {
                 /*   </AlreadyAuth> */
               }
             />
-            <Route
-              path="*"
-              element={
-                /*   <AlreadyAuth> */
-                <Error />
-                /*   </AlreadyAuth> */
-              }
-            />
+            <Route path="*" element={<Error />} />
           </Routes>
         </BrowserRouter>
       </Box>

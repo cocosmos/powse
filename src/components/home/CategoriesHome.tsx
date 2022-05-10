@@ -1,14 +1,5 @@
 import * as React from "react";
-import {
-  Checkbox,
-  FormControl,
-  FormControlLabel,
-  FormGroup,
-  Radio,
-  RadioGroup,
-  Stack,
-  useTheme,
-} from "@mui/material";
+import { Checkbox, FormControlLabel, Stack, useTheme } from "@mui/material";
 import Typography from "@mui/material/Typography";
 import { useState } from "react";
 import Activity from "../../assets/categories/Activity";

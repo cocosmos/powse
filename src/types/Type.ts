@@ -8,11 +8,16 @@ export interface User {
   name: string;
   timeStamp: Date;
   password: string;
+  confirmPassword: string;
+  showPassword: boolean;
   company: string;
+  passwordSame: boolean;
+  companyChoice: boolean;
 }
+
 export interface EventType {
   present: "general" | "home";
-  category: "food" | "activity" | "free" | string;
+  category: "food" | "activity" | "free" | "";
   title: string;
   date: Date | string;
   dateStart: Date | string;
@@ -20,4 +25,6 @@ export interface EventType {
   unlimited: boolean;
   space: number | undefined;
   location: string;
+  id: string;
+  author: string;
 }

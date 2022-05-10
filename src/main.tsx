@@ -24,9 +24,6 @@ ReactDOM.createRoot(document.getElementById("root")!).render(
       <AuthContextProvider>
         <App />
       </AuthContextProvider>
-      {/*   <AuthProvider>
-      <App />
-    </AuthProvider> */}
     </React.StrictMode>
   </Suspense>
 );

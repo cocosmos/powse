@@ -4,7 +4,6 @@ import Stack from "@mui/material/Stack";
   /*importer tous les icons*/
 }
 import IconButton from "@mui/material/IconButton";
-import AllInclusiveIcon from "@mui/icons-material/AllInclusive";
 import Header from "../components/common/Header";
 import AddCircleIcon from "@mui/icons-material/AddCircle";
 import {
@@ -14,40 +13,150 @@ import {
   useMediaQuery,
   useTheme,
 } from "@mui/material";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import CategoriesHome from "../components/home/CategoriesHome";
 import EventCard from "../components/home/EventCard";
-import EventCardHome from "../components/home/EventCardHome";
 import ControlHome from "../components/home/ControlHome";
 import { useNavigate } from "react-router-dom";
+import { EventType } from "../types/Type";
+import { collection, onSnapshot } from "firebase/firestore";
+import { db } from "../components/common/firebase/config";
 
 const Home = () => {
   const navigate = useNavigate();
   const theme = useTheme();
-
+  const [events, setEvents] = useState<any>([
+    {
+      present: "",
+      category: "",
+      title: "Loading...",
+      date: null,
+      dateStart: null,
+      dateEnd: null,
+      space: null,
+      unlimited: false,
+      location: "",
+      id: "",
+    },
+  ]);
+  const [participants, setParticipants] = useState<any>([]);
   const [category, setCategory] = useState({
     food: true,
     activity: true,
     free: true,
   });
+  const [home, setHome] = useState({ general: true, home: false });
 
-  const handleInput = (event: React.ChangeEvent<HTMLInputElement>) => {
+  const colorHome = home.home ? "home.main" : "primary.main";
+
+  useEffect(
+    () =>
+      onSnapshot(collection(db, "events"), (snapshot) =>
+        setEvents(
+          snapshot.docs.map((doc) => ({
+            ...doc.data(),
+            id: doc.id,
+          }))
+        )
+      ),
+
+    []
+  );
+
+  useEffect(() => {
+    if (events[0].present) {
+      participants.push(
+        events.map((event) =>
+          onSnapshot(collection(db, `events/${event.id}/users`), (snapshot) =>
+            snapshot.docs.map((doc) => ({
+              ...doc.data(),
+              id: doc.id,
+            }))
+          )
+        )
+      );
+
+      // events.map((event: EventType) => {
+      /*  setParticipants(() =>
+        events.map(
+          (event) => getParticipants(event)
+
+    
+        )
+      ); */
+      /* setParticipants(() =>
+        events.map((event) => ({
+          users: [{ id: "2", name: "" }],
+        }))
+      ); */
+
+      /*  onSnapshot(
+          collection(db, `events/${event.id}/users`),
+          (snapshot) =>
+            setParticipants(
+              snapshot.docs.map((doc) => ({
+                ...participants,
+                users: [
+                  {
+                    ...doc.data(),
+                    id: doc.id,
+                    // number: snapshot.docs.length,
+                  },
+                ],
+              }))
+            )
+
+          //participants.push(snapshot.docs.length);
+        ); */
+      //  });
+    }
+  }, [setParticipants, events]);
+
+  // console.log(test);
+
+  // console.log(test);
+
+  /* useEffect(() => {
+    events.map((event: EventType) => {
+      onSnapshot(
+        collection(db, `events/${event.id}/users`),
+        (snapshot) => console.log(snapshot.docs.length)
+        /*  setEvents(
+          snapshot.docs.map((doc) => ({
+            ...doc.data(),
+            id: doc.id,
+          }))
+        ) */
+  /*   );
+    });
+  }, []); */
+
+  const handleCategorie = (event: React.ChangeEvent<HTMLInputElement>) => {
     setCategory({
       ...category,
       [event.target.name]: event.target.checked,
     });
   };
+  const handleHome = (event: React.ChangeEvent<HTMLInputElement>) => {
+    if (event.target.value === "general") {
+      setHome({ ...home, home: false, general: true });
+    }
+    if (event.target.value === "home") {
+      setHome({ ...home, general: false, home: true });
+    }
+  };
+
   function navi() {
     navigate("/event");
   }
   const matches = useMediaQuery(theme.breakpoints.up("lg"));
-
+  // GetData();
   return (
     <>
       <Header />
       {/*debut de la card*/}
       <Stack spacing={4} sx={{ pb: 10, margin: "0 auto" }} maxWidth="md">
-        <ControlHome />
+        <ControlHome handleHome={handleHome} home={home} />
         {matches ? (
           <FormGroup
             defaultValue="top"
@@ -65,7 +174,7 @@ const Home = () => {
               },
             }}
           >
-            <CategoriesHome handleInput={handleInput} category={category} />
+            <CategoriesHome handleInput={handleCategorie} category={category} />
           </FormGroup>
         ) : (
           <FormGroup
@@ -73,19 +182,49 @@ const Home = () => {
             defaultValue="top"
             sx={{ flexWrap: "nowrap", justifyContent: "center" }}
           >
-            <CategoriesHome handleInput={handleInput} category={category} />
+            <CategoriesHome handleInput={handleCategorie} category={category} />
           </FormGroup>
         )}
         <Stack spacing={4} alignItems="center">
-          <EventCard />
-          <EventCard />
-          <EventCard />
-          <EventCard />
-          <EventCard />
-          <EventCard />
-          <EventCard />
-          <EventCardHome />
-          <EventCardHome />
+          {events.map((event: EventType, index) => {
+            if (category.food && event.category === "food") {
+              if (event.present === "home" && home.home) {
+                return (
+                  <EventCard
+                    key={event.id}
+                    data={event}
+                    participants={participants[index]}
+                  />
+                );
+              } else if (home.general) {
+                return (
+                  <EventCard
+                    key={event.id}
+                    data={event}
+                    participants={participants[index]}
+                  />
+                );
+              }
+            }
+            if (category.activity && event.category === "activity") {
+              return (
+                <EventCard
+                  key={event.id}
+                  data={event}
+                  participants={participants[index]}
+                />
+              );
+            }
+            if (category.free && event.category === "free") {
+              return (
+                <EventCard
+                  key={event.id}
+                  data={event}
+                  participants={participants[index]}
+                />
+              );
+            }
+          })}
         </Stack>
       </Stack>
       {matches ? (
@@ -102,36 +241,12 @@ const Home = () => {
           <AddCircleIcon
             color="primary"
             sx={{
-              width: 80,
-              height: 80,
+              width: 70,
+              height: 70,
             }}
           />
         </IconButton>
       ) : (
-        /*  <BottomNavigation
-          sx={{
-            backgroundColor: "background.default",
-            position: "fixed",
-            bottom: 0,
-            left: 0,
-            right: 0,
-            height: 70,
-          }}
-        >
-          <BottomNavigationAction
-            label="Add events"
-            onClick={navi}
-            icon={
-              <AddCircleIcon
-                color="primary"
-                sx={{
-                  width: 60,
-                  height: 60,
-                }}
-              />
-            }
-          />
-        </BottomNavigation> */
         <BottomNavigation
           sx={{
             backgroundColor: "background.default",
@@ -148,10 +263,10 @@ const Home = () => {
             onClick={navi}
             icon={
               <AddCircleIcon
-                color="primary"
                 sx={{
                   width: 60,
                   height: 60,
+                  color: colorHome,
                 }}
               />
             }

@@ -1,6 +1,4 @@
-import * as React from "react";
 import {
-  FormControl,
   FormControlLabel,
   Radio,
   RadioGroup,

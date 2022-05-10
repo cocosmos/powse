@@ -1,11 +1,13 @@
+const Logo = () => {
+  return (
     <svg
       xmlns="http://www.w3.org/2000/svg"
-      xmlns-xlink="http://www.w3.org/1999/xlink"
+      xmlnsXlink="http://www.w3.org/1999/xlink"
       version="1.1"
       id="Calque_1"
       viewBox="0 400 1000 200"
-      xml-space="preserve"
-      width="300px"
+      xmlSpace="preserve"
+      width={300}
     >
       <g>
         <path
@@ -34,3 +36,7 @@
         </g>
       </g>
     </svg>
+  );
+};
+
+export default Logo;
