@@ -13,18 +13,29 @@ import {
   useMediaQuery,
   useTheme,
 } from "@mui/material";
-import { useEffect, useState } from "react";
+import { useContext, useEffect, useState } from "react";
 import CategoriesHome from "../components/home/CategoriesHome";
 import EventCard from "../components/home/EventCard";
 import ControlHome from "../components/home/ControlHome";
 import { useNavigate } from "react-router-dom";
 import { EventType } from "../types/Type";
-import { collection, onSnapshot } from "firebase/firestore";
+import {
+  collection,
+  doc,
+  getDocs,
+  onSnapshot,
+  query,
+  where,
+} from "firebase/firestore";
 import { db } from "../components/common/firebase/config";
+import { AuthContext } from "../contexts/AuthContext";
 
 const Home = () => {
   const navigate = useNavigate();
   const theme = useTheme();
+  const [entreprise, setEntreprise] = useState<any>({ entrepriseUid: "" });
+  const { currentUser } = useContext(AuthContext);
+
   const [events, setEvents] = useState<any>([
     {
       present: "",
@@ -50,21 +61,44 @@ const Home = () => {
 
   const colorHome = home.home ? "home.main" : "primary.main";
 
-  useEffect(
-    () =>
-      onSnapshot(collection(db, "events"), (snapshot) =>
-        setEvents(
-          snapshot.docs.map((doc) => ({
-            ...doc.data(),
-            id: doc.id,
-          }))
-        )
-      ),
-
-    []
-  );
-
   useEffect(() => {
+    const docRef = doc(db, `users`, currentUser.uid);
+    try {
+      onSnapshot(docRef, (doc) => {
+        setEntreprise({ ...doc.data() });
+      });
+    } catch (error) {
+      console.log(error);
+    }
+  }, []);
+
+  const getEvents = () => {
+    const q = query(
+      collection(db, "events"),
+      where("entrepriseUid", "==", entreprise.entrepriseUid)
+    );
+    onSnapshot(q, (snapshot) => {
+      setEvents(
+        snapshot.docs.map((doc) => ({
+          ...doc.data(),
+          id: doc.id,
+        }))
+      );
+    });
+  };
+
+  if (entreprise.entrepriseUid) {
+    getEvents();
+  }
+  /*   useEffect(() => {
+    let newState = test.map((e) => e); // map your state here
+    setEvents(newState); // and then update the state
+    console.log(newState);
+  }, []);
+
+  console.log(events); */
+
+  /* useEffect(() => {
     if (events[0].present) {
       participants.push(
         events.map((event) =>
@@ -85,13 +119,13 @@ const Home = () => {
     
         )
       ); */
-      /* setParticipants(() =>
+  /* setParticipants(() =>
         events.map((event) => ({
           users: [{ id: "2", name: "" }],
         }))
       ); */
 
-      /*  onSnapshot(
+  /*  onSnapshot(
           collection(db, `events/${event.id}/users`),
           (snapshot) =>
             setParticipants(
@@ -109,10 +143,10 @@ const Home = () => {
 
           //participants.push(snapshot.docs.length);
         ); */
-      //  });
+  /*    //  });
     }
   }, [setParticipants, events]);
-
+ */
   // console.log(test);
 
   // console.log(test);

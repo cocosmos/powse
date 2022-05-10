@@ -43,6 +43,7 @@ const Register = () => {
   } = useAuth();
   const { dispatch, currentUser } = useContext(AuthContext);
   const navigate = useNavigate();
+  const [nameState, setNameState] = useState("");
 
   const handleSignup = async (e: any) => {
     e.preventDefault();
@@ -50,6 +51,7 @@ const Register = () => {
     const password = passwordRef.current.value;
     const confirmPassword = confirmPasswordRef.current.value;
     const name = nameRef.current.value;
+    setNameState(name);
     console.log(email, password, confirmPassword, name);
 
     try {
@@ -70,7 +72,7 @@ const Register = () => {
         dispatch({ type: "LOGIN", payload: user, name: name });
         console.log(user);
       });
-      navigate("/");
+      // navigate("/");
     } catch (err) {
       console.log(err);
     }
@@ -85,9 +87,9 @@ const Register = () => {
       name: entreprise,
       timeStamp: serverTimestamp(),
     });
-    await updateDoc(doc(db, "users", currentUser.uid), {
+    await updateDoc(doc(db, "/users/", currentUser.uid), {
       entreprise: entreprise,
-      id: rep.id,
+      entrepriseUid: rep.id,
       timeStamp: serverTimestamp(),
     });
     navigate("/");
@@ -114,7 +116,7 @@ const Register = () => {
             sx={{ margin: "0 auto" }}
           >
             <Typography variant="h3">
-              Salut Julien, plus qu'une étape avant de prendre ta Powse.
+              {` Salut ${nameState}, plus qu'une étape avant de prendre ta Powse.`}
             </Typography>
             <Stack spacing={2} sx={{ width: "100%" }}>
               <CompanyField
@@ -145,6 +147,7 @@ const Register = () => {
                 passwordRef={confirmPasswordRef}
                 label={"Confirmer le mot de passe *"}
                 id={"confirmPassword"}
+                autoFocus={false}
               />
               <SubmitButton label={"Suivant"} />
             </form>

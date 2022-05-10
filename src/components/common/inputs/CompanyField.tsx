@@ -121,6 +121,7 @@ export default function FreeSoloCreateOption({ value, setValue, companyRef }) {
           {...params}
           fullWidth
           label="Dans quelle entreprise travailles-tu ?"
+          required
           color="secondary"
           variant="filled"
           inputRef={companyRef}

@@ -26,8 +26,9 @@ import {
   collection,
   addDoc,
   Timestamp,
+  onSnapshot,
 } from "firebase/firestore";
-import { useContext, useState } from "react";
+import { useContext, useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { db } from "../components/common/firebase/config";
 import "./Event.css";
@@ -71,11 +72,13 @@ const Event = () => {
     space: 5,
     unlimited: false,
     location: "",
-    id: "",
     author: "",
+    entrepriseUid: "",
+    id: "",
   });
   const [error, setError] = useState(false);
   const [helperText, setHelperText] = useState("");
+  const [entreprise, setEntreprise] = useState<any>({ entrepriseUid: "" });
   const backgroundBox =
     values.present === "general"
       ? "slider.backgroundPri"
@@ -97,6 +100,7 @@ const Event = () => {
       setHelperText("");
       setError(false);
     };
+  console.log(entreprise);
 
   const handleCheckbox = (event: React.ChangeEvent<HTMLInputElement>) => {
     if (event.target.checked === true) {
@@ -133,6 +137,16 @@ const Event = () => {
   ).toDate();
   const created = Timestamp.fromDate(new Date()).toDate();
   console.log(created);
+  useEffect(() => {
+    const docRef = doc(db, `users`, currentUser.uid);
+    try {
+      onSnapshot(docRef, (doc) => {
+        setEntreprise({ ...doc.data() });
+      });
+    } catch (error) {
+      console.log(error);
+    }
+  }, []);
 
   const handleSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
@@ -141,7 +155,8 @@ const Event = () => {
       setHelperText("Veuillez selectionner une catégorie.");
       setError(true);
     } else {
-      await addDoc(collection(db, `events`), {
+      console.log(entreprise.entrepriseUid);
+      await addDoc(collection(db, "events"), {
         present: values.present,
         category: values.category,
         title: values.title,
@@ -152,7 +167,7 @@ const Event = () => {
         unlimited: values.unlimited,
         location: values.location,
         author: currentUser.uid,
-
+        entrepriseUid: entreprise.entrepriseUid,
         timeStamp: serverTimestamp(),
       });
       /*   await updateDoc(doc(db, "users", currentUser.uid), {
@@ -164,7 +179,6 @@ const Event = () => {
       setError(false);
     }
   };
-  console.log(values);
 
   // height of the TextField
   const height = 50;
