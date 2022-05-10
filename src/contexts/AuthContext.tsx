@@ -18,7 +18,7 @@ import { auth } from "../components/common/firebase/config";
 import AuthReducer from "./AuthReducer";
 
 interface ContextType {
-  dispatch: React.Dispatch<{ type: any; payload: any }>;
+  dispatch: React.Dispatch<{ type: any; payload: any; name: string }>;
 }
 
 const INITIAL_STATE = {

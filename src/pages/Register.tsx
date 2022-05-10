@@ -46,17 +46,18 @@ const Register = () => {
       if (password !== confirmPassword) {
         throw new Error("Les mots de passe ne correspondent pas.");
       }
-      const res = await signUp(email, password);
+      const res = await signUp(email, password, name);
       await setDoc(doc(db, "users", res.user.uid), {
         name: name,
         email: email,
+
         timeStamp: serverTimestamp(),
       });
 
       login(email, password).then((userCredential) => {
         // Signed in
         const user = userCredential.user;
-        dispatch({ type: "LOGIN", payload: user });
+        dispatch({ type: "LOGIN", payload: user, name: name });
         console.log(user);
       });
       navigate("/");

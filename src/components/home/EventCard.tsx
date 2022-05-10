@@ -20,7 +20,10 @@ import { EventType } from "../../types/Type";
 import Activity from "../../assets/categories/Activity";
 import Free from "../../assets/categories/Free";
 import SubmitButton from "../common/inputs/SubmitButton";
-
+import { collection, doc, getDoc, onSnapshot } from "firebase/firestore";
+import { db } from "../common/firebase/config";
+//import { db } from "../common/firebase/config";
+//Now import this
 interface ExpandMoreProps extends IconButtonProps {
   expand: boolean;
 }
@@ -34,6 +37,7 @@ const ExpandMore = styled((props: ExpandMoreProps) => {
 
 export default function EventCard(props: any) {
   const [expanded, setExpanded] = useState(false);
+  const [userDetails, setUserDetails] = useState<any>({ name: "" });
 
   const handleExpandClick = () => {
     setExpanded(!expanded);
@@ -83,6 +87,9 @@ export default function EventCard(props: any) {
     default:
       categoryEvent = <Free />;
   }
+  function padTo2Digits(num: number) {
+    return String(num).padStart(2, "0");
+  }
 
   if (props.data.date) {
     let dateEvent = new Date(props.data.date.seconds * 1000);
@@ -90,11 +97,11 @@ export default function EventCard(props: any) {
     let dateEnd = new Date(props.data.dateEnd.seconds * 1000);
 
     let displayHours =
-      dateStart.getHours() +
+      padTo2Digits(dateStart.getHours()) +
       ":" +
-      dateStart.getMinutes() +
+      padTo2Digits(dateStart.getMinutes()) +
       " à " +
-      dateEnd.getHours() +
+      padTo2Digits(dateEnd.getHours()) +
       ":" +
       dateEnd.getMinutes();
 
@@ -115,6 +122,19 @@ export default function EventCard(props: any) {
   } */
 
   // console.log(props.participants);
+
+  useEffect(() => {
+    if (props.data.author) {
+      const docRef = doc(db, `users`, props.data.author);
+      try {
+        onSnapshot(docRef, (doc) => {
+          setUserDetails({ ...doc.data() });
+        });
+      } catch (error) {
+        console.log(error);
+      }
+    }
+  }, []);
 
   return (
     <Card
@@ -138,7 +158,7 @@ export default function EventCard(props: any) {
         <Stack flexGrow={1}>
           <Typography>{props.data.title}</Typography>
           <Typography sx={{ fontWeight: 500 }} component="div">
-            {props.data.author}
+            {userDetails.name}
           </Typography>
         </Stack>
         <ExpandMore expand={expanded} onClick={handleExpandClick}>

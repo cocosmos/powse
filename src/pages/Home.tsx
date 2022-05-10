@@ -46,6 +46,7 @@ const Home = () => {
     free: true,
   });
   const [home, setHome] = useState({ general: true, home: false });
+  //const [users, setUsers] = useState({ author: "Mipam" });
 
   const colorHome = home.home ? "home.main" : "primary.main";
 
@@ -207,22 +208,42 @@ const Home = () => {
               }
             }
             if (category.activity && event.category === "activity") {
-              return (
-                <EventCard
-                  key={event.id}
-                  data={event}
-                  participants={participants[index]}
-                />
-              );
+              if (event.present === "home" && home.home) {
+                return (
+                  <EventCard
+                    key={event.id}
+                    data={event}
+                    participants={participants[index]}
+                  />
+                );
+              } else if (home.general) {
+                return (
+                  <EventCard
+                    key={event.id}
+                    data={event}
+                    participants={participants[index]}
+                  />
+                );
+              }
             }
             if (category.free && event.category === "free") {
-              return (
-                <EventCard
-                  key={event.id}
-                  data={event}
-                  participants={participants[index]}
-                />
-              );
+              if (event.present === "home" && home.home) {
+                return (
+                  <EventCard
+                    key={event.id}
+                    data={event}
+                    participants={participants[index]}
+                  />
+                );
+              } else if (home.general) {
+                return (
+                  <EventCard
+                    key={event.id}
+                    data={event}
+                    participants={participants[index]}
+                  />
+                );
+              }
             }
           })}
         </Stack>

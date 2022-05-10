@@ -7,7 +7,6 @@ import {
   FormControl,
   FormControlLabel,
   FormHelperText,
-  Grid,
   IconButton,
   InputAdornment,
   InputLabel,
@@ -24,6 +23,9 @@ import {
   serverTimestamp,
   setDoc,
   updateDoc,
+  collection,
+  addDoc,
+  Timestamp,
 } from "firebase/firestore";
 import { useContext, useState } from "react";
 import { useNavigate } from "react-router-dom";
@@ -48,20 +50,6 @@ const Event = () => {
     theme.palette.background.paper
   );
   const [colorCounter, setColorCounter] = useState(theme.palette.info.main);
-
-  /*const handleAdd = async (e) => {
-    e.preventDefault();
-    try {
-      await setDoc(doc(db, "users"), {
-        ...data,
-        timeStamp: serverTimestamp(),
-      });
-      navigate(-1);
-    } catch (err) {
-      console.log(err);
-    }
-  };*/
-
   /*Display correct date and hours*/
   function padTo2Digits(num: number) {
     return String(num).padStart(2, "0");
@@ -86,6 +74,22 @@ const Event = () => {
     id: "",
     author: "",
   });
+  const [error, setError] = useState(false);
+  const [helperText, setHelperText] = useState("");
+  const backgroundBox =
+    values.present === "general"
+      ? "slider.backgroundPri"
+      : "slider.backgroundSec";
+  const backgroundButton =
+    values.present === "general" ? "slider.primary" : "slider.secondary";
+
+  const colorHome =
+    values.present === "home" ? "home.contrastText" : "background.paper";
+  const colorButton = values.present === "home" ? "home.main" : "primary.main";
+  const labelRdv =
+    values.present === "home"
+      ? "Lien de la réunion..."
+      : "Lieu du rendez-vous...";
 
   const handleInput =
     (prop: keyof EventType) => (event: React.ChangeEvent<HTMLInputElement>) => {
@@ -101,15 +105,15 @@ const Event = () => {
         unlimited: true,
         space: 1,
       }));
-      setColorCheked(theme.palette.info.main);
-      setColorCounter(theme.palette.background.paper);
+      setColorCheked(backgroundButton);
+      setColorCounter(backgroundBox);
     } else {
       setValues((preState) => ({
         ...preState,
         unlimited: false,
       }));
-      setColorCounter(theme.palette.info.main);
-      setColorCheked(theme.palette.background.paper);
+      setColorCounter(backgroundButton);
+      setColorCheked(backgroundBox);
     }
   };
   const handleCounter = () => {
@@ -117,11 +121,18 @@ const Event = () => {
       ...preState,
       unlimited: false,
     }));
-    setColorCounter(theme.palette.info.main);
-    setColorCheked(theme.palette.background.paper);
+    setColorCounter(backgroundButton);
+    setColorCheked(backgroundBox);
   };
-  const [error, setError] = useState(false);
-  const [helperText, setHelperText] = useState("");
+  const date = Timestamp.fromDate(new Date(values.date)).toDate();
+  const dateStartFi = Timestamp.fromDate(
+    new Date(values.date + " " + values.dateStart)
+  ).toDate();
+  const dateEndFi = Timestamp.fromDate(
+    new Date(values.date + " " + values.dateEnd)
+  ).toDate();
+  const created = Timestamp.fromDate(new Date()).toDate();
+  console.log(created);
 
   const handleSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
@@ -130,13 +141,22 @@ const Event = () => {
       setHelperText("Veuillez selectionner une catégorie.");
       setError(true);
     } else {
-      /*  await setDoc(doc(db, `company/${data.company}/users`, currentUser.uid), {
-        name: data.name,
-        email: data.email,
+      await addDoc(collection(db, `events`), {
+        present: values.present,
+        category: values.category,
+        title: values.title,
+        date: date,
+        dateStart: dateStartFi,
+        dateEnd: dateEndFi,
+        space: values.space,
+        unlimited: values.unlimited,
+        location: values.location,
+        author: currentUser.uid,
+
         timeStamp: serverTimestamp(),
       });
-      await updateDoc(doc(db, "users", currentUser.uid), {
-        company: data.company,
+      /*   await updateDoc(doc(db, "users", currentUser.uid), {
+        company: values.company,
       }); */
 
       navigate("/");
@@ -144,6 +164,7 @@ const Event = () => {
       setError(false);
     }
   };
+  console.log(values);
 
   // height of the TextField
   const height = 50;
@@ -156,11 +177,6 @@ const Event = () => {
   // or provide it yourself - see notes below
   const focused = "";
 
-  const colorHome =
-    values.present === "home" ? "sucess.contrastText" : "background.paper";
-  const colorButton =
-    values.present === "home" ? "sucess.main" : "primary.main";
-  console.log(colorHome);
   return (
     <>
       <Header />
@@ -412,7 +428,7 @@ const Event = () => {
                 <TextField
                   fullWidth
                   id="event-lieu"
-                  label="Lieu du rendez-vous......"
+                  label={labelRdv}
                   variant="filled"
                   onChange={handleInput("location")}
                   required
@@ -424,19 +440,26 @@ const Event = () => {
           </Box>
           {/* Fin de la Stack principale */}
           {/*  bouton */}
+          <Stack sx={{ alignItems: "center", width: "100%" }}>
+            <Button
+              // className="button-alignement"
+              type={"submit"}
+              variant="contained"
+              fullWidth
+              sx={{
+                borderRadius: 25,
+                textTransform: "unset",
+                mt: 4,
+                p: 1.5,
+                backgroundColor: colorButton,
+              }}
+            >
+              {" "}
+              Valider
+            </Button>
+          </Stack>
         </form>
-        <Stack sx={{ alignItems: "center" }}>
-          <Button
-            className="button-alignement"
-            type="submit"
-            variant="contained"
-            color="primary"
-            sx={{ borderRadius: 25, textTransform: "unset", mt: 4, p: 1.5 }}
-          >
-            {" "}
-            Valider
-          </Button>
-        </Stack>
+
         <div style={{ width: "20px", height: "20px" }}></div>
       </Container>
     </>
