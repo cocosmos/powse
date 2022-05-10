@@ -2,6 +2,7 @@ import { Button } from "@mui/material";
 import Stack from "@mui/material/Stack";
 import TextField from "@mui/material/TextField";
 import Typography from "@mui/material/Typography";
+import CompanyField from "../components/common/inputs/CompanyField";
 
 const Choice = () => {
   return (
@@ -18,6 +19,7 @@ const Choice = () => {
         Salut Julien, plus qu'une étape avant de prendre ta Powse.
       </Typography>
       <Stack spacing={2} sx={{ width: "100%" }}>
+        <CompanyField />
         <TextField
           id="entreprise"
           label="Dans quelle entreprise travailles-tu ?"
