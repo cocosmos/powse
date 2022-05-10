@@ -22,8 +22,8 @@ const getPaletteMode = (mode: PaletteMode) => ({
           },
 
           sucess: {
-            main: "#EFF5FA",
-            contrastText: "#177DDB",
+            main: "#177DDB",
+            contrastText: "#EFF5FA",
           },
 
           neutral: {

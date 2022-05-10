@@ -68,9 +68,9 @@ export default function EventCard(props: any) {
   ];
   let setdate = { dateEvent: "", dateHour: "", dateEnd: "" };
   const colorHome =
-    props.data.present === "home" ? "sucess.main" : "background.paper";
+    props.data.present === "home" ? "sucess.contrastText" : "background.paper";
   const colorButton =
-    props.data.present === "home" ? "sucess.contrastText" : "primary.main";
+    props.data.present === "home" ? "sucess.main" : "primary.main";
 
   let categoryEvent = null;
 

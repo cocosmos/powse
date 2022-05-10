@@ -60,6 +60,8 @@ const Home = () => {
   });
   const [home, setHome] = useState({ general: true, home: false });
 
+  const colorHome = home.home ? "sucess.main" : "primary.main";
+
   useEffect(
     () =>
       onSnapshot(collection(db, "events"), (snapshot) =>
@@ -274,10 +276,10 @@ const Home = () => {
             onClick={navi}
             icon={
               <AddCircleIcon
-                color="primary"
                 sx={{
                   width: 60,
                   height: 60,
+                  color: colorHome,
                 }}
               />
             }

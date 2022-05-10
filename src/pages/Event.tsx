@@ -146,6 +146,11 @@ const Event = () => {
     }
   };
 
+  const colorHome =
+    values.present === "home" ? "sucess.contrastText" : "background.paper";
+  const colorButton =
+    values.present === "home" ? "sucess.main" : "primary.main";
+  console.log(colorHome);
   return (
     <>
       <Header />
@@ -190,7 +195,10 @@ const Event = () => {
                 error={error}
                 variant="standard"
                 fullWidth
-                sx={{ alignItems: "center", pb: "16px" }}
+                sx={{
+                  alignItems: "center",
+                  pb: "16px",
+                }}
               >
                 <Categories
                   category={values.category}
@@ -211,7 +219,9 @@ const Event = () => {
                 <InputLabel htmlFor="event-title">Titre</InputLabel>
                 <FilledInput
                   id="event-title"
-                  inputProps={{ maxLength: 40 }}
+                  inputProps={{
+                    maxLength: 40,
+                  }}
                   onChange={handleInput("title")}
                   endAdornment={
                     <InputAdornment position="end">
@@ -233,6 +243,7 @@ const Event = () => {
                 onChange={handleInput("date")}
                 fullWidth
                 color="primary"
+                sx={{ backgroundColor: colorHome }}
                 /*  sx={{ mb: 3 }} */
                 inputProps={{
                   min: today.toISOString().slice(0, 10), // 5 min
@@ -403,7 +414,11 @@ const Event = () => {
                 type="submit"
                 variant="contained"
                 color="primary"
-                sx={{ borderRadius: 25, textTransform: "unset" }}
+                sx={{
+                  borderRadius: 25,
+                  textTransform: "unset",
+                  backgroundColor: colorButton,
+                }}
                 fullWidth
                 size="large"
               >
