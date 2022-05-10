@@ -4,35 +4,23 @@ import Stack from "@mui/material/Stack";
   /*importer tous les icons*/
 }
 import IconButton from "@mui/material/IconButton";
-import AllInclusiveIcon from "@mui/icons-material/AllInclusive";
 import Header from "../components/common/Header";
 import AddCircleIcon from "@mui/icons-material/AddCircle";
 import {
   BottomNavigation,
   BottomNavigationAction,
-  Box,
   FormGroup,
   useMediaQuery,
   useTheme,
 } from "@mui/material";
-import {
-  JSXElementConstructor,
-  Key,
-  ReactElement,
-  ReactFragment,
-  useEffect,
-  useState,
-} from "react";
+import { useEffect, useState } from "react";
 import CategoriesHome from "../components/home/CategoriesHome";
 import EventCard from "../components/home/EventCard";
 import ControlHome from "../components/home/ControlHome";
 import { useNavigate } from "react-router-dom";
-import AddData from "../components/AddData";
-import GetData from "../components/common/GetData";
 import { EventType } from "../types/Type";
 import { collection, onSnapshot } from "firebase/firestore";
-import { db } from "../firebase";
-import { LensTwoTone } from "@mui/icons-material";
+import { db } from "../components/common/firebase/config";
 
 const Home = () => {
   const navigate = useNavigate();

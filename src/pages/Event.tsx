@@ -27,8 +27,7 @@ import {
 } from "firebase/firestore";
 import { useContext, useState } from "react";
 import { useNavigate } from "react-router-dom";
-import AddData from "../components/AddData";
-import { db } from "../firebase";
+import { db } from "../components/common/firebase/config";
 
 {
   /*importer le compostant*/

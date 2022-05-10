@@ -19,7 +19,6 @@ import {
   responsiveFontSizes,
   ThemeProvider,
 } from "@mui/material";
-import useLocalStorage from "./hooks/localStorage";
 import { theme } from "./theme/getPaletteMode";
 
 function App() {

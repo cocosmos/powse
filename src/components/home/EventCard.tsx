@@ -27,13 +27,8 @@ interface ExpandMoreProps extends IconButtonProps {
 const ExpandMore = styled((props: ExpandMoreProps) => {
   const { expand, ...other } = props;
   return <IconButton {...other} />;
-})(({ theme, expand }) => ({
+})(() => ({
   color: "#000000",
-  // transform: !expand ? "rotate(0deg)" : "rotate(180deg)",
-  //marginLeft: "auto",
-  /* transition: theme.transitions.create("transform", {
-    duration: theme.transitions.duration.shortest,
-  }),*/
 }));
 
 export default function EventCard(props: any) {

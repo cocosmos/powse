@@ -1,12 +1,4 @@
-import {
-  Box,
-  FormControlLabel,
-  IconButton,
-  Radio,
-  RadioGroup,
-  Stack,
-  useTheme,
-} from "@mui/material";
+import { FormControlLabel, Radio, RadioGroup, useTheme } from "@mui/material";
 import { useState } from "react";
 
 const ControlHome = ({ handleHome, home }) => {
@@ -46,7 +38,6 @@ const ControlHome = ({ handleHome, home }) => {
       onChange={handlePresent}
       sx={{
         justifyContent: "center",
-        // backgroundColor: "background.paper",
         borderRadius: 32,
       }}
     >

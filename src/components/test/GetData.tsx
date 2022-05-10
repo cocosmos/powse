@@ -1,6 +1,5 @@
-import { DomainVerification } from "@mui/icons-material";
 import { collection, doc, getDoc, getDocs } from "firebase/firestore";
-import { db } from "../../firebase";
+import { db } from "../common/firebase/config";
 
 const GetData = () => {
   const colRef = collection(db, "users");

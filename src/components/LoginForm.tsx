@@ -12,7 +12,7 @@ import {
 import { signInWithEmailAndPassword } from "firebase/auth";
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
-import { auth } from "../firebase";
+import { auth } from "./common/firebase/config";
 import { useContext } from "react";
 import { AuthContext } from "../contexts/AuthContext";
 import { Visibility, VisibilityOff } from "@mui/icons-material";
@@ -82,6 +82,7 @@ const LoginForm = (props) => {
           type={"email"}
           variant="filled"
           onChange={handleInput("email")}
+          value={values.email}
           fullWidth
           color="secondary"
           sx={{ mb: 3 }}

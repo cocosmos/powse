@@ -1,7 +1,5 @@
-import { useContext } from "react";
-import { Box, Link, Stack, Typography } from "@mui/material";
+import { Stack } from "@mui/material";
 import { SignupForm } from "../components/SignupForm";
-import { AuthContext } from "../contexts/AuthContext";
 
 const Register = () => {
   return (

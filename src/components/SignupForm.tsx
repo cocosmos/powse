@@ -30,9 +30,8 @@ import {
 import React, { useContext, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { AuthContext } from "../contexts/AuthContext";
-import { auth, db } from "../firebase";
+import { auth, db } from "./common/firebase/config";
 import { User } from "../types/Type";
-import Asynchronous from "./AutoComplete";
 
 export const SignupForm = () => {
   const [data, setData] = useState<User>({
