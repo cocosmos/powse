@@ -133,104 +133,109 @@ const Event = () => {
     }
   };
 
+  // height of the TextField
+  const height = 50;
+
+  // magic number which must be set appropriately for height
+  const labelOffset = -6;
+
+  // get this from your form library, for instance in
+  // react-final-form it's fieldProps.meta.active
+  // or provide it yourself - see notes below
+  const focused = "";
+
   return (
     <>
       <Header />
-      <Container sx={{ p: 0, height: "80%" }} maxWidth="lg">
+      <Container sx={{ p: 0 }} maxWidth="lg">
         <form
           onSubmit={handleSubmit}
           style={{
             height: "100%",
             display: "flex",
             alignItems: "center",
+            flexWrap: "wrap",
           }}
         >
-          {/*       <Stack
-            flexDirection={"row"}
-            height={"100%"}
-            textAlign="center"
-            alignitem className="child-event"s={"center"}
-            spacing={2}
-            flexWrap={"wrap"}
-          > */}
-          <Grid
-            container
-            className="test"
-            spacing={{ xs: 2, md: 2 }}
-            sx={
-              {
-                /*   "div:nth-child(-n+4)": { background: "green!important" }, */
-              }
-            }
-            // columns={{ xs: 4, md: 8, md: 12 }}
+          {/*  STACK PINCIPALE */}
+          <Box
+            sx={{ display: "flex", width:"100%" }}
+            flexWrap="wrap"
+            // direction="row" className="main" spacing={2}
           >
-            {/*      // <Stack sx={{ width: "50%" }}> */}
-            <Grid item className="child-event" xs={12} md={6}>
-              <SegmentedControl
-                present={values.present}
-                handleInput={handleInput("present")}
-              />
-            </Grid>
-            {/* Categories */}
-            <Grid item className="child-event" xs={12} md={6}>
-              <FormControl
-                error={error}
-                variant="standard"
-                fullWidth
-                sx={{ alignItems: "center", pb: "16px" }}
-              >
-                <Categories
-                  category={values.category}
-                  handleInput={handleInput("category")}
+            {/* première Stack gauche */}
+            <Stack className="stack-left" spacing={2}>
+              {/* SegmentedControl */}
+              <Box>
+                <SegmentedControl
+                  present={values.present}
+                  handleInput={handleInput("present")}
                 />
-                <FormHelperText sx={{ textAlign: "center" }}>
-                  {helperText}
-                </FormHelperText>
-              </FormControl>
-              {/* title */}
-              <FormControl
-                /*     sx={{ mb: 3 }} */
-                variant="filled"
-                fullWidth
-                color="primary"
-                required
-              >
-                <InputLabel htmlFor="event-title">Titre</InputLabel>
-                <FilledInput
-                  id="event-title"
-                  inputProps={{ maxLength: 40 }}
-                  onChange={handleInput("title")}
-                  endAdornment={
-                    <InputAdornment position="end">
-                      {values["title"].length}/40
-                    </InputAdornment>
-                  }
-                />
-              </FormControl>
-            </Grid>
+              </Box>
 
-            {/* Field date */}
-            <Grid item className="child-event" xs={12} md={6}>
-              <TextField
-                id="event-date"
-                label="Date"
-                type={"date"}
-                variant="filled"
-                value={values.date}
-                onChange={handleInput("date")}
-                fullWidth
-                color="primary"
-                /*  sx={{ mb: 3 }} */
-                inputProps={{
-                  min: today.toISOString().slice(0, 10), // 5 min
-                }}
-                required
-              />
-            </Grid>
-            {/*   </Stack>
-            <Stack sx={{ width: "50%" }}> */}
+              {/* Categories */}
+              <Box>
+                <FormControl
+                  error={error}
+                  variant="standard"
+                  fullWidth
+                  sx={{ alignItems: "center", pb: "16px" }}
+                >
+                  <Categories
+                    category={values.category}
+                    handleInput={handleInput("category")}
+                  />
+                  <FormHelperText sx={{ textAlign: "center" }}>
+                    {helperText}
+                  </FormHelperText>
+                </FormControl>
+
+                {/* title */}
+                <FormControl
+                  /*     sx={{ mb: 3 }} */
+                  variant="filled"
+                  fullWidth
+                  color="primary"
+                  required
+                >
+                  <InputLabel htmlFor="event-title">Titre</InputLabel>
+                  <FilledInput
+                    id="event-title"
+                    inputProps={{ maxLength: 40 }}
+                    onChange={handleInput("title")}
+                    endAdornment={
+                      <InputAdornment position="end">
+                        {values["title"].length}/40
+                      </InputAdornment>
+                    }
+                  />
+                </FormControl>
+              </Box>
+
+              {/* Field date */}
+              <Box>
+                <TextField
+                  id="event-date"
+                  label="Date"
+                  type={"date"}
+                  variant="filled"
+                  value={values.date}
+                  onChange={handleInput("date")}
+                  fullWidth
+                  color="primary"
+                  /*  sx={{ mb: 3 }} */
+                  inputProps={{
+                    min: today.toISOString().slice(0, 10), // 5 min
+                  }}
+                  required
+                />
+              </Box>
+            </Stack>
+            {/* FIN de la 1ère stack}
+
             {/* Heure */}
-            <Grid item className="child-event" xs={12} md={6}>
+            {/* deuxième Stack gauche */}
+            <Stack className="stack-right" spacing={2}>
               <Stack spacing={2} direction="row" sx={{ width: "100%" }}>
                 {/*label pour le debut*/}
                 <TextField
@@ -240,11 +245,20 @@ const Event = () => {
                   variant="filled"
                   value={values.dateStart}
                   onChange={handleInput("dateStart")}
-                  InputLabelProps={{ shrink: true }}
+                  InputLabelProps={{
+                    shrink: true,
+                    style: {
+                      height,
+                      ...(!focused && { top: `${labelOffset}px` }),
+                    },
+                  }}
                   fullWidth
                   required
                   inputProps={{
                     step: 300, // 5 min
+                    style: {
+                      height,
+                    },
                   }}
                 />
 
@@ -256,149 +270,156 @@ const Event = () => {
                   variant="filled"
                   value={values.dateEnd}
                   onChange={handleInput("dateEnd")}
-                  InputLabelProps={{ shrink: true }}
-                  required
+                  InputLabelProps={{
+                    shrink: true,
+                    style: {
+                      height,
+                      ...(!focused && { top: `${labelOffset}px` }),
+                    },
+                  }}
                   fullWidth
+                  required
                   inputProps={{
                     step: 300, // 5 min
+                    style: {
+                      height,
+                    },
                   }}
                 />
               </Stack>
-            </Grid>
 
-            {/*label pour le nb de personnes*/}
-            <Grid
-              item
-              className="child-event"
-              xs={12}
-              md={6}
-              sx={{
-                display: "flex",
-                alignItems: "center",
-              }}
-            >
-              <Box
-                width="100%"
+              {/*label pour le nb de personnes*/}
+              <Stack
                 sx={{
-                  backgroundColor: "background.paper",
-                  borderRadius: 3,
-                  p: 2,
+                  display: "flex",
+                  alignItems: "center",
                 }}
               >
-                <FormHelperText>Nombre de participants*</FormHelperText>
-                <Stack
-                  direction="row"
-                  mt={1}
-                  flexWrap="wrap"
-                  justifyContent={"center"}
+                <Box
+                  width="100%"
+                  sx={{
+                    backgroundColor: "background.paper",
+                    borderRadius: 3,
+                    p: 2,
+                  }}
                 >
-                  {/*Button Counter*/}
+                  <FormHelperText>Nombre de participants*</FormHelperText>
                   <Stack
                     direction="row"
-                    position="relative"
-                    onClick={handleCounter}
-                    sx={{
-                      backgroundColor: colorCounter,
-                      borderRadius: 32,
-                      p: 2,
-                      width: "50%",
-                      textAlign: "center",
-                      minWidth: "140px",
-                      maxWidth: "165px",
-                    }}
+                    mt={1}
+                    flexWrap="wrap"
+                    justifyContent={"center"}
+                    sx={{ width: "100%" }}
                   >
-                    <IconButton
-                      size="small"
-                      onClick={() =>
-                        setValues((prevState) => ({
-                          ...prevState,
-                          space: values.space + 1,
-                        }))
-                      }
-                    >
-                      <AddIcon fontSize="inherit" />
-                    </IconButton>
-                    <TextField
-                      id="event-people"
-                      variant="standard"
-                      type={"number"}
-                      value={values.space}
-                      onChange={handleInput("space")}
-                      sx={{ justifyContent: "center" }}
-                      required
-                      inputProps={{
-                        min: 1,
-                        max: 999,
-                        style: { textAlign: "center" },
+                    {/*Button Counter*/}
+                    <Stack
+                      direction="row"
+                      position="relative"
+                      onClick={handleCounter}
+                      sx={{
+                        backgroundColor: colorCounter,
+                        borderRadius: 32,
+                        p: 2,
+                        width: "50%",
+                        textAlign: "center",
+                        minWidth: "140px",
+                        maxWidth: "165px",
                       }}
-                    />
-                    <IconButton
-                      size="small"
-                      onClick={() =>
-                        setValues((prevState) => ({
-                          ...prevState,
-                          space: values.space - 1,
-                        }))
-                      }
                     >
-                      <RemoveIcon fontSize="inherit" />
-                    </IconButton>
+                      <IconButton
+                        size="small"
+                        onClick={() =>
+                          setValues((prevState) => ({
+                            ...prevState,
+                            space: values.space - 1,
+                          }))
+                        }
+                      >
+                        <RemoveIcon fontSize="inherit" />
+                      </IconButton>
+                      <TextField
+                        id="event-people"
+                        variant="standard"
+                        type={"number"}
+                        value={values.space}
+                        onChange={handleInput("space")}
+                        sx={{ justifyContent: "center" }}
+                        required
+                        inputProps={{
+                          min: 1,
+                          max: 999,
+                          style: { textAlign: "center" },
+                        }}
+                      />
+                      <IconButton
+                        size="small"
+                        onClick={() =>
+                          setValues((prevState) => ({
+                            ...prevState,
+                            space: values.space + 1,
+                          }))
+                        }
+                      >
+                        <AddIcon fontSize="inherit" />
+                      </IconButton>
+                    </Stack>
+                    <Box
+                      sx={{
+                        backgroundColor: colorChecked,
+                        borderRadius: 32,
+                        p: 1.5,
+                        width: "50%",
+                        textAlign: "center",
+                        minWidth: "140px",
+                        maxWidth: "165px",
+                      }}
+                    >
+                      <FormControlLabel
+                        control={
+                          <Checkbox
+                            /* sx={{ display: "none" }} */
+                            onChange={handleCheckbox}
+                            checked={values.unlimited}
+                          />
+                        }
+                        label="Illimité"
+                        sx={{ justifyContent: "center", ml: 2, flexGrow: 1 }}
+                      />
+                    </Box>
                   </Stack>
+                </Box>
+              </Stack>
 
-                  <Box
-                    sx={{
-                      backgroundColor: colorChecked,
-                      borderRadius: 32,
-                      p: 1.5,
-                      width: "50%",
-                      textAlign: "center",
-                      minWidth: "140px",
-                      maxWidth: "165px",
-                    }}
-                  >
-                    <FormControlLabel
-                      control={
-                        <Checkbox
-                          /* sx={{ display: "none" }} */
-                          onChange={handleCheckbox}
-                          checked={values.unlimited}
-                        />
-                      }
-                      label="Illimité"
-                      sx={{ justifyContent: "center", ml: 2, flexGrow: 1 }}
-                    />
-                  </Box>
-                </Stack>
-              </Box>
-            </Grid>
-
-            {/*label pour le lieu*/}
-            <Grid item className="child-event" xs={12} md={6}>
-              <TextField
-                fullWidth
-                id="event-lieu"
-                label="Lieu du rendez-vous"
-                variant="filled"
-                onChange={handleInput("location")}
-                required
-              />
-            </Grid>
-            {/*    </Stack> */}
-            <Grid item xs={12} order={8}>
-              <Button
-                type="submit"
-                variant="contained"
-                color="primary"
-                sx={{ borderRadius: 25, textTransform: "unset" }}
-                fullWidth
-                size="large"
-              >
-                Valider
-              </Button>
-            </Grid>
-            {/*     </Stack> */}
-          </Grid>
+              {/*label pour le lieu*/}
+              <Stack>
+                <TextField
+                  fullWidth
+                  id="event-lieu"
+                  label="Lieu du rendez-vous......"
+                  variant="filled"
+                  onChange={handleInput("location")}
+                  required
+                />
+              </Stack>
+              {/*    </Stack> */}
+            </Stack>
+            {/* FIN de la 2ème stack*/}
+          </Box>
+          {/* Fin de la Stack principale */}
+          {/*  bouton */}
         </form>
+        <Stack sx={{ alignItems: "center" }}>
+          <Button
+            className="button-alignement"
+            type="submit"
+            variant="contained"
+            color="primary"
+            sx={{ borderRadius: 25, textTransform: "unset", mt: 4, p: 1.5 }}
+          >
+            {" "}
+            Valider
+          </Button>
+        </Stack>
         <div style={{ width: "20px", height: "20px" }}></div>
       </Container>
     </>
