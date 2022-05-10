@@ -113,6 +113,12 @@ export default function EventCard(props: any) {
 
     setdate = { dateEvent: displayDate, dateHour: displayHours, dateEnd: "" };
   }
+  /*   if (props.participants) {
+    let numberParticipants = props.participants[0].id;
+    console.log(numberParticipants);
+  } */
+
+  // console.log(props.participants);
 
   return (
     <Card
@@ -144,9 +150,7 @@ export default function EventCard(props: any) {
           {props.data.unlimited ? (
             <AllInclusiveIcon fontSize="small" />
           ) : (
-            <Typography component="span">
-              {props.participants}/{props.data.space}
-            </Typography>
+            <Typography component="span">/{props.data.space}</Typography>
           )}
         </ExpandMore>
       </Stack>
@@ -159,9 +163,14 @@ export default function EventCard(props: any) {
           }}
         >
           <Grid container spacing={1} textAlign={"center"}>
-            <Grid item xs={4} sm={4} md={4}>
-              <Typography variant="body2">Julien Rochta</Typography>
-            </Grid>
+            {/*  {props.participants
+              ? props.participants.map((element) => {
+                  <Grid item xs={4} sm={4} md={4}>
+                    <Typography variant="body2">{element.name}</Typography>
+                  </Grid>;
+                })
+              : ""} */}
+
             <Grid item xs={4} sm={4} md={4}>
               <Typography variant="body2">Julien Rhta</Typography>
             </Grid>

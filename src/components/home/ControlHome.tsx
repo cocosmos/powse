@@ -9,14 +9,15 @@ import {
 } from "@mui/material";
 import { useState } from "react";
 
-const ControlHome = () => {
+const ControlHome = ({ handleHome, home }) => {
   const theme = useTheme();
   const [colorHome, setColorHome] = useState(theme.palette.background.paper);
   const [colorPresent, setColorPresent] = useState(theme.palette.info.main);
   const [indexH, setIndexH] = useState(0);
   const [indexP, setIndexP] = useState(1);
 
-  const handlePresent = (event) => {
+  const handlePresent = (event: React.ChangeEvent<HTMLInputElement>) => {
+    handleHome(event);
     switch (event.target.value) {
       case "general":
         if (event.target.checked) {

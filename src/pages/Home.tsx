@@ -10,6 +10,7 @@ import AddCircleIcon from "@mui/icons-material/AddCircle";
 import {
   BottomNavigation,
   BottomNavigationAction,
+  Box,
   FormGroup,
   useMediaQuery,
   useTheme,
@@ -52,6 +53,12 @@ const Home = () => {
     },
   ]);
   const [participants, setParticipants] = useState<any>([]);
+  const [category, setCategory] = useState({
+    food: true,
+    activity: true,
+    free: true,
+  });
+  const [home, setHome] = useState({ general: true, home: false });
 
   useEffect(
     () =>
@@ -66,19 +73,60 @@ const Home = () => {
 
     []
   );
-  //let participants = [];
+
   useEffect(() => {
     if (events[0].present) {
-      events.map((event: EventType, index) => {
-        onSnapshot(collection(db, `events/${event.id}/users`), (snapshot) => {
-          setParticipants((oldArray) => [...oldArray, snapshot.docs.length]);
+      participants.push(
+        events.map((event) =>
+          onSnapshot(collection(db, `events/${event.id}/users`), (snapshot) =>
+            snapshot.docs.map((doc) => ({
+              ...doc.data(),
+              id: doc.id,
+            }))
+          )
+        )
+      );
+
+      // events.map((event: EventType) => {
+      /*  setParticipants(() =>
+        events.map(
+          (event) => getParticipants(event)
+
+    
+        )
+      ); */
+      /* setParticipants(() =>
+        events.map((event) => ({
+          users: [{ id: "2", name: "" }],
+        }))
+      ); */
+
+      /*  onSnapshot(
+          collection(db, `events/${event.id}/users`),
+          (snapshot) =>
+            setParticipants(
+              snapshot.docs.map((doc) => ({
+                ...participants,
+                users: [
+                  {
+                    ...doc.data(),
+                    id: doc.id,
+                    // number: snapshot.docs.length,
+                  },
+                ],
+              }))
+            )
 
           //participants.push(snapshot.docs.length);
-        });
-      });
+        ); */
+      //  });
     }
-  }, []);
-  console.log(participants);
+  }, [setParticipants, events]);
+
+  // console.log(test);
+
+  // console.log(test);
+
   /* useEffect(() => {
     events.map((event: EventType) => {
       onSnapshot(
@@ -94,18 +142,21 @@ const Home = () => {
     });
   }, []); */
 
-  const [category, setCategory] = useState({
-    food: true,
-    activity: true,
-    free: true,
-  });
-
-  const handleInput = (event: React.ChangeEvent<HTMLInputElement>) => {
+  const handleCategorie = (event: React.ChangeEvent<HTMLInputElement>) => {
     setCategory({
       ...category,
       [event.target.name]: event.target.checked,
     });
   };
+  const handleHome = (event: React.ChangeEvent<HTMLInputElement>) => {
+    if (event.target.value === "general") {
+      setHome({ ...home, home: false, general: true });
+    }
+    if (event.target.value === "home") {
+      setHome({ ...home, general: false, home: true });
+    }
+  };
+
   function navi() {
     navigate("/event");
   }
@@ -116,7 +167,7 @@ const Home = () => {
       <Header />
       {/*debut de la card*/}
       <Stack spacing={4} sx={{ pb: 10, margin: "0 auto" }} maxWidth="md">
-        <ControlHome />
+        <ControlHome handleHome={handleHome} home={home} />
         {matches ? (
           <FormGroup
             defaultValue="top"
@@ -134,7 +185,7 @@ const Home = () => {
               },
             }}
           >
-            <CategoriesHome handleInput={handleInput} category={category} />
+            <CategoriesHome handleInput={handleCategorie} category={category} />
           </FormGroup>
         ) : (
           <FormGroup
@@ -142,17 +193,49 @@ const Home = () => {
             defaultValue="top"
             sx={{ flexWrap: "nowrap", justifyContent: "center" }}
           >
-            <CategoriesHome handleInput={handleInput} category={category} />
+            <CategoriesHome handleInput={handleCategorie} category={category} />
           </FormGroup>
         )}
         <Stack spacing={4} alignItems="center">
-          {events.map((event: EventType, index) => (
-            <EventCard
-              key={event.id}
-              data={event}
-              participants={participants[index]}
-            />
-          ))}
+          {events.map((event: EventType, index) => {
+            if (category.food && event.category === "food") {
+              if (event.present === "home" && home.home) {
+                return (
+                  <EventCard
+                    key={event.id}
+                    data={event}
+                    participants={participants[index]}
+                  />
+                );
+              } else if (home.general) {
+                return (
+                  <EventCard
+                    key={event.id}
+                    data={event}
+                    participants={participants[index]}
+                  />
+                );
+              }
+            }
+            if (category.activity && event.category === "activity") {
+              return (
+                <EventCard
+                  key={event.id}
+                  data={event}
+                  participants={participants[index]}
+                />
+              );
+            }
+            if (category.free && event.category === "free") {
+              return (
+                <EventCard
+                  key={event.id}
+                  data={event}
+                  participants={participants[index]}
+                />
+              );
+            }
+          })}
         </Stack>
       </Stack>
       {matches ? (
