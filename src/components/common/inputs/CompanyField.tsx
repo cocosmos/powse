@@ -1,7 +1,5 @@
 const CompanyField = () => {
-    return (
-        
-    );
-}
+  return <div></div>;
+};
 
 export default CompanyField;
