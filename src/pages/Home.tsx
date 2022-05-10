@@ -156,7 +156,7 @@ const Home = () => {
       <Header />
       {/*debut de la card*/}
       <Stack spacing={4} sx={{ pb: 10, margin: "0 auto" }} maxWidth="md">
-        <ControlHome handleHome={handleHome} home={home} />
+      <ControlHome handleHome={handleHome} home={home} />
         {matches ? (
           <FormGroup
             defaultValue="top"
