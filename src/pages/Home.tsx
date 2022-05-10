@@ -25,7 +25,6 @@ import {
 } from "react";
 import CategoriesHome from "../components/home/CategoriesHome";
 import EventCard from "../components/home/EventCard";
-import EventCardHome from "../components/home/EventCardHome";
 import ControlHome from "../components/home/ControlHome";
 import { useNavigate } from "react-router-dom";
 import AddData from "../components/AddData";
