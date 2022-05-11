@@ -78,7 +78,6 @@ export default function EventCard(props: any) {
     props.data.present === "home" ? "home.background" : "background.paper";
   const colorButton =
     props.data.present === "home" ? "home.main" : "primary.main";
-  const colorLittleBtn = props.data.present === "home" ? "home" : "primary";
 
   let categoryEvent = null;
 
@@ -269,7 +268,8 @@ export default function EventCard(props: any) {
       <CardActions sx={{ justifyContent: "end" }}>
         {joined ? (
           <CheckCircleIcon
-            color={colorLittleBtn}
+            /* color={props.data.present === "home" ? "home" : "primary"} */
+            color="primary"
             fontSize="large"
             sx={{ mr: 1.5, mt: -6 }}
           />

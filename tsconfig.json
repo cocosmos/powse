@@ -9,6 +9,11 @@
     "allowSyntheticDefaultImports": true,
     "strict": false,
     "forceConsistentCasingInFileNames": true,
+    "types": [
+      "vite/client",
+      "vite-plugin-pwa/client",
+      "vite-plugin-vue-layouts/clients"
+    ],
     "module": "ESNext",
     "moduleResolution": "Node",
     "resolveJsonModule": true,

@@ -10,6 +10,8 @@ import {
   BottomNavigation,
   BottomNavigationAction,
   FormGroup,
+  LinearProgress,
+  Typography,
   useMediaQuery,
   useTheme,
 } from "@mui/material";
@@ -132,53 +134,65 @@ const Home = () => {
           </FormGroup>
         )}
         <Stack spacing={4} alignItems="center">
-          {events.map((event: EventType, index) => {
-            if (
-              category.food &&
-              event.category === "food" &&
-              event.entrepriseUid === entreprise.entrepriseUid
-            ) {
-              if (event.present === "home" && home.home) {
-                return (
-                  <EventCard key={event.id} data={event} user={entreprise} />
-                );
-              } else if (home.general) {
-                return (
-                  <EventCard key={event.id} data={event} user={entreprise} />
-                );
+          {events ? (
+            events.map((event: EventType, index) => {
+              if (
+                category.food &&
+                event.category === "food" &&
+                event.entrepriseUid === entreprise.entrepriseUid
+              ) {
+                if (event.present === "home" && home.home) {
+                  return (
+                    <EventCard key={event.id} data={event} user={entreprise} />
+                  );
+                } else if (home.general) {
+                  return (
+                    <EventCard key={event.id} data={event} user={entreprise} />
+                  );
+                }
               }
-            }
-            if (
-              category.activity &&
-              event.category === "activity" &&
-              event.entrepriseUid === entreprise.entrepriseUid
-            ) {
-              if (event.present === "home" && home.home) {
-                return (
-                  <EventCard key={event.id} data={event} user={entreprise} />
-                );
-              } else if (home.general) {
-                return (
-                  <EventCard key={event.id} data={event} user={entreprise} />
-                );
+              if (
+                category.activity &&
+                event.category === "activity" &&
+                event.entrepriseUid === entreprise.entrepriseUid
+              ) {
+                if (event.present === "home" && home.home) {
+                  return (
+                    <EventCard key={event.id} data={event} user={entreprise} />
+                  );
+                } else if (home.general) {
+                  return (
+                    <EventCard key={event.id} data={event} user={entreprise} />
+                  );
+                }
               }
-            }
-            if (
-              category.free &&
-              event.category === "free" &&
-              event.entrepriseUid === entreprise.entrepriseUid
-            ) {
-              if (event.present === "home" && home.home) {
-                return (
-                  <EventCard key={event.id} data={event} user={entreprise} />
-                );
-              } else if (home.general) {
-                return (
-                  <EventCard key={event.id} data={event} user={entreprise} />
-                );
+              if (
+                category.free &&
+                event.category === "free" &&
+                event.entrepriseUid === entreprise.entrepriseUid
+              ) {
+                if (event.present === "home" && home.home) {
+                  return (
+                    <EventCard key={event.id} data={event} user={entreprise} />
+                  );
+                } else if (home.general) {
+                  return (
+                    <EventCard key={event.id} data={event} user={entreprise} />
+                  );
+                }
               }
-            }
-          })}
+            })
+          ) : (
+            <>
+              <Stack
+                sx={{ width: "100%", color: "grey.500", maxWidth: 300 }}
+                spacing={2}
+              >
+                <LinearProgress color="primary" />
+              </Stack>
+              <Typography>Veuillez ajouter un évenement.</Typography>
+            </>
+          )}
         </Stack>
       </Stack>
       {matches ? (
