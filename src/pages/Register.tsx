@@ -1,12 +1,4 @@
-import {
-  Box,
-  FormHelperText,
-  Link,
-  Stack,
-  TextField,
-  Typography,
-} from "@mui/material";
-import { SignupForm } from "../components/SignupForm";
+import { Box, Link, Stack, Typography } from "@mui/material";
 import NameField from "../components/common/inputs/NameField";
 import { useState, useContext, useRef } from "react";
 import EmailField from "../components/common/inputs/EmailField";
@@ -32,15 +24,7 @@ const Register = () => {
   const nameRef = useRef({ value: "" });
   const companyRef = useRef({ value: "" });
 
-  const {
-    modal,
-    setModal,
-    signUp,
-    login,
-    loginWithGoogle,
-    setAlert,
-    setLoading,
-  } = useAuth();
+  const { signUp, login } = useAuth();
   const { dispatch, currentUser } = useContext(AuthContext);
   const navigate = useNavigate();
   const [nameState, setNameState] = useState("");
@@ -131,35 +115,11 @@ const Register = () => {
             <SubmitButton label={"Suivant"} />
           </Stack>
         </form>
-<<<<<<< HEAD
-      ) : ( */}
-      <>
-        <Typography variant="h1" sx={{mt:6}}>Viens te Powser avec nous ! </Typography>
-        <Box flexGrow={1} display={"flex"} mt={5}>
-          <form onSubmit={handleSignup}>
-            <NameField nameRef={nameRef} label={"Nom complet"} />
-            <EmailField emailRef={emailRef} />
-            <PasswordField
-              passwordRef={passwordRef}
-              label={"Créer un mot de passe *"}
-            />
-            <PasswordField
-              passwordRef={confirmPasswordRef}
-              label={"Confirmer le mot de passe *"}
-              id={"confirmPassword"}
-            />
-            <SubmitButton label={"Suivant"} />
-          </form>
-        </Box>
-        <Typography variant="body2">
-          Vous avez déjà un compte ? <Link href="/login">Connectez-vous..</Link>
-        </Typography>
-      </>
-      {/*    )} */}
-=======
       ) : (
         <>
-          <Typography variant="h3">Viens te Powser avec nous ! </Typography>
+          <Typography variant="h1" sx={{ mt: 6 }}>
+            Viens te Powser avec nous !{" "}
+          </Typography>
           <Box flexGrow={1} display={"flex"} mt={5}>
             <form onSubmit={handleSignup}>
               <NameField nameRef={nameRef} label={"Nom complet"} />
@@ -183,7 +143,6 @@ const Register = () => {
           </Typography>
         </>
       )}
->>>>>>> store-event
     </Stack>
   );
 };
