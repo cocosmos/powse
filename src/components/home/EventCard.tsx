@@ -128,7 +128,7 @@ export default function EventCard(props: any) {
     console.log(numberParticipants);
   } */
 
-  console.log(joined);
+  console.log(participants);
 
   useEffect(() => {
     if (props.data.author) {
@@ -151,7 +151,7 @@ export default function EventCard(props: any) {
         );
       } catch (er) {}
     }
-  }, []);
+  }, [props.data.id]);
   //show button finish
   useEffect(() => {
     participants.map((participant) => {
