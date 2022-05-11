@@ -9,6 +9,7 @@ import AddCircleIcon from "@mui/icons-material/AddCircle";
 import {
   BottomNavigation,
   BottomNavigationAction,
+  Button,
   FormGroup,
   LinearProgress,
   Typography,
@@ -20,16 +21,19 @@ import CategoriesHome from "../components/home/CategoriesHome";
 import ControlHome from "../components/home/ControlHome";
 import { useNavigate } from "react-router-dom";
 import { EventType } from "../types/Type";
-import { collection, doc, onSnapshot } from "firebase/firestore";
+import { collection, doc, onSnapshot, query, where } from "firebase/firestore";
 import { db } from "../components/common/firebase/config";
 import { AuthContext } from "../contexts/AuthContext";
 import EventCard from "../components/home/EventCard";
+import "./home.css";
+import SubmitButton from "../components/common/inputs/SubmitButton";
 
 const Home = () => {
   const navigate = useNavigate();
   const theme = useTheme();
   const [entreprise, setEntreprise] = useState<any>({ entrepriseUid: "" });
   const { currentUser } = useContext(AuthContext);
+  const [isLoading, setLoading] = useState(true);
 
   const [events, setEvents] = useState<any>([
     {
@@ -65,20 +69,25 @@ const Home = () => {
       console.log(error);
     }
   }, [currentUser.uid]);
+  // event.entrepriseUid === entreprise.entrepriseUid
 
-  useEffect(
-    () =>
-      onSnapshot(collection(db, "events"), (snapshot) =>
-        setEvents(
-          snapshot.docs.map((doc) => ({
-            ...doc.data(),
-            id: doc.id,
-          }))
-        )
-      ),
-
-    []
+  const q = query(
+    collection(db, "events"),
+    where("entrepriseUid", "==", entreprise.entrepriseUid)
   );
+  useEffect(() => {
+    onSnapshot(q, (snapshot) => {
+      setEvents(
+        snapshot.docs.map((doc) => ({
+          ...doc.data(),
+          id: doc.id,
+        }))
+      );
+      setLoading(false);
+      console.log(events);
+    });
+  }, [entreprise.entrepriseUid]);
+
   const handleCategorie = (event: React.ChangeEvent<HTMLInputElement>) => {
     setCategory({
       ...category,
@@ -93,17 +102,23 @@ const Home = () => {
       setHome({ ...home, general: false, home: true });
     }
   };
+  console.log(events);
 
   function navi() {
     navigate("/event");
   }
   const matches = useMediaQuery(theme.breakpoints.up("lg"));
   // GetData();
+  console.log(events);
   return (
     <>
       <Header />
       {/*debut de la card*/}
-      <Stack spacing={4} sx={{ pb: 10, margin: "0 auto" }} maxWidth="md">
+      <Stack
+        spacing={4}
+        sx={{ pb: 10, margin: "0 auto", height: "100%" }}
+        maxWidth="md"
+      >
         <ControlHome handleHome={handleHome} home={home} />
         {matches ? (
           <FormGroup
@@ -133,67 +148,111 @@ const Home = () => {
             <CategoriesHome handleInput={handleCategorie} category={category} />
           </FormGroup>
         )}
-        <Stack spacing={4} alignItems="center">
-          {events ? (
-            events.map((event: EventType, index) => {
-              if (
-                category.food &&
-                event.category === "food" &&
-                event.entrepriseUid === entreprise.entrepriseUid
-              ) {
-                if (event.present === "home" && home.home) {
-                  return (
-                    <EventCard key={event.id} data={event} user={entreprise} />
-                  );
-                } else if (home.general) {
-                  return (
-                    <EventCard key={event.id} data={event} user={entreprise} />
-                  );
+        {isLoading ? (
+          <Stack
+            flexGrow={1}
+            height="100%"
+            alignItems="center"
+            justifyContent="center"
+          >
+            <Stack
+              sx={{ width: "100%", color: "grey.500", maxWidth: 300 }}
+              spacing={2}
+              justifyContent="center"
+            >
+              <LinearProgress color="primary" />
+            </Stack>
+            <Typography>Chargement...</Typography>
+          </Stack>
+        ) : (
+          <Stack spacing={4} alignItems="center" height={"100%"}>
+            {events[0] ? (
+              events.map((event: EventType, index) => {
+                if (category.food && event.category === "food") {
+                  if (event.present === "home" && home.home) {
+                    return (
+                      <EventCard
+                        key={event.id}
+                        data={event}
+                        user={entreprise}
+                      />
+                    );
+                  } else if (home.general) {
+                    return (
+                      <EventCard
+                        key={event.id}
+                        data={event}
+                        user={entreprise}
+                      />
+                    );
+                  }
                 }
-              }
-              if (
-                category.activity &&
-                event.category === "activity" &&
-                event.entrepriseUid === entreprise.entrepriseUid
-              ) {
-                if (event.present === "home" && home.home) {
-                  return (
-                    <EventCard key={event.id} data={event} user={entreprise} />
-                  );
-                } else if (home.general) {
-                  return (
-                    <EventCard key={event.id} data={event} user={entreprise} />
-                  );
+                if (category.activity && event.category === "activity") {
+                  if (event.present === "home" && home.home) {
+                    return (
+                      <EventCard
+                        key={event.id}
+                        data={event}
+                        user={entreprise}
+                      />
+                    );
+                  } else if (home.general) {
+                    return (
+                      <EventCard
+                        key={event.id}
+                        data={event}
+                        user={entreprise}
+                      />
+                    );
+                  }
                 }
-              }
-              if (
-                category.free &&
-                event.category === "free" &&
-                event.entrepriseUid === entreprise.entrepriseUid
-              ) {
-                if (event.present === "home" && home.home) {
-                  return (
-                    <EventCard key={event.id} data={event} user={entreprise} />
-                  );
-                } else if (home.general) {
-                  return (
-                    <EventCard key={event.id} data={event} user={entreprise} />
-                  );
+                if (category.free && event.category === "free") {
+                  if (event.present === "home" && home.home) {
+                    return (
+                      <EventCard
+                        key={event.id}
+                        data={event}
+                        user={entreprise}
+                      />
+                    );
+                  } else if (home.general) {
+                    return (
+                      <EventCard
+                        key={event.id}
+                        data={event}
+                        user={entreprise}
+                      />
+                    );
+                  }
                 }
-              }
-            })
-          ) : (
-            <>
+              })
+            ) : (
               <Stack
-                sx={{ width: "100%", color: "grey.500", maxWidth: 300 }}
-                spacing={2}
+                flexGrow={1}
+                alignItems="center"
+                justifyContent="center"
+                mt={-20}
               >
-                <LinearProgress color="primary" />
+                <Stack
+                  sx={{ width: "100%", color: "grey.500", maxWidth: 200 }}
+                  spacing={2}
+                  justifyContent="center"
+                >
+                  <img
+                    src="../assets/logo/square/square.svg"
+                    alt="Logo Powse"
+                    className="logoSpinner"
+                  />
+                </Stack>
+                <SubmitButton
+                  label={"Ajouter un evènement"}
+                  type={"button"}
+                  href={"event"}
+                />
               </Stack>
-              <Typography>Veuillez ajouter un évenement.</Typography>
-            </>
-          )}
-        </Stack>
+            )}
+          </Stack>
+        )}
       </Stack>
       {matches ? (
         <IconButton

@@ -60,7 +60,11 @@ const Login = () => {
           <Link href="/forgotpassword" underline="hover">
             Mot de passe oublié ?
           </Link>
-          <SubmitButton label="Se connecter" />
+          <SubmitButton
+            label={"Se connecter"}
+            type={"submit"}
+            href={undefined}
+          />
         </form>
       </Box>
 

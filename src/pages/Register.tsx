@@ -17,6 +17,7 @@ import {
 import { db } from "../components/common/firebase/config";
 import { useNavigate } from "react-router-dom";
 import CompanyField from "../components/common/inputs/CompanyField";
+import Header from "../components/common/Header";
 
 const Register = () => {
   const emailRef = useRef({ value: "" });
@@ -120,6 +121,7 @@ const Register = () => {
         </form>
       ) : ( */}
       <>
+        <Header />
         <Typography variant="h1" sx={{ mt: 6 }}>
           Viens te Powser avec nous !{" "}
         </Typography>
@@ -137,7 +139,7 @@ const Register = () => {
               id={"confirmPassword"}
               autoFocus={false}
             />
-            <SubmitButton label={"Suivant"} />
+            <SubmitButton label={"Suivant"} type={"submit"} href={undefined} />
           </form>
         </Box>
         <Typography variant="body2">

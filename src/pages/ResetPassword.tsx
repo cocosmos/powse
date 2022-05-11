@@ -14,6 +14,7 @@ import { confirmPasswordReset } from "firebase/auth";
 import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { auth } from "../components/common/firebase/config";
+import Header from "../components/common/Header";
 
 interface State {
   password: string;
@@ -93,7 +94,10 @@ const ResetPassword = () => {
       sx={{ margin: "0 auto" }}
     >
       <form onSubmit={handleSubmit}>
-        <Typography variant="h1" sx={{ mb: 6 }}>Réinitialiser votre mot de passe</Typography>
+        <Header />
+        <Typography variant="h1" sx={{ mb: 6 }}>
+          Réinitialiser votre mot de passe
+        </Typography>
         <Stack spacing={1} sx={{ width: "100%" }}>
           <FormControl
             variant="filled"

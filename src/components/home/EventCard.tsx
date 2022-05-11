@@ -128,7 +128,7 @@ export default function EventCard(props: any) {
     console.log(numberParticipants);
   } */
 
-  // console.log(props.participants);
+  console.log(joined);
 
   useEffect(() => {
     if (props.data.author) {
@@ -143,21 +143,30 @@ export default function EventCard(props: any) {
       try {
         onSnapshot(
           collection(db, `events/${props.data.id}/users`),
-          (snapshot) =>
+          (snapshot) => {
             setParticipants(
               snapshot.docs.map((doc) => ({ ...doc.data(), id: doc.id }))
-            )
+            );
+          }
         );
       } catch (er) {}
     }
   }, []);
+  //show button finish
+  useEffect(() => {
+    participants.map((participant) => {
+      if (participant.id === currentUser.uid) {
+        setJoined(true);
+      }
+    });
+  }, [participants]);
 
   const numbPartcipants = participants.length;
   let full = false;
-  if (numbPartcipants === props.data.space) {
+  if (numbPartcipants === props.data.space && props.data.unlimited === false) {
     full = true;
   }
-
+  //Display Author name
   useEffect(() => {
     if (props.data.author) {
       const docRef = doc(db, `users`, props.data.author);
@@ -181,7 +190,6 @@ export default function EventCard(props: any) {
       });
     }
   };
-
   useEffect(() => {
     if (props.data.author === currentUser.uid) {
       setJoined(true);
@@ -214,11 +222,7 @@ export default function EventCard(props: any) {
           {categoryEvent}
         </Avatar>
         <Stack flexGrow={1}>
-          <Typography
-            variant="h3"
-            sx={{ ml: 1 }}
-            component="div"
-          >
+          <Typography variant="h3" sx={{ ml: 1 }} component="div">
             {props.data.title}
           </Typography>
           <Typography

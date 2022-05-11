@@ -1,11 +1,12 @@
 import { Button } from "@mui/material";
 
-const SubmitButton = ({ label }) => {
+const SubmitButton = ({ label, type, href }) => {
   return (
     <Button
-      type="submit"
+      type={type}
       variant="contained"
       color="primary"
+      href={href}
       fullWidth
       sx={{
         borderRadius: 25,

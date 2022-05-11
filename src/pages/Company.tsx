@@ -140,7 +140,7 @@ const Company = () => {
               que tes collègues ont planifié.
             </Typography>
           </Stack>
-          <SubmitButton label={"Suivant"} />
+          <SubmitButton label={"Suivant"} type={"submit"} href={undefined} />
         </Stack>
       </form>
     </Stack>
