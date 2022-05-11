@@ -99,7 +99,6 @@ const Event = () => {
       setHelperText("");
       setError(false);
     };
-  console.log(entreprise);
 
   const handleCheckbox = (event: React.ChangeEvent<HTMLInputElement>) => {
     if (event.target.checked === true) {

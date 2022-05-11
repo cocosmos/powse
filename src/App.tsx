@@ -8,10 +8,13 @@ import ForgotPassword from "./pages/ForgotPassword";
 import Error from "./pages/Error";
 
 import { BrowserRouter, Navigate, Route, Routes } from "react-router-dom";
-import { useContext } from "react";
+import { useContext, useEffect, useState } from "react";
 import { AuthContext } from "./contexts/AuthContext";
 import { Box, CssBaseline, ThemeProvider } from "@mui/material";
 import { theme } from "./theme/getPaletteMode";
+import { collection, doc, onSnapshot, query, where } from "firebase/firestore";
+import { db } from "./components/common/firebase/config";
+import Company from "./pages/Company";
 
 function App() {
   const { currentUser } = useContext(AuthContext);
@@ -20,16 +23,32 @@ function App() {
     if (currentUser.apiKey === import.meta.env.VITE_APP_FIREBASE_API_KEY) {
       return children;
     } else {
-      return <Navigate to="/login" />;
+      return <Navigate to="/register" />;
     }
   };
-  /*   //   const AlreadyAuth = ({ children }: any) => {
-  //   if (currentUser.apiKey === import.meta.env.VITE_APP_FIREBASE_API_KEY) {
-  //     return <Navigate to="/" />;
-  //   } else {
-  //     return children;
-  //   }
-  // }; */
+
+  /*   if (currentUser.uid) {
+    // useEffect(() => {
+    const docRef = doc(db, `users`, currentUser.uid);
+    try {
+      onSnapshot(docRef, (doc) => {
+        setUser({ ...doc.data() });
+      });
+    } catch (error) {
+      console.log(error);
+    }
+    // }, [currentUser.uid]);
+  }
+  const AlreadyAuth = ({ children }: any) => {
+    if (
+      currentUser.apiKey === import.meta.env.VITE_APP_FIREBASE_API_KEY &&
+      user.entrepriseUid
+    ) {
+      return <Navigate to="/" />;
+    } else {
+      return children;
+    }
+  }; */
 
   return (
     <ThemeProvider theme={theme}>
@@ -48,9 +67,9 @@ function App() {
             <Route
               path="/login"
               element={
-                // <AlreadyAuth>
+                /*  <AlreadyAuth> */
                 <Login />
-                //  </AlreadyAuth>
+                /*    </AlreadyAuth> */
               }
             />
 
@@ -65,25 +84,33 @@ function App() {
             <Route
               path="/register"
               element={
-                // <AlreadyAuth>
+                /*  <AlreadyAuth> */
                 <Register />
-                /* </AlreadyAuth>  */
+                /*     </AlreadyAuth> */
               }
             />
             <Route
               path="/resetpassword"
               element={
-                // <AlreadyAuth>
+                /*      <AlreadyAuth> */
                 <ResetPassword />
-                /* </AlreadyAuth>  */
+                /*     </AlreadyAuth> */
               }
             />
             <Route
               path="/forgotpassword"
               element={
-                // <AlreadyAuth>
+                /*    <AlreadyAuth> */
                 <ForgotPassword />
-                /* </AlreadyAuth>  */
+                /*        </AlreadyAuth> */
+              }
+            />
+            <Route
+              path="/company"
+              element={
+                /* <AlreadyAuth> */
+                <Company />
+                /*      </AlreadyAuth> */
               }
             />
 
