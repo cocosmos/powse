@@ -1,4 +1,4 @@
-import { useState, useEffect } from "react";
+import { useState, useEffect, useRef, useContext } from "react";
 import { styled } from "@mui/material/styles";
 import Card from "@mui/material/Card";
 import CardContent from "@mui/material/CardContent";
@@ -11,17 +11,22 @@ import Typography from "@mui/material/Typography";
 import AccessTimeSharpIcon from "@mui/icons-material/AccessTimeSharp";
 
 import AllInclusiveIcon from "@mui/icons-material/AllInclusive";
-import { PersonSharp } from "@mui/icons-material";
+import { PartyModeOutlined, PersonSharp } from "@mui/icons-material";
 import Food from "../../assets/categories/Food";
 import FmdGoodOutlinedIcon from "@mui/icons-material/FmdGoodOutlined";
 import CheckCircleIcon from "@mui/icons-material/CheckCircle";
-import { Button, Grid, Stack } from "@mui/material";
-import { EventType } from "../../types/Type";
+import { Button, Grid, Link, Stack } from "@mui/material";
 import Activity from "../../assets/categories/Activity";
 import Free from "../../assets/categories/Free";
-import SubmitButton from "../common/inputs/SubmitButton";
-import { collection, doc, getDoc, onSnapshot } from "firebase/firestore";
+import {
+  collection,
+  doc,
+  onSnapshot,
+  serverTimestamp,
+  setDoc,
+} from "firebase/firestore";
 import { db } from "../common/firebase/config";
+import { AuthContext } from "../../contexts/AuthContext";
 //import { db } from "../common/firebase/config";
 //Now import this
 interface ExpandMoreProps extends IconButtonProps {
@@ -38,11 +43,13 @@ const ExpandMore = styled((props: ExpandMoreProps) => {
 export default function EventCard(props: any) {
   const [expanded, setExpanded] = useState(false);
   const [userDetails, setUserDetails] = useState<any>({ name: "" });
+  const [participants, setParticipants] = useState<any>([{ name: "", id: "" }]);
+  const { currentUser } = useContext(AuthContext);
 
   const handleExpandClick = () => {
     setExpanded(!expanded);
   };
-  const joined = false;
+  const [joined, setJoined] = useState(false);
   const days = [
     "lundi",
     "mardi",
@@ -125,6 +132,26 @@ export default function EventCard(props: any) {
 
   useEffect(() => {
     if (props.data.author) {
+      setDoc(doc(db, `/events/${props.data.id}/users`, currentUser.uid), {
+        name: userDetails.name,
+        timeStamp: serverTimestamp(),
+      });
+      try {
+        onSnapshot(
+          collection(db, `events/${props.data.id}/users`),
+          (snapshot) =>
+            setParticipants(
+              snapshot.docs.map((doc) => ({ ...doc.data(), id: doc.id }))
+            )
+        );
+      } catch (er) {}
+    }
+  }, []);
+
+  const numbPartcipants = participants.length;
+
+  useEffect(() => {
+    if (props.data.author) {
       const docRef = doc(db, `users`, props.data.author);
       try {
         onSnapshot(docRef, (doc) => {
@@ -135,6 +162,22 @@ export default function EventCard(props: any) {
       }
     }
   }, []);
+  /*Create participants*/
+
+  const handleButton = async (e) => {
+    e.preventDefault();
+    await setDoc(doc(db, `/events/${props.data.id}/users`, currentUser.uid), {
+      name: props.user.name,
+      timeStamp: serverTimestamp(),
+    });
+  };
+  participants.map((participant) => {
+    if (participant.id === currentUser.Uid) {
+      setJoined(true);
+    } else {
+      setJoined(false);
+    }
+  });
 
   return (
     <Card
@@ -166,7 +209,9 @@ export default function EventCard(props: any) {
           {props.data.unlimited ? (
             <AllInclusiveIcon fontSize="small" />
           ) : (
-            <Typography component="span">/{props.data.space}</Typography>
+            <Typography component="span">
+              {numbPartcipants}/{props.data.space}
+            </Typography>
           )}
         </ExpandMore>
       </Stack>
@@ -179,20 +224,13 @@ export default function EventCard(props: any) {
           }}
         >
           <Grid container spacing={1} textAlign={"center"}>
-            {/*  {props.participants
-              ? props.participants.map((element) => {
-                  <Grid item xs={4} sm={4} md={4}>
-                    <Typography variant="body2">{element.name}</Typography>
-                  </Grid>;
-                })
-              : ""} */}
-
-            <Grid item xs={4} sm={4} md={4}>
-              <Typography variant="body2">Julien Rhta</Typography>
-            </Grid>
-            <Grid item xs={4} sm={4} md={4}>
-              <Typography variant="body2">Julien Rochta</Typography>
-            </Grid>
+            {participants.map((participant) => {
+              return (
+                <Grid item xs={4} sm={4} md={4} key={participant.id}>
+                  <Typography variant="body2">{participant.name}</Typography>
+                </Grid>
+              );
+            })}
           </Grid>
         </CardContent>
       </Collapse>
@@ -206,9 +244,15 @@ export default function EventCard(props: any) {
         </Stack>
         <Stack direction="row" spacing={2}>
           <FmdGoodOutlinedIcon color="disabled" />
-          <Typography gutterBottom component="div">
-            {props.data.location}
-          </Typography>
+          {props.data.present === "general" ? (
+            <Typography gutterBottom component="div">
+              {props.data.location}
+            </Typography>
+          ) : (
+            <Link href={props.data.location} target="_blank">
+              Lien de la réunion
+            </Link>
+          )}
         </Stack>
       </CardContent>
       {/*bouton rejoindre*/}
@@ -221,9 +265,9 @@ export default function EventCard(props: any) {
           />
         ) : (
           <Button
-            type="submit"
             variant="contained"
             size="medium"
+            onClick={handleButton}
             sx={{
               borderRadius: 25,
               textTransform: "unset",

@@ -52,7 +52,6 @@ const Register = () => {
     const confirmPassword = confirmPasswordRef.current.value;
     const name = nameRef.current.value;
     setNameState(name);
-    console.log(email, password, confirmPassword, name);
 
     try {
       if (password !== confirmPassword) {

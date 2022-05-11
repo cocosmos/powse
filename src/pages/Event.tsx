@@ -19,10 +19,7 @@ import RemoveIcon from "@mui/icons-material/Remove";
 
 import {
   doc,
-  getDoc,
   serverTimestamp,
-  setDoc,
-  updateDoc,
   collection,
   addDoc,
   Timestamp,

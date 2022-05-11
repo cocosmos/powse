@@ -19,14 +19,7 @@ import EventCard from "../components/home/EventCard";
 import ControlHome from "../components/home/ControlHome";
 import { useNavigate } from "react-router-dom";
 import { EventType } from "../types/Type";
-import {
-  collection,
-  doc,
-  getDocs,
-  onSnapshot,
-  query,
-  where,
-} from "firebase/firestore";
+import { collection, doc, onSnapshot } from "firebase/firestore";
 import { db } from "../components/common/firebase/config";
 import { AuthContext } from "../contexts/AuthContext";
 
@@ -38,8 +31,8 @@ const Home = () => {
 
   const [events, setEvents] = useState<any>([
     {
-      present: "",
-      category: "",
+      present: "test",
+      category: "food",
       title: "Loading...",
       date: null,
       dateStart: null,
@@ -50,7 +43,6 @@ const Home = () => {
       id: "",
     },
   ]);
-  const [participants, setParticipants] = useState<any>([]);
   const [category, setCategory] = useState({
     food: true,
     activity: true,
@@ -70,102 +62,21 @@ const Home = () => {
     } catch (error) {
       console.log(error);
     }
-  }, []);
+  }, [currentUser.uid]);
 
-  const getEvents = () => {
-    const q = query(
-      collection(db, "events"),
-      where("entrepriseUid", "==", entreprise.entrepriseUid)
-    );
-    onSnapshot(q, (snapshot) => {
-      setEvents(
-        snapshot.docs.map((doc) => ({
-          ...doc.data(),
-          id: doc.id,
-        }))
-      );
-    });
-  };
-
-  if (entreprise.entrepriseUid) {
-    getEvents();
-  }
-  /*   useEffect(() => {
-    let newState = test.map((e) => e); // map your state here
-    setEvents(newState); // and then update the state
-    console.log(newState);
-  }, []);
-
-  console.log(events); */
-
-  /* useEffect(() => {
-    if (events[0].present) {
-      participants.push(
-        events.map((event) =>
-          onSnapshot(collection(db, `events/${event.id}/users`), (snapshot) =>
-            snapshot.docs.map((doc) => ({
-              ...doc.data(),
-              id: doc.id,
-            }))
-          )
-        )
-      );
-
-      // events.map((event: EventType) => {
-      /*  setParticipants(() =>
-        events.map(
-          (event) => getParticipants(event)
-
-    
-        )
-      ); */
-  /* setParticipants(() =>
-        events.map((event) => ({
-          users: [{ id: "2", name: "" }],
-        }))
-      ); */
-
-  /*  onSnapshot(
-          collection(db, `events/${event.id}/users`),
-          (snapshot) =>
-            setParticipants(
-              snapshot.docs.map((doc) => ({
-                ...participants,
-                users: [
-                  {
-                    ...doc.data(),
-                    id: doc.id,
-                    // number: snapshot.docs.length,
-                  },
-                ],
-              }))
-            )
-
-          //participants.push(snapshot.docs.length);
-        ); */
-  /*    //  });
-    }
-  }, [setParticipants, events]);
- */
-  // console.log(test);
-
-  // console.log(test);
-
-  /* useEffect(() => {
-    events.map((event: EventType) => {
-      onSnapshot(
-        collection(db, `events/${event.id}/users`),
-        (snapshot) => console.log(snapshot.docs.length)
-        /*  setEvents(
+  useEffect(
+    () =>
+      onSnapshot(collection(db, "events"), (snapshot) =>
+        setEvents(
           snapshot.docs.map((doc) => ({
             ...doc.data(),
             id: doc.id,
           }))
-        ) */
-  /*   );
-    });
-  }, []); */
+        )
+      ),
 
+    []
+  );
   const handleCategorie = (event: React.ChangeEvent<HTMLInputElement>) => {
     setCategory({
       ...category,
@@ -222,60 +133,48 @@ const Home = () => {
         )}
         <Stack spacing={4} alignItems="center">
           {events.map((event: EventType, index) => {
-            if (category.food && event.category === "food") {
+            if (
+              category.food &&
+              event.category === "food" &&
+              event.entrepriseUid === entreprise.entrepriseUid
+            ) {
               if (event.present === "home" && home.home) {
                 return (
-                  <EventCard
-                    key={event.id}
-                    data={event}
-                    participants={participants[index]}
-                  />
+                  <EventCard key={event.id} data={event} user={entreprise} />
                 );
               } else if (home.general) {
                 return (
-                  <EventCard
-                    key={event.id}
-                    data={event}
-                    participants={participants[index]}
-                  />
+                  <EventCard key={event.id} data={event} user={entreprise} />
                 );
               }
             }
-            if (category.activity && event.category === "activity") {
+            if (
+              category.activity &&
+              event.category === "activity" &&
+              event.entrepriseUid === entreprise.entrepriseUid
+            ) {
               if (event.present === "home" && home.home) {
                 return (
-                  <EventCard
-                    key={event.id}
-                    data={event}
-                    participants={participants[index]}
-                  />
+                  <EventCard key={event.id} data={event} user={entreprise} />
                 );
               } else if (home.general) {
                 return (
-                  <EventCard
-                    key={event.id}
-                    data={event}
-                    participants={participants[index]}
-                  />
+                  <EventCard key={event.id} data={event} user={entreprise} />
                 );
               }
             }
-            if (category.free && event.category === "free") {
+            if (
+              category.free &&
+              event.category === "free" &&
+              event.entrepriseUid === entreprise.entrepriseUid
+            ) {
               if (event.present === "home" && home.home) {
                 return (
-                  <EventCard
-                    key={event.id}
-                    data={event}
-                    participants={participants[index]}
-                  />
+                  <EventCard key={event.id} data={event} user={entreprise} />
                 );
               } else if (home.general) {
                 return (
-                  <EventCard
-                    key={event.id}
-                    data={event}
-                    participants={participants[index]}
-                  />
+                  <EventCard key={event.id} data={event} user={entreprise} />
                 );
               }
             }
