@@ -36,7 +36,7 @@ const Login = () => {
           // Signed in
           const user = userCredential.user;
           dispatch({ type: "LOGIN", payload: user });
-          navigate("/dd");
+          navigate("/");
           // ...
         })
         .catch((error) => {

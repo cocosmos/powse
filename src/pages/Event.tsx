@@ -149,7 +149,7 @@ const Event = () => {
   };
 
   // height of the TextField
-  const height = "100%";
+  const height = "90%";
 
   // magic number which must be set appropriately for height
   const labelOffset = -6;
