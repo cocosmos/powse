@@ -20,10 +20,6 @@ export default defineConfig({
         "apple-touch-icon.png",
       ],
       manifest: {
-        name: "Name of your app",
-        short_name: "Short name of your app",
-        description: "Description of your app",
-        theme_color: "#ffffff",
         icons: [
           {
             src: "src/assets/logo/square/transparent/32x32.png",
