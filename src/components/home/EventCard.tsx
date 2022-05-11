@@ -151,7 +151,7 @@ export default function EventCard(props: any) {
         );
       } catch (er) {}
     }
-  }, [props.data.id]);
+  }, [props.data.idloca]);
   //show button finish
   useEffect(() => {
     participants.map((participant) => {
