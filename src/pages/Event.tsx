@@ -149,7 +149,7 @@ const Event = () => {
   };
 
   // height of the TextField
-  const height = 53;
+  const height = "100%";
 
   // magic number which must be set appropriately for height
   const labelOffset = -6;
@@ -169,7 +169,7 @@ const Event = () => {
     <>
       <Header />
       
-      <Container sx={{ p: 0 }} maxWidth="lg">
+      <Container sx={{ p: 0,}} maxWidth="lg" className="marge-desk">
         <form
           onSubmit={handleSubmit}
           style={{
@@ -177,6 +177,8 @@ const Event = () => {
             display: "flex",
             alignItems: "center",
             flexWrap: "wrap",
+            padding: 0,
+
           }}
         >
           {/*  STACK PINCIPALE */}
@@ -258,8 +260,8 @@ const Event = () => {
 
             {/* Heure */}
             {/* deuxième Stack gauche */}
-            <Stack className="stack-right" spacing={2}>
-              <Stack spacing={2} direction="row" sx={{ width: "100%" }}>
+            <Stack className="stack-right" spacing={2} >
+              <Stack spacing={2} direction="row" sx={{ width: "100%", mb:3}}>
                 {/*label pour le debut*/}
                 <TextField
                   id="time"
@@ -430,12 +432,12 @@ const Event = () => {
           </Box>
           {/* Fin de la Stack principale */}
           {/*  bouton */}
-        </form>
-        <Stack sx={{ alignItems: "center" }}>
+        <Stack sx={{ alignItems: "center", width:"100%" }}>
           <Button
             className="button-alignement"
             type="submit"
             variant="contained"
+            fullWidth
             color="primary"
             sx={{ borderRadius: 25, textTransform: "unset", mt: 4, p: 1.5 }}
           >
@@ -443,6 +445,7 @@ const Event = () => {
             Valider
           </Button>
         </Stack>
+        </form>
         <div style={{ width: "20px", height: "20px" }}></div>
       </Container>
     </>
