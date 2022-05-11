@@ -214,7 +214,13 @@ export default function EventCard(props: any) {
           {categoryEvent}
         </Avatar>
         <Stack flexGrow={1}>
-          <Typography>{props.data.title}</Typography>
+          <Typography
+            variant="h3"
+            sx={{ ml: 1 }}
+            component="div"
+          >
+            {props.data.title}
+          </Typography>
           <Typography
             variant="h4"
             sx={{ fontWeight: 500, ml: 1 }}
