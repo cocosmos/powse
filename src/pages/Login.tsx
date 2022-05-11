@@ -11,16 +11,7 @@ const Login = () => {
   const navigate = useNavigate();
   const emailRef = useRef({ value: "" });
   const passwordRef = useRef({ value: "" });
-  const confirmPasswordRef = useRef({ value: "" });
-  const {
-    modal,
-    setModal,
-    signUp,
-    login,
-    loginWithGoogle,
-    setAlert,
-    setLoading,
-  } = useAuth();
+  const { login } = useAuth();
   const { dispatch } = useContext(AuthContext);
 
   const handleLogin = async (e: any) => {
