@@ -65,9 +65,9 @@ function App() {
             <Route
               path="/event"
               element={
-                // <RequireAuth>
+                 <RequireAuth>
                 <Event />
-                /* </RequireAuth> */
+                 </RequireAuth> 
               }
             />
             <Route
