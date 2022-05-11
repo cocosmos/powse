@@ -31,13 +31,13 @@ function App() {
       return <Navigate to="/login" />;
     }
   };
-  /*  const AlreadyAuth = ({ children }: any) => {
+    const AlreadyAuth = ({ children }: any) => {
     if (currentUser.apiKey === import.meta.env.VITE_APP_FIREBASE_API_KEY) {
       return <Navigate to="/" />;
     } else {
       return children;
     }
-  }; */
+  }; 
 
   return (
     <ThemeProvider theme={theme}>
@@ -48,17 +48,17 @@ function App() {
             <Route
               path="/"
               element={
-                //  <RequireAuth>
+                  <RequireAuth>
                 <Home />
-                // </RequireAuth>
+                 </RequireAuth>
               }
             />
             <Route
               path="/login"
               element={
-                /*        <AlreadyAuth> */
+                  <AlreadyAuth> 
                 <Login />
-                /*  </AlreadyAuth> */
+                   </AlreadyAuth> 
               }
             />
 
@@ -73,33 +73,33 @@ function App() {
             <Route
               path="/register"
               element={
-                /*   <AlreadyAuth> */
+                  <AlreadyAuth> 
                 <Register />
-                /*   </AlreadyAuth> */
+                  </AlreadyAuth> 
               }
             />
             <Route
               path="/resetpassword"
               element={
-                /*   <AlreadyAuth> */
+                    <AlreadyAuth> 
                 <ResetPassword />
-                /*   </AlreadyAuth> */
+                   </AlreadyAuth> 
               }
             />
             <Route
               path="/forgotpassword"
               element={
-                /*   <AlreadyAuth> */
+                  <AlreadyAuth> 
                 <ForgotPassword />
-                /*   </AlreadyAuth> */
+                 </AlreadyAuth> 
               }
             />
             <Route
               path="/choice"
               element={
-                /*   <AlreadyAuth> */
+                 <AlreadyAuth>
                 <Choice />
-                /*   </AlreadyAuth> */
+                 </AlreadyAuth>
               }
             />
             <Route path="*" element={<Error />} />
