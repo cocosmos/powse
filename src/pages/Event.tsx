@@ -85,8 +85,8 @@ const Event = () => {
   const backgroundButton =
     values.present === "general" ? "slider.primary" : "slider.secondary";
 
-  const colorHome =
-    values.present === "home" ? "home.contrastText" : "background.paper";
+  /*   const colorHome =
+    values.present === "home" ? "home.contrastText" : "background.paper"; */
   const colorButton = values.present === "home" ? "home.main" : "primary.main";
   const labelRdv =
     values.present === "home"
