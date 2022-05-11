@@ -167,7 +167,7 @@ const Home = () => {
               zIndex: 0,
               top: 0,
               bottom: 0,
-              right: 900,
+              right: 1079,
               left: 0,
               "> *": {
                 mb: 5,
