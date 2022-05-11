@@ -93,7 +93,7 @@ const ResetPassword = () => {
       sx={{ margin: "0 auto" }}
     >
       <form onSubmit={handleSubmit}>
-        <Typography variant="h3">Réinitialiser votre mot de passe</Typography>
+        <Typography variant="h1" sx={{ mb: 6 }}>Réinitialiser votre mot de passe</Typography>
         <Stack spacing={1} sx={{ width: "100%" }}>
           <FormControl
             variant="filled"

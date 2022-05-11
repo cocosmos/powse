@@ -156,7 +156,7 @@ const Home = () => {
       <Header />
       {/*debut de la card*/}
       <Stack spacing={4} sx={{ pb: 10, margin: "0 auto" }} maxWidth="md">
-        <ControlHome handleHome={handleHome} home={home} />
+      <ControlHome handleHome={handleHome} home={home} />
         {matches ? (
           <FormGroup
             defaultValue="top"
@@ -167,7 +167,7 @@ const Home = () => {
               zIndex: 0,
               top: 0,
               bottom: 0,
-              right: 900,
+              right: 1079,
               left: 0,
               "> *": {
                 mb: 5,
@@ -176,7 +176,7 @@ const Home = () => {
           >
             <CategoriesHome handleInput={handleCategorie} category={category} />
           </FormGroup>
-        ) : (
+          ) : (
           <FormGroup
             row
             defaultValue="top"

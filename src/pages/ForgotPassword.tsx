@@ -1,4 +1,4 @@
-import { Button, Stack, TextField, Typography } from "@mui/material";
+import { Box, Button, Stack, TextField, Typography } from "@mui/material";
 import { useState } from "react";
 import { auth } from "../components/common/firebase/config";
 import { getAuth, sendPasswordResetEmail } from "firebase/auth";
@@ -52,7 +52,8 @@ const ForgotPassword = () => {
         maxWidth="sm"
         sx={{ margin: "0 auto" }}
       >
-        <Typography variant="h3">Mot de passe oublié</Typography>
+        <Box sx={{ mt:7}}></Box>
+        <Typography variant="h1" sx={{ mt:7, fontSize:32}}>Mot de passe oublié</Typography>
         <Stack spacing={2} sx={{ width: "100%" }}>
           <TextField
             id="email"

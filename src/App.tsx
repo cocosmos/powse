@@ -48,9 +48,9 @@ function App() {
             <Route
               path="/"
               element={
-                <RequireAuth>
-                  <Home />
-                </RequireAuth>
+                //  <RequireAuth>
+                <Home />
+                // </RequireAuth>
               }
             />
             <Route
@@ -65,9 +65,9 @@ function App() {
             <Route
               path="/event"
               element={
-                <RequireAuth>
-                  <Event />
-                </RequireAuth>
+                // <RequireAuth>
+                <Event />
+                /* </RequireAuth> */
               }
             />
             <Route

@@ -39,6 +39,9 @@ import Categories from "../components/event/Categories";
 import { EventType } from "../types/Type";
 import { AuthContext } from "../contexts/AuthContext";
 
+import './Event.css'
+import ControlEvent from "../components/event/ControlEvent";
+
 const Event = () => {
   const theme = useTheme();
   const navigate = useNavigate();
@@ -146,7 +149,7 @@ const Event = () => {
   };
 
   // height of the TextField
-  const height = 50;
+  const height = "100%";
 
   // magic number which must be set appropriately for height
   const labelOffset = -6;
@@ -156,6 +159,7 @@ const Event = () => {
   // or provide it yourself - see notes below
   const focused = "";
 
+  
   const colorHome =
     values.present === "home" ? "sucess.contrastText" : "background.paper";
   const colorButton =
@@ -164,7 +168,8 @@ const Event = () => {
   return (
     <>
       <Header />
-      <Container sx={{ p: 0 }} maxWidth="lg">
+      
+      <Container sx={{ p: 0,}} maxWidth="lg" className="marge-desk">
         <form
           onSubmit={handleSubmit}
           style={{
@@ -172,6 +177,8 @@ const Event = () => {
             display: "flex",
             alignItems: "center",
             flexWrap: "wrap",
+            padding: 0,
+
           }}
         >
           {/*  STACK PINCIPALE */}
@@ -215,7 +222,8 @@ const Event = () => {
                   color="primary"
                   required
                 >
-                  <InputLabel htmlFor="event-title">Titre</InputLabel>
+                  <InputLabel htmlFor="event-title">
+                  Titre</InputLabel>
                   <FilledInput
                     id="event-title"
                     inputProps={{ maxLength: 40 }}
@@ -252,8 +260,8 @@ const Event = () => {
 
             {/* Heure */}
             {/* deuxième Stack gauche */}
-            <Stack className="stack-right" spacing={2}>
-              <Stack spacing={2} direction="row" sx={{ width: "100%" }}>
+            <Stack className="stack-right" spacing={2} >
+              <Stack spacing={2} direction="row" sx={{ width: "100%", mb:3}}>
                 {/*label pour le debut*/}
                 <TextField
                   id="time"
@@ -424,12 +432,12 @@ const Event = () => {
           </Box>
           {/* Fin de la Stack principale */}
           {/*  bouton */}
-        </form>
-        <Stack sx={{ alignItems: "center" }}>
+        <Stack sx={{ alignItems: "center", width:"100%" }}>
           <Button
             className="button-alignement"
             type="submit"
             variant="contained"
+            fullWidth
             color="primary"
             sx={{ borderRadius: 25, textTransform: "unset", mt: 4, p: 1.5 }}
           >
@@ -437,6 +445,7 @@ const Event = () => {
             Valider
           </Button>
         </Stack>
+        </form>
         <div style={{ width: "20px", height: "20px" }}></div>
       </Container>
     </>

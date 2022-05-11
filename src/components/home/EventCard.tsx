@@ -15,7 +15,7 @@ import { PersonSharp } from "@mui/icons-material";
 import Food from "../../assets/categories/Food";
 import FmdGoodOutlinedIcon from "@mui/icons-material/FmdGoodOutlined";
 import CheckCircleIcon from "@mui/icons-material/CheckCircle";
-import { Button, Grid, Stack } from "@mui/material";
+import { Box, Button, Grid, Stack } from "@mui/material";
 import { EventType } from "../../types/Type";
 import Activity from "../../assets/categories/Activity";
 import Free from "../../assets/categories/Free";
@@ -81,7 +81,7 @@ export default function EventCard(props: any) {
       categoryEvent = <Free />;
       break;
     default:
-      categoryEvent = <Free />;
+      categoryEvent = <Free/>;
   }
 
   if (props.data.date) {
@@ -132,12 +132,12 @@ export default function EventCard(props: any) {
         alignItems={"center"}
         spacing={1.2}
       >
-        <Avatar sx={{ backgroundColor: "background.paper", width: "30px" }}>
+        <Avatar sx={{ backgroundColor: "background.paper", width: "30px", borderRadius:0 }}>
           {categoryEvent}
         </Avatar>
-        <Stack flexGrow={1}>
-          <Typography>{props.data.title}</Typography>
-          <Typography sx={{ fontWeight: 500 }} component="div">
+        <Stack flexGrow={1} >
+          <Typography sx={{ml:1}} variant="h3">{props.data.title}</Typography>
+          <Typography variant="h4" sx={{ fontWeight: 500, ml:1 }} component="div">
             {props.data.author}
           </Typography>
         </Stack>
@@ -180,13 +180,17 @@ export default function EventCard(props: any) {
         <Stack direction="row" spacing={2} sx={{ pb: 1 }}>
           <AccessTimeSharpIcon color="disabled" />
           <Stack>
-            <Typography component="div">{setdate.dateEvent}</Typography>
-            <Typography component="div">{setdate.dateHour}</Typography>
+            <Typography component="div" variant="h4">
+              {setdate.dateEvent}
+            </Typography>
+            <Typography component="div" variant="h5">
+              {setdate.dateHour}
+            </Typography>
           </Stack>
         </Stack>
         <Stack direction="row" spacing={2}>
           <FmdGoodOutlinedIcon color="disabled" />
-          <Typography gutterBottom component="div">
+          <Typography gutterBottom component="div" variant="h5">
             {props.data.location}
           </Typography>
         </Stack>

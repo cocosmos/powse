@@ -3,6 +3,10 @@ import Stack from "@mui/material/Stack";
 import TextField from "@mui/material/TextField";
 import Typography from "@mui/material/Typography";
 
+const inputProps = {
+  fontSize: 16,
+};
+
 const Choice = () => {
   return (
     <Stack
@@ -14,7 +18,7 @@ const Choice = () => {
       maxWidth="sm"
       sx={{ margin: "0 auto" }}
     >
-      <Typography variant="h3">
+      <Typography variant="h1">
         Salut Julien, plus qu'une étape avant de prendre ta Powse.
       </Typography>
       <Stack spacing={2} sx={{ width: "100%" }}>
@@ -27,6 +31,7 @@ const Choice = () => {
           fullWidth
           color="secondary"
           sx={{ mb: 3 }}
+          inputProps={inputProps}
         />
         <Typography variant="subtitle1">
           Grâce à cette information, nous pourrons te proposer les powses que

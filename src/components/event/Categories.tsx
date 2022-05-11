@@ -1,4 +1,5 @@
 import {
+  Checkbox,
   FormControlLabel,
   Radio,
   RadioGroup,
@@ -23,31 +24,30 @@ export default function Categories({ handleInput, category }) {
     theme.palette.background.default
   );
 
-  const handleRadioChange = (e) => {
+  const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     handleInput(e);
 
-    switch (e.target.value) {
+    switch (e.target.name) {
       case "food":
-        setColorRadioA(theme.palette.background.paper);
-        setColorRadioB(theme.palette.background.default);
-        setColorRadioC(theme.palette.background.default);
+        if (e.target.checked) {
+          setColorRadioA(theme.palette.background.paper);
+        } else {
+          setColorRadioA(theme.palette.background.default);
+        }
         break;
       case "activity":
-        setColorRadioB(theme.palette.background.paper);
-        setColorRadioA(theme.palette.background.default);
-        setColorRadioC(theme.palette.background.default);
-
+        if (e.target.checked) {
+          setColorRadioB(theme.palette.background.paper);
+        } else {
+          setColorRadioB(theme.palette.background.default);
+        }
         break;
       case "free":
-        setColorRadioC(theme.palette.background.paper);
-        setColorRadioA(theme.palette.background.default);
-        setColorRadioB(theme.palette.background.default);
-
-        break;
-      default:
-        setColorRadioA(theme.palette.background.default);
-        setColorRadioB(theme.palette.background.default);
-        setColorRadioC(theme.palette.background.default);
+        if (e.target.checked) {
+          setColorRadioC(theme.palette.background.paper);
+        } else {
+          setColorRadioC(theme.palette.background.default);
+        }
         break;
     }
   };
@@ -58,12 +58,19 @@ export default function Categories({ handleInput, category }) {
       name="category"
       defaultValue="top"
       value={category}
-      onChange={handleRadioChange}
+      // onChange={handleRadioChange}
       sx={{ flexWrap: "nowrap" }}
     >
       <FormControlLabel
         value="food"
-        control={<Radio sx={{ display: "none" }} />}
+        control={
+          <Checkbox
+            sx={{ display: "none" }}
+            checked={category.food}
+            onChange={handleChange}
+            name="food"
+          />
+        }
         label={
           <Stack alignItems={"center"}>
             <Stack
@@ -76,7 +83,7 @@ export default function Categories({ handleInput, category }) {
             >
               <Food />
             </Stack>
-            <Typography variant="subtitle1" color={"primary"}>
+            <Typography variant="subtitle2" color={"primary"}>
               Powse repas
             </Typography>
           </Stack>
@@ -85,7 +92,14 @@ export default function Categories({ handleInput, category }) {
       />
       <FormControlLabel
         value="activity"
-        control={<Radio sx={{ display: "none" }} />}
+        control={
+            <Checkbox
+              sx={{ display: "none" }}
+              checked={category.activity}
+              onChange={handleChange}
+              name="activity"
+            />
+          }
         label={
           <Stack alignItems={"center"}>
             <Stack
@@ -98,7 +112,7 @@ export default function Categories({ handleInput, category }) {
             >
               <Activity />
             </Stack>
-            <Typography variant="subtitle1" color={"primary"}>
+            <Typography variant="subtitle2" color={"primary"}>
               Powse activités
             </Typography>
           </Stack>
@@ -107,7 +121,14 @@ export default function Categories({ handleInput, category }) {
       />
       <FormControlLabel
         value="free"
-        control={<Radio sx={{ display: "none" }} />}
+        control={
+          <Checkbox
+            sx={{ display: "none" }}
+            checked={category.free}
+            onChange={handleChange}
+            name="free"
+          />
+        }
         label={
           <Stack alignItems={"center"}>
             <Stack
@@ -120,7 +141,7 @@ export default function Categories({ handleInput, category }) {
             >
               <Free />
             </Stack>
-            <Typography variant="subtitle1" color={"primary"}>
+            <Typography variant="subtitle2" color={"primary"}>
               Powse libre
             </Typography>
           </Stack>
