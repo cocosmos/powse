@@ -13,7 +13,7 @@ const PasswordField = ({
   passwordRef,
   id = "password",
   label = "Mot de passe*",
-  autoFocus = true,
+  autoFocus = false,
 }) => {
   const [showPassword, setShowPassword] = useState(false);
 

@@ -1,4 +1,3 @@
-import { useMemo, useState } from "react";
 import "./App.css";
 import Home from "./pages/Home";
 import Login from "./pages/Login";
@@ -6,19 +5,12 @@ import Register from "./pages/Register";
 import Event from "./pages/Event";
 import ResetPassword from "./pages/ResetPassword";
 import ForgotPassword from "./pages/ForgotPassword";
-import Choice from "./pages/Choice";
 import Error from "./pages/Error";
 
 import { BrowserRouter, Navigate, Route, Routes } from "react-router-dom";
 import { useContext } from "react";
 import { AuthContext } from "./contexts/AuthContext";
-import {
-  Box,
-  createTheme,
-  CssBaseline,
-  responsiveFontSizes,
-  ThemeProvider,
-} from "@mui/material";
+import { Box, CssBaseline, ThemeProvider } from "@mui/material";
 import { theme } from "./theme/getPaletteMode";
 
 function App() {
@@ -37,7 +29,7 @@ function App() {
   //   } else {
   //     return children;
   //   }
-  // }; 
+  // };
 
   return (
     <ThemeProvider theme={theme}>
@@ -48,60 +40,53 @@ function App() {
             <Route
               path="/"
               element={
-                  <RequireAuth>
-                <Home />
-                 </RequireAuth>
+                <RequireAuth>
+                  <Home />
+                </RequireAuth>
               }
             />
             <Route
               path="/login"
               element={
-                  // <AlreadyAuth> 
+                // <AlreadyAuth>
                 <Login />
-                  //  </AlreadyAuth> 
+                //  </AlreadyAuth>
               }
             />
 
             <Route
               path="/event"
               element={
-                 <RequireAuth>
-                <Event />
-                 </RequireAuth> 
+                <RequireAuth>
+                  <Event />
+                </RequireAuth>
               }
             />
             <Route
               path="/register"
               element={
-                  // <AlreadyAuth> 
+                // <AlreadyAuth>
                 <Register />
-                  /* </AlreadyAuth>  */
+                /* </AlreadyAuth>  */
               }
             />
             <Route
               path="/resetpassword"
               element={
-                    // <AlreadyAuth> 
+                // <AlreadyAuth>
                 <ResetPassword />
-                   /* </AlreadyAuth>  */
+                /* </AlreadyAuth>  */
               }
             />
             <Route
               path="/forgotpassword"
               element={
-                  // <AlreadyAuth> 
+                // <AlreadyAuth>
                 <ForgotPassword />
-                 /* </AlreadyAuth>  */
+                /* </AlreadyAuth>  */
               }
             />
-            <Route
-              path="/choice"
-              element={
-                //  <AlreadyAuth>
-                <Choice />
-                //  </AlreadyAuth>
-              }
-            />
+
             <Route path="*" element={<Error />} />
           </Routes>
         </BrowserRouter>

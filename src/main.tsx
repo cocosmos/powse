@@ -4,6 +4,12 @@ import App from "./App";
 import "./index.css";
 import logo from "./assets/logo/logo.svg";
 import { AuthContextProvider } from "./contexts/AuthContext";
+import { registerSW } from "virtual:pwa-register";
+
+const updateSW = registerSW({
+  onNeedRefresh() {},
+  onOfflineReady() {},
+});
 
 const loadingMarkup = (
   <div

@@ -25,6 +25,7 @@ export interface EventType {
   unlimited: boolean;
   space: number | undefined;
   location: string;
-  id: string;
   author: string;
+  entrepriseUid: string;
+  id: string;
 }

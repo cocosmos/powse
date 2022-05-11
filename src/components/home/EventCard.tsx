@@ -1,4 +1,4 @@
-import { useState, useEffect } from "react";
+import { useState, useEffect, useContext } from "react";
 import { styled } from "@mui/material/styles";
 import Card from "@mui/material/Card";
 import CardContent from "@mui/material/CardContent";
@@ -11,16 +11,24 @@ import Typography from "@mui/material/Typography";
 import AccessTimeSharpIcon from "@mui/icons-material/AccessTimeSharp";
 
 import AllInclusiveIcon from "@mui/icons-material/AllInclusive";
-import { PersonSharp } from "@mui/icons-material";
+import { PartyModeOutlined, PersonSharp } from "@mui/icons-material";
 import Food from "../../assets/categories/Food";
 import FmdGoodOutlinedIcon from "@mui/icons-material/FmdGoodOutlined";
 import CheckCircleIcon from "@mui/icons-material/CheckCircle";
-import { Box, Button, Grid, Stack } from "@mui/material";
-import { EventType } from "../../types/Type";
+import { Button, Chip, Grid, Link, Stack } from "@mui/material";
 import Activity from "../../assets/categories/Activity";
 import Free from "../../assets/categories/Free";
-import SubmitButton from "../common/inputs/SubmitButton";
-
+import {
+  collection,
+  doc,
+  onSnapshot,
+  serverTimestamp,
+  setDoc,
+} from "firebase/firestore";
+import { db } from "../common/firebase/config";
+import { AuthContext } from "../../contexts/AuthContext";
+//import { db } from "../common/firebase/config";
+//Now import this
 interface ExpandMoreProps extends IconButtonProps {
   expand: boolean;
 }
@@ -34,11 +42,14 @@ const ExpandMore = styled((props: ExpandMoreProps) => {
 
 export default function EventCard(props: any) {
   const [expanded, setExpanded] = useState(false);
+  const [userDetails, setUserDetails] = useState<any>({ name: "" });
+  const [participants, setParticipants] = useState<any>([{ id: "" }]);
+  const { currentUser } = useContext(AuthContext);
 
   const handleExpandClick = () => {
     setExpanded(!expanded);
   };
-  const joined = false;
+  const [joined, setJoined] = useState(false);
   const days = [
     "lundi",
     "mardi",
@@ -81,7 +92,10 @@ export default function EventCard(props: any) {
       categoryEvent = <Free />;
       break;
     default:
-      categoryEvent = <Free/>;
+      categoryEvent = <Free />;
+  }
+  function padTo2Digits(num: number) {
+    return String(num).padStart(2, "0");
   }
 
   if (props.data.date) {
@@ -90,11 +104,11 @@ export default function EventCard(props: any) {
     let dateEnd = new Date(props.data.dateEnd.seconds * 1000);
 
     let displayHours =
-      dateStart.getHours() +
+      padTo2Digits(dateStart.getHours()) +
       ":" +
-      dateStart.getMinutes() +
+      padTo2Digits(dateStart.getMinutes()) +
       " à " +
-      dateEnd.getHours() +
+      padTo2Digits(dateEnd.getHours()) +
       ":" +
       dateEnd.getMinutes();
 
@@ -116,6 +130,64 @@ export default function EventCard(props: any) {
 
   // console.log(props.participants);
 
+  useEffect(() => {
+    if (props.data.author) {
+      console.log(userDetails.name);
+      if (userDetails.name !== "") {
+        setDoc(doc(db, `/events/${props.data.id}/users`, props.data.author), {
+          name: userDetails.name,
+          timeStamp: serverTimestamp(),
+        });
+      }
+
+      try {
+        onSnapshot(
+          collection(db, `events/${props.data.id}/users`),
+          (snapshot) =>
+            setParticipants(
+              snapshot.docs.map((doc) => ({ ...doc.data(), id: doc.id }))
+            )
+        );
+      } catch (er) {}
+    }
+  }, []);
+
+  const numbPartcipants = participants.length;
+  let full = false;
+  if (numbPartcipants === props.data.space) {
+    full = true;
+  }
+
+  useEffect(() => {
+    if (props.data.author) {
+      const docRef = doc(db, `users`, props.data.author);
+      try {
+        onSnapshot(docRef, (doc) => {
+          setUserDetails({ ...doc.data() });
+        });
+      } catch (error) {
+        console.log(error);
+      }
+    }
+  }, []);
+  /*Create participants*/
+  const handleButton = async (e) => {
+    e.preventDefault();
+    if (props.data.unlimited || props.data.space >= numbPartcipants) {
+      console.log("test");
+      await setDoc(doc(db, `/events/${props.data.id}/users`, currentUser.uid), {
+        name: props.user.name,
+        timeStamp: serverTimestamp(),
+      });
+    }
+  };
+
+  useEffect(() => {
+    if (props.data.author === currentUser.uid) {
+      setJoined(true);
+    }
+  }, []);
+
   return (
     <Card
       sx={{
@@ -132,13 +204,23 @@ export default function EventCard(props: any) {
         alignItems={"center"}
         spacing={1.2}
       >
-        <Avatar sx={{ backgroundColor: "background.paper", width: "30px", borderRadius:0 }}>
+        <Avatar
+          sx={{
+            backgroundColor: "background.paper",
+            width: "30px",
+            borderRadius: 0,
+          }}
+        >
           {categoryEvent}
         </Avatar>
-        <Stack flexGrow={1} >
-          <Typography sx={{ml:1}} variant="h3">{props.data.title}</Typography>
-          <Typography variant="h4" sx={{ fontWeight: 500, ml:1 }} component="div">
-            {props.data.author}
+        <Stack flexGrow={1}>
+          <Typography>{props.data.title}</Typography>
+          <Typography
+            variant="h4"
+            sx={{ fontWeight: 500, ml: 1 }}
+            component="div"
+          >
+            {userDetails.name}
           </Typography>
         </Stack>
         <ExpandMore expand={expanded} onClick={handleExpandClick}>
@@ -146,7 +228,9 @@ export default function EventCard(props: any) {
           {props.data.unlimited ? (
             <AllInclusiveIcon fontSize="small" />
           ) : (
-            <Typography component="span">/{props.data.space}</Typography>
+            <Typography component="span">
+              {numbPartcipants}/{props.data.space}
+            </Typography>
           )}
         </ExpandMore>
       </Stack>
@@ -159,20 +243,13 @@ export default function EventCard(props: any) {
           }}
         >
           <Grid container spacing={1} textAlign={"center"}>
-            {/*  {props.participants
-              ? props.participants.map((element) => {
-                  <Grid item xs={4} sm={4} md={4}>
-                    <Typography variant="body2">{element.name}</Typography>
-                  </Grid>;
-                })
-              : ""} */}
-
-            <Grid item xs={4} sm={4} md={4}>
-              <Typography variant="body2">Julien Rhta</Typography>
-            </Grid>
-            <Grid item xs={4} sm={4} md={4}>
-              <Typography variant="body2">Julien Rochta</Typography>
-            </Grid>
+            {participants.map((participant) => {
+              return (
+                <Grid item xs={4} sm={4} md={4} key={participant.id}>
+                  <Typography variant="body2">{participant.name}</Typography>
+                </Grid>
+              );
+            })}
           </Grid>
         </CardContent>
       </Collapse>
@@ -190,24 +267,33 @@ export default function EventCard(props: any) {
         </Stack>
         <Stack direction="row" spacing={2}>
           <FmdGoodOutlinedIcon color="disabled" />
-          <Typography gutterBottom component="div" variant="h5">
-            {props.data.location}
-          </Typography>
+          {props.data.present === "general" ? (
+            <Typography gutterBottom component="div" variant="h5">
+              {props.data.location}
+            </Typography>
+          ) : (
+            <Link href={props.data.location} target="_blank">
+              Lien de la réunion
+            </Link>
+          )}
         </Stack>
       </CardContent>
       {/*bouton rejoindre*/}
       <CardActions sx={{ justifyContent: "end" }}>
         {joined ? (
           <CheckCircleIcon
+            /* color={props.data.present === "home" ? "home" : "primary"} */
             color="primary"
             fontSize="large"
-            sx={{ mr: 1.5, mt: -6, backgroundColor: colorButton }}
+            sx={{ mr: 1.5, mt: -6 }}
           />
+        ) : full ? (
+          <Chip label="Complet" color={"error"} />
         ) : (
           <Button
-            type="submit"
             variant="contained"
             size="medium"
+            onClick={handleButton}
             sx={{
               borderRadius: 25,
               textTransform: "unset",

@@ -1,5 +1,4 @@
 import { createTheme, responsiveFontSizes } from "@mui/material";
-import { useMemo } from "react";
 declare module "@mui/material/styles" {
   interface Palette {
     disabled: string;
@@ -7,12 +6,24 @@ declare module "@mui/material/styles" {
       main: string;
       background: string;
     };
+    slider: {
+      primary: string;
+      secondary: string;
+      backgroundPri: string;
+      backgroundSec: string;
+    };
   }
   interface PaletteOptions {
     disabled: string;
     home: {
       main: string;
       background: string;
+    };
+    slider: {
+      primary: string;
+      secondary: string;
+      backgroundPri: string;
+      backgroundSec: string;
     };
   }
 }
@@ -23,6 +34,12 @@ declare module "@mui/material/Button" {
     home: {
       main: true;
       background: true;
+    };
+    slider: {
+      primary: string;
+      secondary: string;
+      backgroundPri: string;
+      backgroundSec: string;
     };
   }
 }
@@ -142,6 +159,12 @@ export const theme = responsiveFontSizes(
       home: {
         main: "#177DDB",
         background: "#EFF5FA",
+      },
+      slider: {
+        primary: "#DED1F4",
+        secondary: "#D1E7F4",
+        backgroundPri: "#F3EFFA",
+        backgroundSec: "#EFF5FA",
       },
 
       disabled: "#717171",
