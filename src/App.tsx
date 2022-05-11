@@ -23,13 +23,13 @@ function App() {
       return <Navigate to="/login" />;
     }
   };
-  //   const AlreadyAuth = ({ children }: any) => {
+  /*   //   const AlreadyAuth = ({ children }: any) => {
   //   if (currentUser.apiKey === import.meta.env.VITE_APP_FIREBASE_API_KEY) {
   //     return <Navigate to="/" />;
   //   } else {
   //     return children;
   //   }
-  // };
+  // }; */
 
   return (
     <ThemeProvider theme={theme}>
