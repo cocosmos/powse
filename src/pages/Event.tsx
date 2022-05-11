@@ -24,6 +24,7 @@ import {
   addDoc,
   Timestamp,
   onSnapshot,
+  setDoc,
 } from "firebase/firestore";
 import { useContext, useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
@@ -167,6 +168,7 @@ const Event = () => {
         entrepriseUid: entreprise.entrepriseUid,
         timeStamp: serverTimestamp(),
       });
+
       /*   await updateDoc(doc(db, "users", currentUser.uid), {
         company: values.company,
       }); */

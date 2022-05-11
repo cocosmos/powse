@@ -15,7 +15,7 @@ import { PartyModeOutlined, PersonSharp } from "@mui/icons-material";
 import Food from "../../assets/categories/Food";
 import FmdGoodOutlinedIcon from "@mui/icons-material/FmdGoodOutlined";
 import CheckCircleIcon from "@mui/icons-material/CheckCircle";
-import { Button, Grid, Link, Stack } from "@mui/material";
+import { Button, Chip, Grid, Link, Stack } from "@mui/material";
 import Activity from "../../assets/categories/Activity";
 import Free from "../../assets/categories/Free";
 import {
@@ -43,7 +43,7 @@ const ExpandMore = styled((props: ExpandMoreProps) => {
 export default function EventCard(props: any) {
   const [expanded, setExpanded] = useState(false);
   const [userDetails, setUserDetails] = useState<any>({ name: "" });
-  const [participants, setParticipants] = useState<any>([{ name: "", id: "" }]);
+  const [participants, setParticipants] = useState<any>([{ id: "" }]);
   const { currentUser } = useContext(AuthContext);
 
   const handleExpandClick = () => {
@@ -78,6 +78,7 @@ export default function EventCard(props: any) {
     props.data.present === "home" ? "home.background" : "background.paper";
   const colorButton =
     props.data.present === "home" ? "home.main" : "primary.main";
+  const colorLittleBtn = props.data.present === "home" ? "home" : "primary";
 
   let categoryEvent = null;
 
@@ -132,10 +133,14 @@ export default function EventCard(props: any) {
 
   useEffect(() => {
     if (props.data.author) {
-      setDoc(doc(db, `/events/${props.data.id}/users`, currentUser.uid), {
-        name: userDetails.name,
-        timeStamp: serverTimestamp(),
-      });
+      console.log(userDetails.name);
+      if (userDetails.name !== "") {
+        setDoc(doc(db, `/events/${props.data.id}/users`, props.data.author), {
+          name: userDetails.name,
+          timeStamp: serverTimestamp(),
+        });
+      }
+
       try {
         onSnapshot(
           collection(db, `events/${props.data.id}/users`),
@@ -149,6 +154,10 @@ export default function EventCard(props: any) {
   }, []);
 
   const numbPartcipants = participants.length;
+  let full = false;
+  if (numbPartcipants === props.data.space) {
+    full = true;
+  }
 
   useEffect(() => {
     if (props.data.author) {
@@ -163,21 +172,22 @@ export default function EventCard(props: any) {
     }
   }, []);
   /*Create participants*/
-
   const handleButton = async (e) => {
     e.preventDefault();
-    await setDoc(doc(db, `/events/${props.data.id}/users`, currentUser.uid), {
-      name: props.user.name,
-      timeStamp: serverTimestamp(),
-    });
-  };
-  participants.map((participant) => {
-    if (participant.id === currentUser.Uid) {
-      setJoined(true);
-    } else {
-      setJoined(false);
+    if (props.data.unlimited || props.data.space >= numbPartcipants) {
+      console.log("test");
+      await setDoc(doc(db, `/events/${props.data.id}/users`, currentUser.uid), {
+        name: props.user.name,
+        timeStamp: serverTimestamp(),
+      });
     }
-  });
+  };
+
+  useEffect(() => {
+    if (props.data.author === currentUser.uid) {
+      setJoined(true);
+    }
+  }, []);
 
   return (
     <Card
@@ -259,10 +269,12 @@ export default function EventCard(props: any) {
       <CardActions sx={{ justifyContent: "end" }}>
         {joined ? (
           <CheckCircleIcon
-            color="primary"
+            color={colorLittleBtn}
             fontSize="large"
-            sx={{ mr: 1.5, mt: -6, backgroundColor: colorButton }}
+            sx={{ mr: 1.5, mt: -6 }}
           />
+        ) : full ? (
+          <Chip label="Complet" color={"error"} />
         ) : (
           <Button
             variant="contained"
