@@ -17,13 +17,13 @@ import {
 } from "@mui/material";
 import { useContext, useEffect, useState } from "react";
 import CategoriesHome from "../components/home/CategoriesHome";
-import EventCard from "../components/home/EventCard";
 import ControlHome from "../components/home/ControlHome";
 import { useNavigate } from "react-router-dom";
 import { EventType } from "../types/Type";
 import { collection, doc, onSnapshot } from "firebase/firestore";
 import { db } from "../components/common/firebase/config";
 import { AuthContext } from "../contexts/AuthContext";
+import EventCard from "../components/home/EventCard";
 
 const Home = () => {
   const navigate = useNavigate();
@@ -104,7 +104,7 @@ const Home = () => {
       <Header />
       {/*debut de la card*/}
       <Stack spacing={4} sx={{ pb: 10, margin: "0 auto" }} maxWidth="md">
-      <ControlHome handleHome={handleHome} home={home} />
+        <ControlHome handleHome={handleHome} home={home} />
         {matches ? (
           <FormGroup
             defaultValue="top"
@@ -124,7 +124,7 @@ const Home = () => {
           >
             <CategoriesHome handleInput={handleCategorie} category={category} />
           </FormGroup>
-          ) : (
+        ) : (
           <FormGroup
             row
             defaultValue="top"

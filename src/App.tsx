@@ -19,13 +19,42 @@ import Company from "./pages/Company";
 function App() {
   const { currentUser } = useContext(AuthContext);
 
+  /* const docRef = doc(db, "users", currentUser.uid);
+
+  // realtime collection data
+
+  //useEffect(() => {
+  if (currentUser.uid) {
+    onSnapshot(docRef, (doc) => {
+      hasCompany = doc.data().entrepriseUid;
+    });
+  } */
+
   const RequireAuth = ({ children }: any) => {
-    if (currentUser.apiKey === import.meta.env.VITE_APP_FIREBASE_API_KEY) {
+    if (currentUser.uid) {
       return children;
     } else {
       return <Navigate to="/register" />;
     }
   };
+
+  const RequireAuthCompany = ({ children }: any) => {
+    if (currentUser.uid) {
+      return <Navigate to="/" />;
+    } else {
+      return <Navigate to="/register" />;
+    }
+  };
+
+  const NoRequirement = ({ children }: any) => {
+    if (currentUser.uid) {
+      return <Navigate to="/" />;
+    } else {
+      return children;
+    }
+  };
+
+  // }, []);
 
   /*   if (currentUser.uid) {
     // useEffect(() => {
@@ -65,11 +94,19 @@ function App() {
               }
             />
             <Route
+              path="/home"
+              element={
+                <RequireAuth>
+                  <Home />
+                </RequireAuth>
+              }
+            />
+            <Route
               path="/login"
               element={
-                /*  <AlreadyAuth> */
-                <Login />
-                /*    </AlreadyAuth> */
+                <NoRequirement>
+                  <Login />
+                </NoRequirement>
               }
             />
 
@@ -84,33 +121,33 @@ function App() {
             <Route
               path="/register"
               element={
-                /*  <AlreadyAuth> */
-                <Register />
-                /*     </AlreadyAuth> */
+                <NoRequirement>
+                  <Register />
+                </NoRequirement>
               }
             />
             <Route
               path="/resetpassword"
               element={
-                /*      <AlreadyAuth> */
-                <ResetPassword />
-                /*     </AlreadyAuth> */
+                <NoRequirement>
+                  <ResetPassword />
+                </NoRequirement>
               }
             />
             <Route
               path="/forgotpassword"
               element={
-                /*    <AlreadyAuth> */
-                <ForgotPassword />
-                /*        </AlreadyAuth> */
+                <NoRequirement>
+                  <ForgotPassword />
+                </NoRequirement>
               }
             />
             <Route
               path="/company"
               element={
-                /* <AlreadyAuth> */
+                /*    <RequireAuthCompany> */
                 <Company />
-                /*      </AlreadyAuth> */
+                /*    </RequireAuthCompany> */
               }
             />
 
