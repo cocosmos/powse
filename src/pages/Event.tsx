@@ -44,7 +44,7 @@ import "./Event.css";
 const Event = () => {
   const theme = useTheme();
   const navigate = useNavigate();
-  const { dispatch, currentUser } = useContext(AuthContext);
+  const { currentUser } = useContext(AuthContext);
 
   const [colorChecked, setColorCheked] = useState(
     theme.palette.background.paper
