@@ -150,7 +150,7 @@ const Event = () => {
   };
 
   // height of the TextField
-  const height = "80%";
+  const height = "70%";
 
   // magic number which must be set appropriately for height
   const labelOffset = -6;
@@ -326,7 +326,8 @@ const Event = () => {
                   sx={{
                     backgroundColor: "background.paper",
                     borderRadius: 3,
-                    p: 2,
+                    padding:"0.8rem",
+                    paddingTop:"1rem",
                   }}
                 >
                   <FormHelperText >Nombre de participants*</FormHelperText>
@@ -336,7 +337,7 @@ const Event = () => {
                     className="marge-desk"
                     flexWrap="wrap"
                     justifyContent={"center"}
-                    sx={{ width: "100%", marrginTop:"25px"}}
+                    sx={{ width: "100%"}}
                   >
                     {/*Button Counter*/}
                     <Stack
@@ -346,7 +347,6 @@ const Event = () => {
                       sx={{
                         backgroundColor: colorCounter,
                         borderRadius: 32,
-                        p: 2,
                         width: "50%",
                         textAlign: "center",
                         minWidth: "140px",
