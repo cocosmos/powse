@@ -82,8 +82,8 @@ const Home = () => {
           id: doc.id,
         }))
       );
+
       setLoading(false);
-      console.log(events);
     });
   }, [entreprise.entrepriseUid]);
 
@@ -106,6 +106,7 @@ const Home = () => {
     navigate("/event");
   }
   const matches = useMediaQuery(theme.breakpoints.up("lg"));
+  events.sort((a, b) => b.dateStart - a.dateStart);
   // GetData();
   return (
     <>

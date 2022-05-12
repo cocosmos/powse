@@ -291,7 +291,12 @@ export default function EventCard(props: any) {
         {finish ? (
           <Chip label="Terminé" size="small" color="error" variant="outlined" />
         ) : (
-          <Chip label="Actif" size="small" color="success" variant="outlined" />
+          <Chip
+            label="Bientôt"
+            size="small"
+            color="success"
+            variant="outlined"
+          />
         )}
         {joined ? (
           <CheckCircleIcon
