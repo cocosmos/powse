@@ -132,11 +132,12 @@ const Register = () => {
             <PasswordField
               passwordRef={passwordRef}
               label={"Créer un mot de passe *"}
+              id={"new-password"}
             />
             <PasswordField
               passwordRef={confirmPasswordRef}
               label={"Confirmer le mot de passe *"}
-              id={"confirmPassword"}
+              id={"confirm-password"}
               autoFocus={false}
             />
             <SubmitButton label={"Suivant"} type={"submit"} href={undefined} />

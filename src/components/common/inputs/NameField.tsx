@@ -12,6 +12,7 @@ const NameField = ({ nameRef, label }) => {
       color="secondary"
       required
       sx={{ mb: 3 }}
+      autoComplete="on"
     />
   );
 };

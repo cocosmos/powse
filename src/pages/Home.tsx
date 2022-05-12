@@ -68,14 +68,14 @@ const Home = () => {
     } catch (error) {
       console.log(error);
     }
-  }, [currentUser.uid]);
+  }, []);
   // event.entrepriseUid === entreprise.entrepriseUid
 
-  const q = query(
-    collection(db, "events"),
-    where("entrepriseUid", "==", entreprise.entrepriseUid)
-  );
   useEffect(() => {
+    const q = query(
+      collection(db, "events"),
+      where("entrepriseUid", "==", entreprise.entrepriseUid)
+    );
     onSnapshot(q, (snapshot) => {
       setEvents(
         snapshot.docs.map((doc) => ({
@@ -102,14 +102,12 @@ const Home = () => {
       setHome({ ...home, general: false, home: true });
     }
   };
-  console.log(events);
 
   function navi() {
     navigate("/event");
   }
   const matches = useMediaQuery(theme.breakpoints.up("lg"));
   // GetData();
-  console.log(events);
   return (
     <>
       <Header />
@@ -165,7 +163,12 @@ const Home = () => {
             <Typography>Chargement...</Typography>
           </Stack>
         ) : (
-          <Stack spacing={4} alignItems="center" height={"100%"}>
+          <Stack
+            spacing={4}
+            alignItems="center"
+            /*      minHeight={events[0] ? "100%" : "100%"} */
+            mb={20}
+          >
             {events[0] ? (
               events.map((event: EventType, index) => {
                 if (category.food && event.category === "food") {

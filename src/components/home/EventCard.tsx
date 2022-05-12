@@ -46,9 +46,6 @@ export default function EventCard(props: any) {
   const [participants, setParticipants] = useState<any>([{ id: "" }]);
   const { currentUser } = useContext(AuthContext);
 
-  const handleExpandClick = () => {
-    setExpanded(!expanded);
-  };
   const [joined, setJoined] = useState(false);
   const days = [
     "lundi",
@@ -97,6 +94,9 @@ export default function EventCard(props: any) {
   function padTo2Digits(num: number) {
     return String(num).padStart(2, "0");
   }
+  const handleExpandClick = () => {
+    setExpanded(!expanded);
+  };
 
   if (props.data.date) {
     let dateEvent = new Date(props.data.date.seconds * 1000);
@@ -123,12 +123,6 @@ export default function EventCard(props: any) {
 
     setdate = { dateEvent: displayDate, dateHour: displayHours, dateEnd: "" };
   }
-  /*   if (props.participants) {
-    let numberParticipants = props.participants[0].id;
-    console.log(numberParticipants);
-  } */
-
-  console.log(participants);
 
   useEffect(() => {
     if (props.data.author) {
@@ -292,7 +286,7 @@ export default function EventCard(props: any) {
       <CardActions sx={{ justifyContent: "end" }}>
         {joined ? (
           <CheckCircleIcon
-            /* color={props.data.present === "home" ? "home" : "primary"} */
+            // color={props.data.present === "home" ? "home" : "primary"}
             color="primary"
             fontSize="large"
             sx={{ mr: 1.5, mt: -6 }}
