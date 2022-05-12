@@ -39,7 +39,7 @@ import Categories from "../components/event/Categories";
 import { EventType } from "../types/Type";
 import { AuthContext } from "../contexts/AuthContext";
 
-import './Event.css'
+import "./Event.css";
 import ControlEvent from "../components/event/ControlEvent";
 
 const Event = () => {
@@ -160,7 +160,6 @@ const Event = () => {
   // or provide it yourself - see notes below
   const focused = "";
 
-  
   const colorHome =
     values.present === "home" ? "sucess.contrastText" : "background.paper";
   const colorButton =
@@ -169,8 +168,8 @@ const Event = () => {
   return (
     <>
       <Header />
-      
-      <Container sx={{ p: 0,}} maxWidth="lg">
+
+      <Container sx={{ p: 0 }} maxWidth="lg">
         <form
           onSubmit={handleSubmit}
           style={{
@@ -179,7 +178,6 @@ const Event = () => {
             alignItems: "center",
             flexWrap: "wrap",
             padding: 0,
-
           }}
         >
           {/*  STACK PINCIPALE */}
@@ -223,8 +221,7 @@ const Event = () => {
                   color="primary"
                   required
                 >
-                  <InputLabel htmlFor="event-title">
-                  Titre</InputLabel>
+                  <InputLabel htmlFor="event-title">Titre</InputLabel>
                   <FilledInput
                     id="event-title"
                     inputProps={{ maxLength: 40 }}
@@ -261,8 +258,8 @@ const Event = () => {
 
             {/* Heure */}
             {/* deuxième Stack gauche */}
-            <Stack className="stack-right" spacing={2} >
-              <Stack spacing={2} direction="row" sx={{ width: "100%"}}>
+            <Stack className="stack-right" spacing={2}>
+              <Stack spacing={2} direction="row" sx={{ width: "100%" }}>
                 {/*label pour le debut*/}
                 <TextField
                   id="time"
@@ -326,18 +323,18 @@ const Event = () => {
                   sx={{
                     backgroundColor: "background.paper",
                     borderRadius: 3,
-                    padding:"0.8rem",
-                    paddingTop:"1rem",
+                    padding: "0.8rem",
+                    paddingTop: "1rem",
                   }}
                 >
-                  <FormHelperText >Nombre de participants*</FormHelperText>
+                  <FormHelperText>Nombre de participants*</FormHelperText>
                   <Stack
                     direction="row"
                     mt={1}
                     className="marge-desk"
                     flexWrap="wrap"
                     justifyContent={"center"}
-                    sx={{ width: "100%"}}
+                    sx={{ width: "100%" }}
                   >
                     {/*Button Counter*/}
                     <Stack
@@ -351,6 +348,7 @@ const Event = () => {
                         textAlign: "center",
                         minWidth: "140px",
                         maxWidth: "165px",
+                        p: 2,
                       }}
                     >
                       <IconButton
@@ -434,19 +432,19 @@ const Event = () => {
           </Box>
           {/* Fin de la Stack principale */}
           {/*  bouton */}
-        <Stack sx={{ alignItems: "center", width:"100%" }}>
-          <Button
-            className="button-alignement"
-            type="submit"
-            variant="contained"
-            fullWidth
-            color="primary"
-            sx={{ borderRadius: 25, textTransform: "unset", mt: 4, p: 1.5 }}
-          >
-            {" "}
-            Valider
-          </Button>
-        </Stack>
+          <Stack sx={{ alignItems: "center", width: "100%" }}>
+            <Button
+              className="button-alignement"
+              type="submit"
+              variant="contained"
+              fullWidth
+              color="primary"
+              sx={{ borderRadius: 25, textTransform: "unset", mt: 4, p: 1.5 }}
+            >
+              {" "}
+              Valider
+            </Button>
+          </Stack>
         </form>
         <div style={{ width: "20px", height: "20px" }}></div>
       </Container>
