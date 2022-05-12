@@ -84,6 +84,7 @@ const Event = () => {
     dateStart: dateStart,
     dateEnd: dateEnd,
     space: 5,
+    entrepriseUid: "",
     unlimited: false,
     location: "",
     id: "",
@@ -330,12 +331,12 @@ const Event = () => {
                 >
                   <FormHelperText >Nombre de participants*</FormHelperText>
                   <Stack
-                    className="marge-desk"
                     direction="row"
                     mt={1}
+                    className="marge-desk"
                     flexWrap="wrap"
                     justifyContent={"center"}
-                    sx={{ width: "100%" }}
+                    sx={{ width: "100%", marrginTop:"25px"}}
                   >
                     {/*Button Counter*/}
                     <Stack
