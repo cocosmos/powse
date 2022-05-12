@@ -35,30 +35,7 @@
         margin-bottom: 15px;
     }
 }
-/* Medium devices (tablets, 768px and up)*/
-@media (max-width: 768px) { 
-    .stack-right{
-        width: 48%;
-        padding-top: 0px;
-        margin-left: 2%;
-        margin-top: 10px;
-        margin-bottom: 30px;
 
-    }
-    .stack-left{
-        width: 48%;
-        margin-right: 2%;
-    }  
-
-    .button-alignement{
-        width: 50%;
-    }
-
-    .marge-desk{
-        margin-bottom: 30px;
-    }
-
-}
 
 .css-m3auwj-MuiTypography-root{
     font-size: 0;
