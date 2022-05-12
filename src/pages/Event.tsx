@@ -7,6 +7,7 @@ import {
   FormControl,
   FormControlLabel,
   FormHelperText,
+  Grid,
   IconButton,
   InputAdornment,
   InputLabel,
@@ -19,13 +20,12 @@ import RemoveIcon from "@mui/icons-material/Remove";
 
 import {
   doc,
+  getDoc,
   serverTimestamp,
-  collection,
-  addDoc,
-  Timestamp,
-  onSnapshot,
+  setDoc,
+  updateDoc,
 } from "firebase/firestore";
-import { useContext, useEffect, useState } from "react";
+import { useContext, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { db } from "../components/common/firebase/config";
 import "./Event.css";
@@ -39,17 +39,32 @@ import Categories from "../components/event/Categories";
 import { EventType } from "../types/Type";
 import { AuthContext } from "../contexts/AuthContext";
 
-import "./Event.css";
+import './Event.css'
+import ControlEvent from "../components/event/ControlEvent";
 
 const Event = () => {
   const theme = useTheme();
   const navigate = useNavigate();
-  const { currentUser } = useContext(AuthContext);
+  const { dispatch, currentUser } = useContext(AuthContext);
 
   const [colorChecked, setColorCheked] = useState(
     theme.palette.background.paper
   );
   const [colorCounter, setColorCounter] = useState(theme.palette.info.main);
+
+  /*const handleAdd = async (e) => {
+    e.preventDefault();
+    try {
+      await setDoc(doc(db, "users"), {
+        ...data,
+        timeStamp: serverTimestamp(),
+      });
+      navigate(-1);
+    } catch (err) {
+      console.log(err);
+    }
+  };*/
+
   /*Display correct date and hours*/
   function padTo2Digits(num: number) {
     return String(num).padStart(2, "0");
@@ -69,29 +84,12 @@ const Event = () => {
     dateStart: dateStart,
     dateEnd: dateEnd,
     space: 5,
+    entrepriseUid: "",
     unlimited: false,
     location: "",
-    author: "",
-    entrepriseUid: "",
     id: "",
+    author: "",
   });
-  const [error, setError] = useState(false);
-  const [helperText, setHelperText] = useState("");
-  const [entreprise, setEntreprise] = useState<any>({ entrepriseUid: "" });
-  const backgroundBox =
-    values.present === "general"
-      ? "slider.backgroundPri"
-      : "slider.backgroundSec";
-  const backgroundButton =
-    values.present === "general" ? "slider.primary" : "slider.secondary";
-
-  /*   const colorHome =
-    values.present === "home" ? "home.contrastText" : "background.paper"; */
-  const colorButton = values.present === "home" ? "home.main" : "primary.main";
-  const labelRdv =
-    values.present === "home"
-      ? "Lien de la réunion..."
-      : "Lieu du rendez-vous...";
 
   const handleInput =
     (prop: keyof EventType) => (event: React.ChangeEvent<HTMLInputElement>) => {
@@ -107,15 +105,15 @@ const Event = () => {
         unlimited: true,
         space: 1,
       }));
-      setColorCheked(backgroundButton);
-      setColorCounter(backgroundBox);
+      setColorCheked(theme.palette.info.main);
+      setColorCounter(theme.palette.background.paper);
     } else {
       setValues((preState) => ({
         ...preState,
         unlimited: false,
       }));
-      setColorCounter(backgroundButton);
-      setColorCheked(backgroundBox);
+      setColorCounter(theme.palette.info.main);
+      setColorCheked(theme.palette.background.paper);
     }
   };
   const handleCounter = () => {
@@ -123,28 +121,11 @@ const Event = () => {
       ...preState,
       unlimited: false,
     }));
-    setColorCounter(backgroundButton);
-    setColorCheked(backgroundBox);
+    setColorCounter(theme.palette.info.main);
+    setColorCheked(theme.palette.background.paper);
   };
-  const date = Timestamp.fromDate(new Date(values.date)).toDate();
-  const dateStartFi = Timestamp.fromDate(
-    new Date(values.date + " " + values.dateStart)
-  ).toDate();
-  const dateEndFi = Timestamp.fromDate(
-    new Date(values.date + " " + values.dateEnd)
-  ).toDate();
-  const created = Timestamp.fromDate(new Date()).toDate();
-  console.log(created);
-  useEffect(() => {
-    const docRef = doc(db, `users`, currentUser.uid);
-    try {
-      onSnapshot(docRef, (doc) => {
-        setEntreprise({ ...doc.data() });
-      });
-    } catch (error) {
-      console.log(error);
-    }
-  }, []);
+  const [error, setError] = useState(false);
+  const [helperText, setHelperText] = useState("");
 
   const handleSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
@@ -153,24 +134,13 @@ const Event = () => {
       setHelperText("Veuillez selectionner une catégorie.");
       setError(true);
     } else {
-      console.log(entreprise.entrepriseUid);
-      await addDoc(collection(db, "events"), {
-        present: values.present,
-        category: values.category,
-        title: values.title,
-        date: date,
-        dateStart: dateStartFi,
-        dateEnd: dateEndFi,
-        space: values.space,
-        unlimited: values.unlimited,
-        location: values.location,
-        author: currentUser.uid,
-        entrepriseUid: entreprise.entrepriseUid,
+      /*  await setDoc(doc(db, `company/${data.company}/users`, currentUser.uid), {
+        name: data.name,
+        email: data.email,
         timeStamp: serverTimestamp(),
       });
-
-      /*   await updateDoc(doc(db, "users", currentUser.uid), {
-        company: values.company,
+      await updateDoc(doc(db, "users", currentUser.uid), {
+        company: data.company,
       }); */
 
       navigate("/");
@@ -180,7 +150,7 @@ const Event = () => {
   };
 
   // height of the TextField
-  const height = "90%";
+  const height = "70%";
 
   // magic number which must be set appropriately for height
   const labelOffset = -6;
@@ -190,11 +160,17 @@ const Event = () => {
   // or provide it yourself - see notes below
   const focused = "";
 
+  
+  const colorHome =
+    values.present === "home" ? "sucess.contrastText" : "background.paper";
+  const colorButton =
+    values.present === "home" ? "sucess.main" : "primary.main";
+  console.log(colorHome);
   return (
     <>
       <Header />
-
-      <Container sx={{ p: 0 }} maxWidth="lg" className="marge-desk">
+      
+      <Container sx={{ p: 0,}} maxWidth="lg">
         <form
           onSubmit={handleSubmit}
           style={{
@@ -203,6 +179,7 @@ const Event = () => {
             alignItems: "center",
             flexWrap: "wrap",
             padding: 0,
+
           }}
         >
           {/*  STACK PINCIPALE */}
@@ -246,7 +223,8 @@ const Event = () => {
                   color="primary"
                   required
                 >
-                  <InputLabel htmlFor="event-title">Titre</InputLabel>
+                  <InputLabel htmlFor="event-title">
+                  Titre</InputLabel>
                   <FilledInput
                     id="event-title"
                     inputProps={{ maxLength: 40 }}
@@ -283,8 +261,8 @@ const Event = () => {
 
             {/* Heure */}
             {/* deuxième Stack gauche */}
-            <Stack className="stack-right" spacing={2}>
-              <Stack spacing={2} direction="row" sx={{ width: "100%", mb: 3 }}>
+            <Stack className="stack-right" spacing={2} >
+              <Stack spacing={2} direction="row" sx={{ width: "100%"}}>
                 {/*label pour le debut*/}
                 <TextField
                   id="time"
@@ -348,16 +326,18 @@ const Event = () => {
                   sx={{
                     backgroundColor: "background.paper",
                     borderRadius: 3,
-                    p: 2,
+                    padding:"0.8rem",
+                    paddingTop:"1rem",
                   }}
                 >
-                  <FormHelperText>Nombre de participants*</FormHelperText>
+                  <FormHelperText >Nombre de participants*</FormHelperText>
                   <Stack
                     direction="row"
                     mt={1}
+                    className="marge-desk"
                     flexWrap="wrap"
                     justifyContent={"center"}
-                    sx={{ width: "100%" }}
+                    sx={{ width: "100%"}}
                   >
                     {/*Button Counter*/}
                     <Stack
@@ -367,7 +347,6 @@ const Event = () => {
                       sx={{
                         backgroundColor: colorCounter,
                         borderRadius: 32,
-                        p: 2,
                         width: "50%",
                         textAlign: "center",
                         minWidth: "140px",
@@ -443,7 +422,7 @@ const Event = () => {
                 <TextField
                   fullWidth
                   id="event-lieu"
-                  label={labelRdv}
+                  label="Lieu du rendez-vous......"
                   variant="filled"
                   onChange={handleInput("location")}
                   required
@@ -455,26 +434,20 @@ const Event = () => {
           </Box>
           {/* Fin de la Stack principale */}
           {/*  bouton */}
-          <Stack sx={{ alignItems: "center", width: "100%" }}>
-            <Button
-              className="button-alignement"
-              type={"submit"}
-              variant="contained"
-              fullWidth
-              sx={{
-                borderRadius: 25,
-                textTransform: "unset",
-                mt: 4,
-                p: 1.5,
-                backgroundColor: colorButton,
-              }}
-            >
-              {" "}
-              Valider
-            </Button>
-          </Stack>
+        <Stack sx={{ alignItems: "center", width:"100%" }}>
+          <Button
+            className="button-alignement"
+            type="submit"
+            variant="contained"
+            fullWidth
+            color="primary"
+            sx={{ borderRadius: 25, textTransform: "unset", mt: 4, p: 1.5 }}
+          >
+            {" "}
+            Valider
+          </Button>
+        </Stack>
         </form>
-
         <div style={{ width: "20px", height: "20px" }}></div>
       </Container>
     </>
