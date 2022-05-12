@@ -54,7 +54,6 @@ const Home = () => {
     free: true,
   });
   const [home, setHome] = useState({ general: true, home: false });
-  //const [users, setUsers] = useState({ author: "Mipam" });
 
   const colorHome = home.home ? "home.main" : "primary.main";
 
@@ -68,7 +67,6 @@ const Home = () => {
       console.log(error);
     }
   }, []);
-  // event.entrepriseUid === entreprise.entrepriseUid
 
   useEffect(() => {
     const q = query(
@@ -107,7 +105,6 @@ const Home = () => {
   }
   const matches = useMediaQuery(theme.breakpoints.up("lg"));
   events.sort((a, b) => b.dateStart - a.dateStart);
-  // GetData();
   return (
     <>
       <Header />

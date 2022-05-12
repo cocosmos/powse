@@ -61,7 +61,6 @@ export default function CategoriesHome({ handleInput, category }) {
       defaultValue="top"
       value={category}
       sx={{ justifyContent: "center" }}
-      // onChange={handleRadioChange}
     >
       <FormControlLabel
         sx={{ marginTop: "3vh" }}

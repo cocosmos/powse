@@ -16,7 +16,7 @@ import {
 } from "@mui/material";
 import AddIcon from "@mui/icons-material/Add";
 import RemoveIcon from "@mui/icons-material/Remove";
-import { useContext, useState } from "react";
+import { useContext, useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import "./Event.css";
 
@@ -28,6 +28,15 @@ import Header from "../components/common/Header";
 import Categories from "../components/event/Categories";
 import { EventType } from "../types/Type";
 import { AuthContext } from "../contexts/AuthContext";
+import {
+  addDoc,
+  collection,
+  doc,
+  onSnapshot,
+  Timestamp,
+} from "firebase/firestore";
+import { db } from "../components/common/firebase/config";
+
 const Event = () => {
   const theme = useTheme();
   const navigate = useNavigate();
@@ -35,12 +44,16 @@ const Event = () => {
   const [colorChecked, setColorCheked] = useState(
     theme.palette.background.paper
   );
+
   const [colorCounter, setColorCounter] = useState(theme.palette.info.main);
+  const { dispatch, currentUser } = useContext(AuthContext);
+  const [entreprise, setEntreprise] = useState<any>({ entrepriseUid: "" });
 
   /*Display correct date and hours*/
   function padTo2Digits(num: number) {
     return String(num).padStart(2, "0");
   }
+
   const today = new Date();
   const dateStart =
     padTo2Digits(today.getHours()) + ":" + padTo2Digits(today.getMinutes());
@@ -68,6 +81,7 @@ const Event = () => {
       setValues({ ...values, [prop]: event.target.value });
       setHelperText("");
       setError(false);
+      console.log(values);
     };
 
   const handleCheckbox = (event: React.ChangeEvent<HTMLInputElement>) => {
@@ -88,6 +102,7 @@ const Event = () => {
       setColorCheked(theme.palette.background.paper);
     }
   };
+
   const handleCounter = () => {
     setValues((preState) => ({
       ...preState,
@@ -96,8 +111,30 @@ const Event = () => {
     setColorCounter(theme.palette.info.main);
     setColorCheked(theme.palette.background.paper);
   };
+
   const [error, setError] = useState(false);
   const [helperText, setHelperText] = useState("");
+
+  const date = Timestamp.fromDate(new Date(values.date)).toDate();
+  const dateStartFi = Timestamp.fromDate(
+    new Date(values.date + " " + values.dateStart)
+  ).toDate();
+  const dateEndFi = Timestamp.fromDate(
+    new Date(values.date + " " + values.dateEnd)
+  ).toDate();
+
+  const created = Timestamp.fromDate(new Date()).toDate();
+
+  useEffect(() => {
+    const docRef = doc(db, `users`, currentUser.uid);
+    try {
+      onSnapshot(docRef, (doc) => {
+        setEntreprise({ ...doc.data() });
+      });
+    } catch (error) {
+      console.log(error);
+    }
+  }, []);
 
   const handleSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
@@ -106,20 +143,41 @@ const Event = () => {
       setHelperText("Veuillez selectionner une catégorie.");
       setError(true);
     } else {
-      /*  await setDoc(doc(db, `company/${data.company}/users`, currentUser.uid), {
-        name: data.name,
-        email: data.email,
-        timeStamp: serverTimestamp(),
+      console.log(entreprise.entrepriseUid);
+      await addDoc(collection(db, "events"), {
+        present: values.present,
+        category: values.category,
+        title: values.title,
+        date: date,
+        dateStart: dateStartFi,
+        dateEnd: dateEndFi,
+        space: values.space,
+        unlimited: values.unlimited,
+        location: values.location,
+        author: currentUser.uid,
+        entrepriseUid: entreprise.entrepriseUid,
       });
-      await updateDoc(doc(db, "users", currentUser.uid), {
-        company: data.company,
-      }); */
-
       navigate("/");
       setHelperText("");
       setError(false);
     }
   };
+
+  const backgroundBox =
+    values.present === "general"
+      ? "slider.backgroundPri"
+      : "slider.backgroundSec";
+  const backgroundButton =
+    values.present === "general" ? "slider.primary" : "slider.secondary";
+
+  const colorButton = values.present === "home" ? "home.main" : "primary.main";
+  const focused = "";
+  const colorHome =
+    values.present === "home" ? "home.contrastText" : "background.paper";
+  const labelRdv =
+    values.present === "home"
+      ? "Lien de la réunion..."
+      : "Lieu du rendez-vous...";
 
   // height of the TextField
   const height = "70%";
@@ -130,13 +188,7 @@ const Event = () => {
   // get this from your form library, for instance in
   // react-final-form it's fieldProps.meta.active
   // or provide it yourself - see notes below
-  const focused = "";
 
-  const colorHome =
-    values.present === "home" ? "sucess.contrastText" : "background.paper";
-  const colorButton =
-    values.present === "home" ? "sucess.main" : "primary.main";
-  console.log(colorHome);
   return (
     <>
       <Header />
@@ -392,7 +444,7 @@ const Event = () => {
                 <TextField
                   fullWidth
                   id="event-lieu"
-                  label="Lieu du rendez-vous......"
+                  label={labelRdv}
                   variant="filled"
                   onChange={handleInput("location")}
                   required
@@ -411,7 +463,13 @@ const Event = () => {
               variant="contained"
               fullWidth
               color="primary"
-              sx={{ borderRadius: 25, textTransform: "unset", mt: 4, p: 1.5 }}
+              sx={{
+                borderRadius: 25,
+                textTransform: "unset",
+                mt: 4,
+                p: 1.5,
+                backgroundColor: colorButton,
+              }}
             >
               {" "}
               Valider

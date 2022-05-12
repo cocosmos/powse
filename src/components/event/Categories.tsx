@@ -24,31 +24,32 @@ export default function Categories({ handleInput, category }) {
     theme.palette.background.default
   );
 
-  const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+  const handleRadioChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     handleInput(e);
 
-    switch (e.target.name) {
+    switch (e.target.value) {
       case "food":
-        if (e.target.checked) {
-          setColorRadioA(theme.palette.background.paper);
-        } else {
-          setColorRadioA(theme.palette.background.default);
-        }
+        setColorRadioA(theme.palette.background.paper);
+        setColorRadioB(theme.palette.background.default);
+        setColorRadioC(theme.palette.background.default);
+
         break;
       case "activity":
-        if (e.target.checked) {
-          setColorRadioB(theme.palette.background.paper);
-        } else {
-          setColorRadioB(theme.palette.background.default);
-        }
+        setColorRadioB(theme.palette.background.paper);
+        setColorRadioA(theme.palette.background.default);
+        setColorRadioC(theme.palette.background.default);
+
         break;
       case "free":
-        if (e.target.checked) {
-          setColorRadioC(theme.palette.background.paper);
-        } else {
-          setColorRadioC(theme.palette.background.default);
-        }
+        setColorRadioC(theme.palette.background.paper);
+        setColorRadioA(theme.palette.background.default);
+        setColorRadioB(theme.palette.background.default);
+
         break;
+      default:
+        setColorRadioA(theme.palette.background.default);
+        setColorRadioB(theme.palette.background.default);
+        setColorRadioC(theme.palette.background.default);
     }
   };
 
@@ -58,19 +59,12 @@ export default function Categories({ handleInput, category }) {
       name="category"
       defaultValue="top"
       value={category}
-      // onChange={handleRadioChange}
+      onChange={handleRadioChange}
       sx={{ flexWrap: "nowrap" }}
     >
       <FormControlLabel
         value="food"
-        control={
-          <Checkbox
-            sx={{ display: "none" }}
-            checked={category.food}
-            onChange={handleChange}
-            name="food"
-          />
-        }
+        control={<Radio sx={{ display: "none" }} />}
         label={
           <Stack alignItems={"center"}>
             <Stack
@@ -92,14 +86,7 @@ export default function Categories({ handleInput, category }) {
       />
       <FormControlLabel
         value="activity"
-        control={
-            <Checkbox
-              sx={{ display: "none" }}
-              checked={category.activity}
-              onChange={handleChange}
-              name="activity"
-            />
-          }
+        control={<Radio sx={{ display: "none" }} />}
         label={
           <Stack alignItems={"center"}>
             <Stack
@@ -121,14 +108,7 @@ export default function Categories({ handleInput, category }) {
       />
       <FormControlLabel
         value="free"
-        control={
-          <Checkbox
-            sx={{ display: "none" }}
-            checked={category.free}
-            onChange={handleChange}
-            name="free"
-          />
-        }
+        control={<Radio sx={{ display: "none" }} />}
         label={
           <Stack alignItems={"center"}>
             <Stack

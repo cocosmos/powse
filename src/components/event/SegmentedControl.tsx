@@ -32,6 +32,7 @@ export default function ColorToggleButton({ present, handleInput }) {
           sx={{
             p: 0.8,
             borderRadius: 25,
+            textTransform: "unset",
           }}
         >
           Général
@@ -41,6 +42,7 @@ export default function ColorToggleButton({ present, handleInput }) {
           sx={{
             p: 0.8,
             borderRadius: 25,
+            textTransform: "unset",
           }}
         >
           Télé-travail
