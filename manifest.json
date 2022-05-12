@@ -1,7 +1,7 @@
 {
   "name": "Powse",
   "short_name": "Powse",
-  "scope": "https://www.powse.ch/",
+  "scope": ".",
   "start_url": "https://www.powse.ch",
   "description": "Powse ",
   "icons": [

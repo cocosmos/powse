@@ -32,6 +32,7 @@ const PasswordField = ({
         id={id}
         type={showPassword ? "text" : "password"}
         inputRef={passwordRef}
+        autoComplete="on"
         endAdornment={
           <InputAdornment position="end">
             <IconButton

@@ -12,6 +12,7 @@ const EmailField = ({ emailRef }) => {
       fullWidth
       color="secondary"
       sx={{ mb: 3 }}
+      autoComplete="on"
     />
   );
 };
