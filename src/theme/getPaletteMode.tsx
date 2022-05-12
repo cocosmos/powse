@@ -92,7 +92,7 @@ export const theme = responsiveFontSizes(
       },
       subtitle2: {
         fontFamily: ["'bely', 'sans-serif'"].join(","),
-        fontSize: "1rem",
+        fontSize: "0.96rem",
       },
     },
     components: {

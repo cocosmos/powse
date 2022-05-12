@@ -76,8 +76,7 @@ const Event = () => {
   const dateEnd =
     padTo2Digits(newDate.getHours()) + ":" + padTo2Digits(newDate.getMinutes());
 
-  const [values, setValues] = useState<EventType>(
-    {
+  const [values, setValues] = useState<EventType>({
     present: "general",
     category: "",
     title: "",
@@ -89,8 +88,7 @@ const Event = () => {
     location: "",
     id: "",
     author: "",
-  }
-  );
+  });
 
   const handleInput =
     (prop: keyof EventType) => (event: React.ChangeEvent<HTMLInputElement>) => {
@@ -151,7 +149,7 @@ const Event = () => {
   };
 
   // height of the TextField
-  const height = "90%";
+  const height = "80%";
 
   // magic number which must be set appropriately for height
   const labelOffset = -6;
@@ -171,7 +169,7 @@ const Event = () => {
     <>
       <Header />
       
-      <Container sx={{ p: 0,}} maxWidth="lg" className="marge-desk">
+      <Container sx={{ p: 0,}} maxWidth="lg">
         <form
           onSubmit={handleSubmit}
           style={{
@@ -263,7 +261,7 @@ const Event = () => {
             {/* Heure */}
             {/* deuxième Stack gauche */}
             <Stack className="stack-right" spacing={2} >
-              <Stack spacing={2} direction="row" sx={{ width: "100%", mb:3}}>
+              <Stack spacing={2} direction="row" sx={{ width: "100%"}}>
                 {/*label pour le debut*/}
                 <TextField
                   id="time"
@@ -330,8 +328,9 @@ const Event = () => {
                     p: 2,
                   }}
                 >
-                  <FormHelperText>Nombre de participants*</FormHelperText>
+                  <FormHelperText >Nombre de participants*</FormHelperText>
                   <Stack
+                    className="marge-desk"
                     direction="row"
                     mt={1}
                     flexWrap="wrap"
