@@ -292,7 +292,7 @@ export default function EventCard(props: any) {
           <Chip label="Terminé" size="small" color="error" variant="outlined" />
         ) : (
           <Chip
-            label="Bientôt"
+            label="Ouvert"
             size="small"
             color="success"
             variant="outlined"
@@ -307,7 +307,7 @@ export default function EventCard(props: any) {
           />
         ) : full ? (
           <Chip label="Complet" color={"error"} />
-        ) : (
+        ) : !finish ? (
           <Button
             variant="contained"
             size="medium"
@@ -323,6 +323,8 @@ export default function EventCard(props: any) {
           >
             Rejoindre
           </Button>
+        ) : (
+          ""
         )}
       </CardActions>
     </Card>
