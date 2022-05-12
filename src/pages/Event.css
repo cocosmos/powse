@@ -1,6 +1,6 @@
 .stack-right{
     width: 100%;
-    padding-top: 10%;
+    margin-top: 25px;
 
 }
 .stack-left{
@@ -18,6 +18,9 @@
         width: 48%;
         padding-top: 0px;
         margin-left: 2%;
+        margin-top: 10px;
+        margin-bottom: 30px;
+
     }
     .stack-left{
         width: 48%;
@@ -29,19 +32,10 @@
     }
 
     .marge-desk{
-        margin-top: 10px;
         margin-bottom: 15px;
-
     }
 }
 
-/* Medium devices (tablets, 768px and up)*/
-@media (min-width: 100px) { 
-
-    .marge-desk{
-        margin-top: 10%;
-    }
-}
 
 .css-m3auwj-MuiTypography-root{
     font-size: 0;

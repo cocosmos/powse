@@ -1,5 +1,5 @@
 import * as React from "react";
-import { Checkbox, FormControlLabel, Stack, useTheme } from "@mui/material";
+import { Checkbox, FormControlLabel, RadioGroup, Stack, useTheme } from "@mui/material";
 import Typography from "@mui/material/Typography";
 import { useState } from "react";
 import Activity from "../../assets/categories/Activity";
@@ -47,10 +47,17 @@ export default function CategoriesHome({ handleInput, category }) {
   };
 
   return (
-    <>
+    <RadioGroup
+    row
+    name="category"
+    defaultValue="top"
+    value={category}
+    sx={{ justifyContent:"center"}}
+    // onChange={handleRadioChange}
+  >
       <FormControlLabel
+      sx={{marginTop:"3vh"}}
         value="food"
-        sx={{ mr: "1%", ml: "1%" }}
         control={
           <Checkbox
             sx={{ display: "none" }}
@@ -79,8 +86,8 @@ export default function CategoriesHome({ handleInput, category }) {
         labelPlacement="bottom"
       />
       <FormControlLabel
+      sx={{marginTop:"3vh"}}
         value="activity"
-        sx={{ mr: "1%", ml: "1%" }}
         control={
           <Checkbox
             sx={{ display: "none" }}
@@ -109,8 +116,8 @@ export default function CategoriesHome({ handleInput, category }) {
         labelPlacement="bottom"
       />
       <FormControlLabel
+      sx={{marginTop:"3vh"}}
         value="free"
-        sx={{ mr: "1%", ml: "1%" }}
         control={
           <Checkbox
             sx={{ display: "none" }}
@@ -138,6 +145,6 @@ export default function CategoriesHome({ handleInput, category }) {
         }
         labelPlacement="bottom"
       />
-    </>
+    </RadioGroup>
   );
 }
