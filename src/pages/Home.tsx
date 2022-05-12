@@ -128,10 +128,14 @@ const Home = () => {
               zIndex: 0,
               top: 0,
               bottom: 0,
-              right: 1079,
-              left: 0,
+              right: "75%",
+              width: 200,
+              // left: 500,
               "> *": {
                 mb: 5,
+              },
+              "label:nth-of-type(-n+3)": {
+                width: "100%",
               },
             }}
           >
