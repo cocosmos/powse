@@ -7,7 +7,6 @@ import {
   FormControl,
   FormControlLabel,
   FormHelperText,
-  Grid,
   IconButton,
   InputAdornment,
   InputLabel,
@@ -17,17 +16,8 @@ import {
 } from "@mui/material";
 import AddIcon from "@mui/icons-material/Add";
 import RemoveIcon from "@mui/icons-material/Remove";
-
-import {
-  doc,
-  getDoc,
-  serverTimestamp,
-  setDoc,
-  updateDoc,
-} from "firebase/firestore";
 import { useContext, useState } from "react";
 import { useNavigate } from "react-router-dom";
-import { db } from "../components/common/firebase/config";
 import "./Event.css";
 
 {
@@ -38,32 +28,14 @@ import Header from "../components/common/Header";
 import Categories from "../components/event/Categories";
 import { EventType } from "../types/Type";
 import { AuthContext } from "../contexts/AuthContext";
-
-import "./Event.css";
-import ControlEvent from "../components/event/ControlEvent";
-
 const Event = () => {
   const theme = useTheme();
   const navigate = useNavigate();
-  const { dispatch, currentUser } = useContext(AuthContext);
 
   const [colorChecked, setColorCheked] = useState(
     theme.palette.background.paper
   );
   const [colorCounter, setColorCounter] = useState(theme.palette.info.main);
-
-  /*const handleAdd = async (e) => {
-    e.preventDefault();
-    try {
-      await setDoc(doc(db, "users"), {
-        ...data,
-        timeStamp: serverTimestamp(),
-      });
-      navigate(-1);
-    } catch (err) {
-      console.log(err);
-    }
-  };*/
 
   /*Display correct date and hours*/
   function padTo2Digits(num: number) {

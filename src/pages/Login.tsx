@@ -14,12 +14,14 @@ const Login = () => {
   const { login } = useAuth();
   const { dispatch } = useContext(AuthContext);
   const [emailExist, setEmailExist] = useState(null);
+  const [wrongPassword, setWrongPassword] = useState("");
 
   const handleLogin = async (e: any) => {
     e.preventDefault();
     const email = emailRef.current.value;
     const password = passwordRef.current.value;
     setEmailExist(null);
+    setWrongPassword("");
     if (email) {
       await login(email, password)
         .then((userCredential) => {
@@ -37,6 +39,10 @@ const Login = () => {
                 <Link href="/register">S'enregistrer</Link>
               </Typography>
             );
+          } else if (
+            error.message === "Firebase: Error (auth/wrong-password)."
+          ) {
+            setWrongPassword("Mauvais mot de passe.");
           }
         });
     }
@@ -64,9 +70,13 @@ const Login = () => {
             {emailExist}
           </FormHelperText>
           <PasswordField passwordRef={passwordRef} />
+          <FormHelperText sx={{ textAlign: "center", mt: -2, mb: 4 }} error>
+            {wrongPassword}
+          </FormHelperText>
           <Link href="/forgotpassword" underline="hover">
             Mot de passe oublié ?
           </Link>
+
           <SubmitButton
             label={"Se connecter"}
             type={"submit"}

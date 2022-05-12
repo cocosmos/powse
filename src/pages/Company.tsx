@@ -37,7 +37,6 @@ const Company = () => {
       result += characters.charAt(Math.floor(Math.random() * chaactersLength));
     }
 
-    console.log(result);
     // queries
     const q = query(
       collection(db, "entreprise"),
@@ -78,7 +77,7 @@ const Company = () => {
       <Stack
         spacing={5}
         justifyContent="center"
-        height={"100%"}
+        height={"80vh"}
         textAlign="center"
         alignItems={"center"}
         maxWidth="sm"
@@ -103,7 +102,7 @@ const Company = () => {
                 setValue={setValue}
                 companyRef={companyRef}
               />
-              <Typography variant="subtitle1">
+              <Typography variant="body2">
                 Grâce à cette information, nous pourrons te proposer les powses
                 que tes collègues ont planifié.
               </Typography>
