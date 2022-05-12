@@ -1,5 +1,5 @@
-import { Box, Link, Stack, Typography } from "@mui/material";
-import { useContext, useRef } from "react";
+import { Box, FormHelperText, Link, Stack, Typography } from "@mui/material";
+import { useContext, useRef, useState } from "react";
 import Logo from "../assets/Logo";
 import EmailField from "../components/common/inputs/EmailField";
 import PasswordField from "../components/common/inputs/PasswordField";
@@ -13,14 +13,13 @@ const Login = () => {
   const passwordRef = useRef({ value: "" });
   const { login } = useAuth();
   const { dispatch } = useContext(AuthContext);
+  const [emailExist, setEmailExist] = useState(null);
 
   const handleLogin = async (e: any) => {
     e.preventDefault();
     const email = emailRef.current.value;
     const password = passwordRef.current.value;
-    console.log(email, password);
-    // setLoading(true);
-
+    setEmailExist(null);
     if (email) {
       await login(email, password)
         .then((userCredential) => {
@@ -28,12 +27,17 @@ const Login = () => {
           const user = userCredential.user;
           dispatch({ type: "LOGIN", payload: user });
           navigate("/");
-          // ...
         })
         .catch((error) => {
-          const errorCode = error.code;
-          const errorMessage = error.message;
-          // ..
+          //error if email not registred
+          if (error.message === "Firebase: Error (auth/user-not-found).") {
+            setEmailExist(
+              <Typography variant="caption">
+                Cet email n'est pas enregistré.{" "}
+                <Link href="/register">S'enregistrer</Link>
+              </Typography>
+            );
+          }
         });
     }
   };
@@ -56,6 +60,9 @@ const Login = () => {
       <Box flexGrow={1} display={"flex"} mt={5} alignItems="flex-start">
         <form onSubmit={handleLogin}>
           <EmailField emailRef={emailRef} />
+          <FormHelperText sx={{ textAlign: "center", mb: 2, mt: -2 }} error>
+            {emailExist}
+          </FormHelperText>
           <PasswordField passwordRef={passwordRef} />
           <Link href="/forgotpassword" underline="hover">
             Mot de passe oublié ?

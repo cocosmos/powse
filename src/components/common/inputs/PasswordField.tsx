@@ -32,6 +32,7 @@ const PasswordField = ({
         id={id}
         type={showPassword ? "text" : "password"}
         inputRef={passwordRef}
+        inputProps={{ minLength: 8 }}
         autoComplete="on"
         endAdornment={
           <InputAdornment position="end">
