@@ -176,6 +176,8 @@ const Home = () => {
                 spacing={4}
                 sx={{ pb: 10, margin: "0 auto", height: "100%" }}
                 maxWidth="md"
+                width={"100%"}
+                alignItems={"center"}
               >
                 {events.map((event: EventType, index) => {
                   if (category.food && event.category === "food") {

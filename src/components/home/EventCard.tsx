@@ -15,7 +15,15 @@ import { PersonSharp } from "@mui/icons-material";
 import Food from "../../assets/categories/Food";
 import FmdGoodOutlinedIcon from "@mui/icons-material/FmdGoodOutlined";
 import CheckCircleIcon from "@mui/icons-material/CheckCircle";
-import { Button, Chip, Grid, Link, Stack } from "@mui/material";
+import {
+  Button,
+  Chip,
+  Grid,
+  Link,
+  Stack,
+  useMediaQuery,
+  useTheme,
+} from "@mui/material";
 import Activity from "../../assets/categories/Activity";
 import Free from "../../assets/categories/Free";
 import {
@@ -193,6 +201,8 @@ export default function EventCard(props: any) {
       setJoined(true);
     }
   }, []);
+  const theme = useTheme();
+  const matches = useMediaQuery(theme.breakpoints.up("xs"));
 
   return (
     <Card
@@ -209,6 +219,7 @@ export default function EventCard(props: any) {
         justifyContent="space-between"
         alignItems={"center"}
         spacing={1.2}
+        width="100%"
       >
         <Avatar
           sx={{

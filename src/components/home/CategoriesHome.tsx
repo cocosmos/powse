@@ -60,10 +60,10 @@ export default function CategoriesHome({ handleInput, category }) {
       name="category"
       defaultValue="top"
       value={category}
-      sx={{ justifyContent: "center" }}
+      sx={{ justifyContent: "space-evenly", width: "100%", maxWidth: 500 }}
     >
       <FormControlLabel
-        sx={{ marginTop: "3vh" }}
+        sx={{ marginTop: "3vh", mr: 1, ml: 1 }}
         value="food"
         control={
           <Checkbox
@@ -93,7 +93,7 @@ export default function CategoriesHome({ handleInput, category }) {
         labelPlacement="bottom"
       />
       <FormControlLabel
-        sx={{ marginTop: "3vh" }}
+        sx={{ marginTop: "3vh", mr: 1, ml: 1 }}
         value="activity"
         control={
           <Checkbox
@@ -123,7 +123,7 @@ export default function CategoriesHome({ handleInput, category }) {
         labelPlacement="bottom"
       />
       <FormControlLabel
-        sx={{ marginTop: "3vh" }}
+        sx={{ marginTop: "3vh", mr: 1, ml: 1 }}
         value="free"
         control={
           <Checkbox
