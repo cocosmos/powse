@@ -19,6 +19,9 @@ import RemoveIcon from "@mui/icons-material/Remove";
 import { useContext, useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import "./Event.css";
+import { AdapterDateFns } from "@mui/x-date-pickers/AdapterDateFns";
+import { LocalizationProvider } from "@mui/x-date-pickers/LocalizationProvider";
+import { DatePicker } from "@mui/x-date-pickers/DatePicker";
 
 {
   /*importer le compostant*/
@@ -28,6 +31,7 @@ import Header from "../components/common/Header";
 import Categories from "../components/event/Categories";
 import { EventType } from "../types/Type";
 import { AuthContext } from "../contexts/AuthContext";
+import frLocale from "date-fns/locale/fr";
 import {
   addDoc,
   collection,
@@ -36,6 +40,11 @@ import {
   Timestamp,
 } from "firebase/firestore";
 import { db } from "../components/common/firebase/config";
+import {
+  DesktopDatePicker,
+  MobileDatePicker,
+  MobileTimePicker,
+} from "@mui/x-date-pickers";
 
 const Event = () => {
   const theme = useTheme();
@@ -48,26 +57,19 @@ const Event = () => {
   const [colorCounter, setColorCounter] = useState(theme.palette.info.main);
   const { dispatch, currentUser } = useContext(AuthContext);
   const [entreprise, setEntreprise] = useState<any>({ entrepriseUid: "" });
-
-  /*Display correct date and hours*/
-  function padTo2Digits(num: number) {
-    return String(num).padStart(2, "0");
-  }
-
-  const today = new Date();
-  const dateStart =
-    padTo2Digits(today.getHours()) + ":" + padTo2Digits(today.getMinutes());
-  const newDate = new Date(Date.now() + 900000);
-  const dateEnd =
-    padTo2Digits(newDate.getHours()) + ":" + padTo2Digits(newDate.getMinutes());
+  const [fulldate, setFulldate] = useState<Date | null>(new Date(Date.now()));
+  const [endDate, setEndDate] = useState<Date | null>(
+    new Date(Date.now() + 900000)
+  );
+  const [startDate, setStartDate] = useState<Date | null>(new Date(Date.now()));
 
   const [values, setValues] = useState<EventType>({
     present: "general",
     category: "",
     title: "",
-    date: today.toISOString().slice(0, 10),
-    dateStart: dateStart,
-    dateEnd: dateEnd,
+    date: new Date(),
+    dateStart: new Date(),
+    dateEnd: new Date(),
     space: 5,
     entrepriseUid: "",
     unlimited: false,
@@ -81,7 +83,6 @@ const Event = () => {
       setValues({ ...values, [prop]: event.target.value });
       setHelperText("");
       setError(false);
-      console.log(values);
     };
 
   const handleCheckbox = (event: React.ChangeEvent<HTMLInputElement>) => {
@@ -115,16 +116,28 @@ const Event = () => {
   const [error, setError] = useState(false);
   const [helperText, setHelperText] = useState("");
 
-  const date = Timestamp.fromDate(new Date(values.date)).toDate();
-  const dateStartFi = Timestamp.fromDate(
-    new Date(values.date + " " + values.dateStart)
-  ).toDate();
-  const dateEndFi = Timestamp.fromDate(
-    new Date(values.date + " " + values.dateEnd)
-  ).toDate();
+  //Date
+  const tzoffset = new Date().getTimezoneOffset() * 60000;
 
-  const created = Timestamp.fromDate(new Date()).toDate();
+  const dateFullString = new Date(fulldate.getTime() - tzoffset)
+    .toISOString()
+    .slice(0, -1);
 
+  const dateTimeStartString = new Date(startDate.getTime() - tzoffset)
+    .toISOString()
+    .slice(0, -1);
+  const dateTimeEndString = new Date(endDate.getTime() - tzoffset)
+    .toISOString()
+    .slice(0, -1);
+
+  const datetimeStart =
+    dateFullString.substr(0, 11) + dateTimeStartString.substr(11);
+  const datetimeEnd =
+    dateFullString.substr(0, 11) + dateTimeEndString.substr(11);
+  const date = Timestamp.fromDate(fulldate).toDate();
+  const dateStartFi = Timestamp.fromDate(new Date(datetimeStart)).toDate();
+  const dateEndFi = Timestamp.fromDate(new Date(datetimeEnd)).toDate();
+  //end date
   useEffect(() => {
     const docRef = doc(db, `users`, currentUser.uid);
     try {
@@ -143,7 +156,6 @@ const Event = () => {
       setHelperText("Veuillez selectionner une catégorie.");
       setError(true);
     } else {
-      console.log(entreprise.entrepriseUid);
       await addDoc(collection(db, "events"), {
         present: values.present,
         category: values.category,
@@ -261,21 +273,29 @@ const Event = () => {
 
               {/* Field date */}
               <Box>
-                <TextField
-                  id="event-date"
-                  label="Date"
-                  type={"date"}
-                  variant="filled"
-                  value={values.date}
-                  onChange={handleInput("date")}
-                  fullWidth
-                  color="primary"
-                  /*  sx={{ mb: 3 }} */
-                  inputProps={{
-                    min: today.toISOString().slice(0, 10), // 5 min
-                  }}
-                  required
-                />
+                <LocalizationProvider
+                  dateAdapter={AdapterDateFns}
+                  locale={frLocale}
+                >
+                  <MobileDatePicker
+                    mask={"__/__/____"}
+                    label="Date"
+                    value={fulldate}
+                    minDate={new Date(Date.now())}
+                    onChange={(newValue) => {
+                      setFulldate(newValue);
+                    }}
+                    renderInput={(params) => (
+                      <TextField
+                        {...params}
+                        variant="filled"
+                        fullWidth
+                        color="primary"
+                        required
+                      />
+                    )}
+                  />
+                </LocalizationProvider>
               </Box>
             </Stack>
             {/* FIN de la 1ère stack}
@@ -285,54 +305,50 @@ const Event = () => {
             <Stack className="stack-right" spacing={2}>
               <Stack spacing={2} direction="row" sx={{ width: "100%" }}>
                 {/*label pour le debut*/}
-                <TextField
-                  id="time"
-                  label="Heure de début"
-                  type="time"
-                  variant="filled"
-                  value={values.dateStart}
-                  onChange={handleInput("dateStart")}
-                  /* InputLabelProps={{
-                    shrink: true,
-                    style: {
-                      height,
-                      ...(!focused && { top: `${labelOffset}px` }),
-                    },
-                  }} */
-                  fullWidth
-                  required
-                  inputProps={{
-                    step: 300, // 5 min
-                    /*  style: {
-                      height,
-                    }, */
-                  }}
-                />
+                <LocalizationProvider
+                  dateAdapter={AdapterDateFns}
+                  locale={frLocale}
+                >
+                  <MobileTimePicker
+                    label="Heure de début"
+                    value={startDate}
+                    /*  minTime={dateStartFi} */
+                    onChange={(newValue) => {
+                      setStartDate(newValue);
+                    }}
+                    renderInput={(params) => (
+                      <TextField
+                        {...params}
+                        fullWidth
+                        required
+                        variant="filled"
+                      />
+                    )}
+                  />
+                </LocalizationProvider>
 
+                <LocalizationProvider
+                  dateAdapter={AdapterDateFns}
+                  locale={frLocale}
+                >
+                  <MobileTimePicker
+                    label="Heure de fin"
+                    value={endDate}
+                    minTime={dateStartFi}
+                    onChange={(newValue) => {
+                      setEndDate(newValue);
+                    }}
+                    renderInput={(params) => (
+                      <TextField
+                        {...params}
+                        fullWidth
+                        required
+                        variant="filled"
+                      />
+                    )}
+                  />
+                </LocalizationProvider>
                 {/*label pour la fin*/}
-                <TextField
-                  id="time"
-                  label="Heure de fin"
-                  type="time"
-                  variant="filled"
-                  value={values.dateEnd}
-                  onChange={handleInput("dateEnd")}
-                  InputLabelProps={{
-                    shrink: true,
-                    /*  style: {
-                      height,
-                      ...(!focused && { top: `${labelOffset}px` }),
-                    }, */
-                  }}
-                  fullWidth
-                  required
-                  inputProps={{
-                    step: 300, // 5 min
-                    /*  style: {
-                      height,
-                    }, */
-                  }}
-                />
               </Stack>
 
               {/*label pour le nb de personnes*/}
