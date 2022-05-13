@@ -258,7 +258,7 @@ const Home = () => {
                   />
                 </Stack>
                 <SubmitButton
-                  label={"Ajouter un evènement"}
+                  label={"Ajouter un événement"}
                   type={"button"}
                   href={"event"}
                 />
