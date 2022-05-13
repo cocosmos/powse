@@ -26,6 +26,7 @@ import { AuthContext } from "../contexts/AuthContext";
 import EventCard from "../components/home/EventCard";
 import "./home.css";
 import SubmitButton from "../components/common/inputs/SubmitButton";
+import logo from "../assets/logo/square/square.svg";
 
 const Home = () => {
   const navigate = useNavigate();
@@ -247,12 +248,13 @@ const Home = () => {
                   sx={{ width: "100%", color: "grey.500", maxWidth: 200 }}
                   spacing={2}
                   justifyContent="center"
+                  alignItems={"center"}
                 >
                   <img
-                    src="../assets/logo/square/square.svg"
+                    src={logo}
                     alt="Logo Powse"
-                    className="logoSpinner"
                     height={200}
+                    className="logoSpinner"
                   />
                 </Stack>
                 <SubmitButton

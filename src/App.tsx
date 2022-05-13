@@ -117,7 +117,7 @@ function App() {
               path="/event"
               element={
                 // <RequireAuth>
-                  <Event />
+                <Event />
                 /* </RequireAuth> */
               }
             />
