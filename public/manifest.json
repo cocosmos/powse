@@ -114,13 +114,13 @@
       "purpose": "maskable"
     },
     {
-      "src": "/square/transparent/512x512.png",
+      "src": "/512x512-trans.png",
       "sizes": "512x512",
       "type": "image/png",
       "purpose": "any"
     },
     {
-      "src": "/square/white/512x512.png",
+      "src": "/512x512.png",
       "sizes": "512x512",
       "type": "image/png",
       "purpose": "maskable"

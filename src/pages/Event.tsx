@@ -292,20 +292,20 @@ const Event = () => {
                   variant="filled"
                   value={values.dateStart}
                   onChange={handleInput("dateStart")}
-                  InputLabelProps={{
+                  /* InputLabelProps={{
                     shrink: true,
                     style: {
                       height,
                       ...(!focused && { top: `${labelOffset}px` }),
                     },
-                  }}
+                  }} */
                   fullWidth
                   required
                   inputProps={{
                     step: 300, // 5 min
-                    style: {
+                    /*  style: {
                       height,
-                    },
+                    }, */
                   }}
                 />
 
@@ -319,18 +319,18 @@ const Event = () => {
                   onChange={handleInput("dateEnd")}
                   InputLabelProps={{
                     shrink: true,
-                    style: {
+                    /*  style: {
                       height,
                       ...(!focused && { top: `${labelOffset}px` }),
-                    },
+                    }, */
                   }}
                   fullWidth
                   required
                   inputProps={{
                     step: 300, // 5 min
-                    style: {
+                    /*  style: {
                       height,
-                    },
+                    }, */
                   }}
                 />
               </Stack>
