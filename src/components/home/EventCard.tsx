@@ -124,7 +124,7 @@ export default function EventCard(props: any) {
 
     setdate = { dateEvent: displayDate, dateHour: displayHours, dateEnd: "" };
     useEffect(() => {
-      if (dateEvent < new Date()) {
+      if (dateEnd < new Date()) {
         setFinish(true);
       }
     }, [props.data.date]);
