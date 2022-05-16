@@ -35,6 +35,8 @@ import {
 } from "firebase/firestore";
 import { db } from "../common/firebase/config";
 import { AuthContext } from "../../contexts/AuthContext";
+
+import "./EventCard.css";
 //import { db } from "../common/firebase/config";
 //Now import this
 // For type, it's a boolean and nothing else
@@ -232,7 +234,7 @@ export default function EventCard(props: any) {
           {categoryEvent}
         </Avatar>
         <Stack flexGrow={1}>
-          <Typography variant="h3" sx={{ ml: 1 }} component="div">
+          <Typography className="content" variant="h3" sx={{ ml: 1 }} component="div">
             {props.data.title}
           </Typography>
           <Typography
