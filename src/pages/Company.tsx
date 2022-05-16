@@ -1,6 +1,5 @@
 import { Stack, Typography } from "@mui/material";
 import {
-  addDoc,
   collection,
   doc,
   onSnapshot,
@@ -13,6 +12,7 @@ import {
 import { useContext, useRef, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { db } from "../components/common/firebase/config";
+import Header from "../components/common/Header";
 import CompanyField from "../components/common/inputs/CompanyField";
 import SubmitButton from "../components/common/inputs/SubmitButton";
 import { AuthContext } from "../contexts/AuthContext";
@@ -29,7 +29,6 @@ const Company = () => {
     const entrepriseRef = companyRef.current.value;
     let companys = [];
     let companysId = [];
-    let check = false;
     let characters = "abcdefghijklmnopqrstuvwxyz0123456789";
     let result = "";
     let chaactersLength = characters.length;
@@ -38,7 +37,6 @@ const Company = () => {
       result += characters.charAt(Math.floor(Math.random() * chaactersLength));
     }
 
-    console.log(result);
     // queries
     const q = query(
       collection(db, "entreprise"),
@@ -72,78 +70,48 @@ const Company = () => {
         navigate("/");
       }
     });
-
-    /*  onSnapshot(collection(db, "entreprise"), (snapshot) => {
-      snapshot.docs.map((adminDoc) => {
-        companys.push({ ...adminDoc.data(), id: adminDoc.id });
-
-        companys.forEach((element) => {
-          if (element.name === entrepriseRef) {
-            updateDoc(doc(db, "/users/", currentUser.uid), {
-              entreprise: element.name,
-              entrepriseUid: element.id,
-              timeStamp: serverTimestamp(),
-            });
-          }
-        });
-      });
-    }); */
-    /*  if (check) {
-        const registerCompany = () => {
-          setDoc(doc(db, `entreprise`, result), {
-            name: entrepriseRef,
-            timeStamp: serverTimestamp(),
-          });
-
-          updateDoc(doc(db, "/users/", currentUser.uid), {
-            entreprise: entrepriseRef,
-            entrepriseUid: result,
-            timeStamp: serverTimestamp(),
-          });
-          // navigate("/");
-          console.log("notsame");
-        };
-        registerCompany();
-      } */
   };
   return (
-    <Stack
-      spacing={5}
-      justifyContent="center"
-      height={"100%"}
-      textAlign="center"
-      alignItems={"center"}
-      maxWidth="sm"
-      sx={{ margin: "0 auto" }}
-    >
-      <form onSubmit={handleCompany}>
-        <Stack
-          spacing={10}
-          justifyContent="center"
-          height={"100%"}
-          textAlign="center"
-          alignItems={"center"}
-          maxWidth="sm"
-          sx={{ margin: "0 auto" }}
-        >
-          <Typography variant="h3">
-            {` Salut, plus qu'une étape avant de prendre ta Powse.`}
-          </Typography>
-          <Stack spacing={2} sx={{ width: "100%" }}>
-            <CompanyField
-              value={value}
-              setValue={setValue}
-              companyRef={companyRef}
-            />
-            <Typography variant="subtitle1">
-              Grâce à cette information, nous pourrons te proposer les powses
-              que tes collègues ont planifié.
+    <>
+      <Header />
+      <Stack
+        spacing={5}
+        justifyContent="center"
+        height={"80vh"}
+        textAlign="center"
+        alignItems={"center"}
+        maxWidth="sm"
+        sx={{ margin: "0 auto" }}
+      >
+        <form onSubmit={handleCompany}>
+          <Stack
+            spacing={10}
+            justifyContent="center"
+            height={"100%"}
+            textAlign="center"
+            alignItems={"center"}
+            maxWidth="sm"
+            sx={{ margin: "0 auto" }}
+          >
+            <Typography variant="h3">
+              {` Salut, plus qu'une étape avant de prendre ta Powse.`}
             </Typography>
+            <Stack spacing={2} sx={{ width: "100%" }}>
+              <CompanyField
+                value={value}
+                setValue={setValue}
+                companyRef={companyRef}
+              />
+              <Typography variant="body2">
+                Grâce à cette information, nous pourrons te proposer les powses
+                que tes collègues ont planifié.
+              </Typography>
+            </Stack>
+            <SubmitButton label={"Suivant"} type={"submit"} href={undefined} />
           </Stack>
-          <SubmitButton label={"Suivant"} type={"submit"} href={undefined} />
-        </Stack>
-      </form>
-    </Stack>
+        </form>
+      </Stack>
+    </>
   );
 };
 

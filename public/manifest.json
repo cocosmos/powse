@@ -1,0 +1,25 @@
+{
+  "name": "Powse",
+  "short_name": "Powse",
+  "scope": "/",
+  "start_url": "https://powse.ch/",
+  "description": "Powse ",
+  "icons": [
+    {
+      "src": "/512x512-trans.png",
+      "sizes": "512x512",
+      "type": "image/png",
+      "purpose": "any"
+    },
+    {
+      "src": "/512x512.png",
+      "sizes": "512x512",
+      "type": "image/png",
+      "purpose": "maskable"
+    }
+  ],
+  "theme_color": "#5754D9",
+  "background_color": "#FCFCFC",
+  "display": "standalone",
+  "orientation": "portrait"
+}

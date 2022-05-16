@@ -1,5 +1,12 @@
 import * as React from "react";
-import { Checkbox, FormControlLabel, RadioGroup, Stack, useTheme } from "@mui/material";
+import {
+  Checkbox,
+  FormControlLabel,
+  RadioGroup,
+  Stack,
+  useMediaQuery,
+  useTheme,
+} from "@mui/material";
 import Typography from "@mui/material/Typography";
 import { useState } from "react";
 import Activity from "../../assets/categories/Activity";
@@ -45,18 +52,18 @@ export default function CategoriesHome({ handleInput, category }) {
         break;
     }
   };
+  const matches = useMediaQuery(theme.breakpoints.up("lg"));
 
   return (
     <RadioGroup
-    row
-    name="category"
-    defaultValue="top"
-    value={category}
-    sx={{ justifyContent:"center"}}
-    // onChange={handleRadioChange}
-  >
+      row
+      name="category"
+      defaultValue="top"
+      value={category}
+      sx={{ justifyContent: "space-evenly", width: "100%", maxWidth: 500 }}
+    >
       <FormControlLabel
-      sx={{marginTop:"3vh"}}
+        sx={{ marginTop: "3vh", mr: 1, ml: 1 }}
         value="food"
         control={
           <Checkbox
@@ -86,7 +93,7 @@ export default function CategoriesHome({ handleInput, category }) {
         labelPlacement="bottom"
       />
       <FormControlLabel
-      sx={{marginTop:"3vh"}}
+        sx={{ marginTop: "3vh", mr: 1, ml: 1 }}
         value="activity"
         control={
           <Checkbox
@@ -116,7 +123,7 @@ export default function CategoriesHome({ handleInput, category }) {
         labelPlacement="bottom"
       />
       <FormControlLabel
-      sx={{marginTop:"3vh"}}
+        sx={{ marginTop: "3vh", mr: 1, ml: 1 }}
         value="free"
         control={
           <Checkbox

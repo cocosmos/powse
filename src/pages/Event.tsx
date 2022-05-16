@@ -7,7 +7,6 @@ import {
   FormControl,
   FormControlLabel,
   FormHelperText,
-  Grid,
   IconButton,
   InputAdornment,
   InputLabel,
@@ -17,18 +16,12 @@ import {
 } from "@mui/material";
 import AddIcon from "@mui/icons-material/Add";
 import RemoveIcon from "@mui/icons-material/Remove";
-
-import {
-  doc,
-  getDoc,
-  serverTimestamp,
-  setDoc,
-  updateDoc,
-} from "firebase/firestore";
-import { useContext, useState } from "react";
+import { useContext, useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
-import { db } from "../components/common/firebase/config";
 import "./Event.css";
+import { AdapterDateFns } from "@mui/x-date-pickers/AdapterDateFns";
+import { LocalizationProvider } from "@mui/x-date-pickers/LocalizationProvider";
+import { DatePicker } from "@mui/x-date-pickers/DatePicker";
 
 {
   /*importer le compostant*/
@@ -38,51 +31,45 @@ import Header from "../components/common/Header";
 import Categories from "../components/event/Categories";
 import { EventType } from "../types/Type";
 import { AuthContext } from "../contexts/AuthContext";
-
-import "./Event.css";
-import ControlEvent from "../components/event/ControlEvent";
+import frLocale from "date-fns/locale/fr";
+import {
+  addDoc,
+  collection,
+  doc,
+  onSnapshot,
+  Timestamp,
+} from "firebase/firestore";
+import { db } from "../components/common/firebase/config";
+import {
+  DesktopDatePicker,
+  MobileDatePicker,
+  MobileTimePicker,
+} from "@mui/x-date-pickers";
 
 const Event = () => {
   const theme = useTheme();
   const navigate = useNavigate();
-  const { dispatch, currentUser } = useContext(AuthContext);
 
   const [colorChecked, setColorCheked] = useState(
     theme.palette.background.paper
   );
+
   const [colorCounter, setColorCounter] = useState(theme.palette.info.main);
-
-  /*const handleAdd = async (e) => {
-    e.preventDefault();
-    try {
-      await setDoc(doc(db, "users"), {
-        ...data,
-        timeStamp: serverTimestamp(),
-      });
-      navigate(-1);
-    } catch (err) {
-      console.log(err);
-    }
-  };*/
-
-  /*Display correct date and hours*/
-  function padTo2Digits(num: number) {
-    return String(num).padStart(2, "0");
-  }
-  const today = new Date();
-  const dateStart =
-    padTo2Digits(today.getHours()) + ":" + padTo2Digits(today.getMinutes());
-  const newDate = new Date(Date.now() + 900000);
-  const dateEnd =
-    padTo2Digits(newDate.getHours()) + ":" + padTo2Digits(newDate.getMinutes());
+  const { dispatch, currentUser } = useContext(AuthContext);
+  const [entreprise, setEntreprise] = useState<any>({ entrepriseUid: "" });
+  const [fulldate, setFulldate] = useState<Date | null>(new Date(Date.now()));
+  const [endDate, setEndDate] = useState<Date | null>(
+    new Date(Date.now() + 900000)
+  );
+  const [startDate, setStartDate] = useState<Date | null>(new Date(Date.now()));
 
   const [values, setValues] = useState<EventType>({
     present: "general",
     category: "",
     title: "",
-    date: today.toISOString().slice(0, 10),
-    dateStart: dateStart,
-    dateEnd: dateEnd,
+    date: new Date(),
+    dateStart: new Date(),
+    dateEnd: new Date(),
     space: 5,
     entrepriseUid: "",
     unlimited: false,
@@ -116,6 +103,7 @@ const Event = () => {
       setColorCheked(theme.palette.background.paper);
     }
   };
+
   const handleCounter = () => {
     setValues((preState) => ({
       ...preState,
@@ -124,8 +112,42 @@ const Event = () => {
     setColorCounter(theme.palette.info.main);
     setColorCheked(theme.palette.background.paper);
   };
+
   const [error, setError] = useState(false);
   const [helperText, setHelperText] = useState("");
+
+  //Date
+  const tzoffset = new Date().getTimezoneOffset() * 60000;
+
+  const dateFullString = new Date(fulldate.getTime() - tzoffset)
+    .toISOString()
+    .slice(0, -1);
+
+  const dateTimeStartString = new Date(startDate.getTime() - tzoffset)
+    .toISOString()
+    .slice(0, -1);
+  const dateTimeEndString = new Date(endDate.getTime() - tzoffset)
+    .toISOString()
+    .slice(0, -1);
+
+  const datetimeStart =
+    dateFullString.substr(0, 11) + dateTimeStartString.substr(11);
+  const datetimeEnd =
+    dateFullString.substr(0, 11) + dateTimeEndString.substr(11);
+  const date = Timestamp.fromDate(fulldate).toDate();
+  const dateStartFi = Timestamp.fromDate(new Date(datetimeStart)).toDate();
+  const dateEndFi = Timestamp.fromDate(new Date(datetimeEnd)).toDate();
+  //end date
+  useEffect(() => {
+    const docRef = doc(db, `users`, currentUser.uid);
+    try {
+      onSnapshot(docRef, (doc) => {
+        setEntreprise({ ...doc.data() });
+      });
+    } catch (error) {
+      console.log(error);
+    }
+  }, []);
 
   const handleSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
@@ -134,20 +156,40 @@ const Event = () => {
       setHelperText("Veuillez selectionner une catégorie.");
       setError(true);
     } else {
-      /*  await setDoc(doc(db, `company/${data.company}/users`, currentUser.uid), {
-        name: data.name,
-        email: data.email,
-        timeStamp: serverTimestamp(),
+      await addDoc(collection(db, "events"), {
+        present: values.present,
+        category: values.category,
+        title: values.title,
+        date: date,
+        dateStart: dateStartFi,
+        dateEnd: dateEndFi,
+        space: values.space,
+        unlimited: values.unlimited,
+        location: values.location,
+        author: currentUser.uid,
+        entrepriseUid: entreprise.entrepriseUid,
       });
-      await updateDoc(doc(db, "users", currentUser.uid), {
-        company: data.company,
-      }); */
-
       navigate("/");
       setHelperText("");
       setError(false);
     }
   };
+
+  const backgroundBox =
+    values.present === "general"
+      ? "slider.backgroundPri"
+      : "slider.backgroundSec";
+  const backgroundButton =
+    values.present === "general" ? "slider.primary" : "slider.secondary";
+
+  const colorButton = values.present === "home" ? "home.main" : "primary.main";
+  const focused = "";
+  const colorHome =
+    values.present === "home" ? "home.contrastText" : "background.paper";
+  const labelRdv =
+    values.present === "home"
+      ? "Lien de la réunion..."
+      : "Lieu du rendez-vous...";
 
   // height of the TextField
   const height = "70%";
@@ -158,13 +200,7 @@ const Event = () => {
   // get this from your form library, for instance in
   // react-final-form it's fieldProps.meta.active
   // or provide it yourself - see notes below
-  const focused = "";
 
-  const colorHome =
-    values.present === "home" ? "sucess.contrastText" : "background.paper";
-  const colorButton =
-    values.present === "home" ? "sucess.main" : "primary.main";
-  console.log(colorHome);
   return (
     <>
       <Header />
@@ -237,21 +273,29 @@ const Event = () => {
 
               {/* Field date */}
               <Box>
-                <TextField
-                  id="event-date"
-                  label="Date"
-                  type={"date"}
-                  variant="filled"
-                  value={values.date}
-                  onChange={handleInput("date")}
-                  fullWidth
-                  color="primary"
-                  /*  sx={{ mb: 3 }} */
-                  inputProps={{
-                    min: today.toISOString().slice(0, 10), // 5 min
-                  }}
-                  required
-                />
+                <LocalizationProvider
+                  dateAdapter={AdapterDateFns}
+                  locale={frLocale}
+                >
+                  <MobileDatePicker
+                    mask={"__/__/____"}
+                    label="Date"
+                    value={fulldate}
+                    minDate={new Date(Date.now())}
+                    onChange={(newValue) => {
+                      setFulldate(newValue);
+                    }}
+                    renderInput={(params) => (
+                      <TextField
+                        {...params}
+                        variant="filled"
+                        fullWidth
+                        color="primary"
+                        required
+                      />
+                    )}
+                  />
+                </LocalizationProvider>
               </Box>
             </Stack>
             {/* FIN de la 1ère stack}
@@ -261,54 +305,50 @@ const Event = () => {
             <Stack className="stack-right" spacing={2}>
               <Stack spacing={2} direction="row" sx={{ width: "100%" }}>
                 {/*label pour le debut*/}
-                <TextField
-                  id="time"
-                  label="Heure de début"
-                  type="time"
-                  variant="filled"
-                  value={values.dateStart}
-                  onChange={handleInput("dateStart")}
-                  InputLabelProps={{
-                    shrink: true,
-                    style: {
-                      height,
-                      ...(!focused && { top: `${labelOffset}px` }),
-                    },
-                  }}
-                  fullWidth
-                  required
-                  inputProps={{
-                    step: 300, // 5 min
-                    style: {
-                      height,
-                    },
-                  }}
-                />
+                <LocalizationProvider
+                  dateAdapter={AdapterDateFns}
+                  locale={frLocale}
+                >
+                  <MobileTimePicker
+                    label="Heure de début"
+                    value={startDate}
+                    /*  minTime={dateStartFi} */
+                    onChange={(newValue) => {
+                      setStartDate(newValue);
+                    }}
+                    renderInput={(params) => (
+                      <TextField
+                        {...params}
+                        fullWidth
+                        required
+                        variant="filled"
+                      />
+                    )}
+                  />
+                </LocalizationProvider>
 
+                <LocalizationProvider
+                  dateAdapter={AdapterDateFns}
+                  locale={frLocale}
+                >
+                  <MobileTimePicker
+                    label="Heure de fin"
+                    value={endDate}
+                    minTime={dateStartFi}
+                    onChange={(newValue) => {
+                      setEndDate(newValue);
+                    }}
+                    renderInput={(params) => (
+                      <TextField
+                        {...params}
+                        fullWidth
+                        required
+                        variant="filled"
+                      />
+                    )}
+                  />
+                </LocalizationProvider>
                 {/*label pour la fin*/}
-                <TextField
-                  id="time"
-                  label="Heure de fin"
-                  type="time"
-                  variant="filled"
-                  value={values.dateEnd}
-                  onChange={handleInput("dateEnd")}
-                  InputLabelProps={{
-                    shrink: true,
-                    style: {
-                      height,
-                      ...(!focused && { top: `${labelOffset}px` }),
-                    },
-                  }}
-                  fullWidth
-                  required
-                  inputProps={{
-                    step: 300, // 5 min
-                    style: {
-                      height,
-                    },
-                  }}
-                />
               </Stack>
 
               {/*label pour le nb de personnes*/}
@@ -420,7 +460,7 @@ const Event = () => {
                 <TextField
                   fullWidth
                   id="event-lieu"
-                  label="Lieu du rendez-vous......"
+                  label={labelRdv}
                   variant="filled"
                   onChange={handleInput("location")}
                   required
@@ -438,6 +478,7 @@ const Event = () => {
               type="submit"
               variant="contained"
               fullWidth
+              color="primary"
               sx={{
                 borderRadius: 25,
                 textTransform: "unset",

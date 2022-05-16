@@ -11,11 +11,19 @@ import Typography from "@mui/material/Typography";
 import AccessTimeSharpIcon from "@mui/icons-material/AccessTimeSharp";
 
 import AllInclusiveIcon from "@mui/icons-material/AllInclusive";
-import { PartyModeOutlined, PersonSharp } from "@mui/icons-material";
+import { PersonSharp } from "@mui/icons-material";
 import Food from "../../assets/categories/Food";
 import FmdGoodOutlinedIcon from "@mui/icons-material/FmdGoodOutlined";
 import CheckCircleIcon from "@mui/icons-material/CheckCircle";
-import { Button, Chip, Grid, Link, Stack } from "@mui/material";
+import {
+  Button,
+  Chip,
+  Grid,
+  Link,
+  Stack,
+  useMediaQuery,
+  useTheme,
+} from "@mui/material";
 import Activity from "../../assets/categories/Activity";
 import Free from "../../assets/categories/Free";
 import {
@@ -44,6 +52,7 @@ export default function EventCard(props: any) {
   const [expanded, setExpanded] = useState(false);
   const [userDetails, setUserDetails] = useState<any>({ name: "" });
   const [participants, setParticipants] = useState<any>([{ id: "" }]);
+  const [finish, setFinish] = useState(false);
   const { currentUser } = useContext(AuthContext);
 
   const [joined, setJoined] = useState(false);
@@ -97,7 +106,7 @@ export default function EventCard(props: any) {
   const handleExpandClick = () => {
     setExpanded(!expanded);
   };
-
+  //Date
   if (props.data.date) {
     let dateEvent = new Date(props.data.date.seconds * 1000);
     let dateStart = new Date(props.data.dateStart.seconds * 1000);
@@ -122,11 +131,15 @@ export default function EventCard(props: any) {
       dateEvent.getFullYear();
 
     setdate = { dateEvent: displayDate, dateHour: displayHours, dateEnd: "" };
+    useEffect(() => {
+      if (dateEnd < new Date()) {
+        setFinish(true);
+      }
+    }, [props.data.date]);
   }
-
+  //author
   useEffect(() => {
     if (props.data.author) {
-      console.log(userDetails.name);
       if (userDetails.name !== "") {
         setDoc(doc(db, `/events/${props.data.id}/users`, props.data.author), {
           name: userDetails.name,
@@ -145,7 +158,7 @@ export default function EventCard(props: any) {
         );
       } catch (er) {}
     }
-  }, [props.data.idloca]);
+  }, [props.data.author]);
   //show button finish
   useEffect(() => {
     participants.map((participant) => {
@@ -177,7 +190,6 @@ export default function EventCard(props: any) {
   const handleButton = async (e) => {
     e.preventDefault();
     if (props.data.unlimited || props.data.space >= numbPartcipants) {
-      console.log("test");
       await setDoc(doc(db, `/events/${props.data.id}/users`, currentUser.uid), {
         name: props.user.name,
         timeStamp: serverTimestamp(),
@@ -189,6 +201,8 @@ export default function EventCard(props: any) {
       setJoined(true);
     }
   }, []);
+  const theme = useTheme();
+  const matches = useMediaQuery(theme.breakpoints.up("xs"));
 
   return (
     <Card
@@ -205,6 +219,7 @@ export default function EventCard(props: any) {
         justifyContent="space-between"
         alignItems={"center"}
         spacing={1.2}
+        width="100%"
       >
         <Avatar
           sx={{
@@ -283,17 +298,27 @@ export default function EventCard(props: any) {
         </Stack>
       </CardContent>
       {/*bouton rejoindre*/}
-      <CardActions sx={{ justifyContent: "end" }}>
+      <CardActions sx={{ justifyContent: "space-between" }}>
+        {finish ? (
+          <Chip label="Terminé" size="small" color="error" variant="outlined" />
+        ) : (
+          <Chip
+            label="Ouvert"
+            size="small"
+            color="success"
+            variant="outlined"
+          />
+        )}
         {joined ? (
           <CheckCircleIcon
             // color={props.data.present === "home" ? "home" : "primary"}
             color="primary"
             fontSize="large"
-            sx={{ mr: 1.5, mt: -6 }}
+            sx={{ mr: 1.5, mt: -2 }}
           />
         ) : full ? (
           <Chip label="Complet" color={"error"} />
-        ) : (
+        ) : !finish ? (
           <Button
             variant="contained"
             size="medium"
@@ -303,11 +328,14 @@ export default function EventCard(props: any) {
               textTransform: "unset",
               pr: 4,
               pl: 4,
+              mt: -2,
               backgroundColor: colorButton,
             }}
           >
             Rejoindre
           </Button>
+        ) : (
+          ""
         )}
       </CardActions>
     </Card>

@@ -2,7 +2,7 @@ import React, { Suspense } from "react";
 import ReactDOM from "react-dom/client";
 import App from "./App";
 import "./index.css";
-import logo from "./assets/logo/logo.svg";
+import logo from "./assets/logo/square/transparent/512x512.png";
 import { AuthContextProvider } from "./contexts/AuthContext";
 import { registerSW } from "virtual:pwa-register";
 

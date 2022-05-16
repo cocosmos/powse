@@ -9,7 +9,6 @@ import AddCircleIcon from "@mui/icons-material/AddCircle";
 import {
   BottomNavigation,
   BottomNavigationAction,
-  Button,
   FormGroup,
   LinearProgress,
   Typography,
@@ -27,6 +26,7 @@ import { AuthContext } from "../contexts/AuthContext";
 import EventCard from "../components/home/EventCard";
 import "./home.css";
 import SubmitButton from "../components/common/inputs/SubmitButton";
+import logo from "../assets/logo/square/square.svg";
 
 const Home = () => {
   const navigate = useNavigate();
@@ -55,7 +55,6 @@ const Home = () => {
     free: true,
   });
   const [home, setHome] = useState({ general: true, home: false });
-  //const [users, setUsers] = useState({ author: "Mipam" });
 
   const colorHome = home.home ? "home.main" : "primary.main";
 
@@ -69,7 +68,6 @@ const Home = () => {
       console.log(error);
     }
   }, []);
-  // event.entrepriseUid === entreprise.entrepriseUid
 
   useEffect(() => {
     const q = query(
@@ -83,8 +81,8 @@ const Home = () => {
           id: doc.id,
         }))
       );
+
       setLoading(false);
-      console.log(events);
     });
   }, [entreprise.entrepriseUid]);
 
@@ -107,7 +105,7 @@ const Home = () => {
     navigate("/event");
   }
   const matches = useMediaQuery(theme.breakpoints.up("lg"));
-  // GetData();
+  events.sort((a, b) => b.dateStart - a.dateStart);
   return (
     <>
       <Header />
@@ -128,10 +126,14 @@ const Home = () => {
               zIndex: 0,
               top: 0,
               bottom: 0,
-              right: 1079,
-              left: 0,
+              right: "75%",
+              width: 200,
+              // left: 500,
               "> *": {
                 mb: 5,
+              },
+              "label:nth-of-type(-n+3)": {
+                width: "100%",
               },
             }}
           >
@@ -149,7 +151,7 @@ const Home = () => {
         {isLoading ? (
           <Stack
             flexGrow={1}
-            height="100%"
+            height="50vh"
             alignItems="center"
             justifyContent="center"
           >
@@ -170,85 +172,95 @@ const Home = () => {
             mb={20}
           >
             {events[0] ? (
-              events.map((event: EventType, index) => {
-                if (category.food && event.category === "food") {
-                  if (event.present === "home" && home.home) {
-                    return (
-                      <EventCard
-                        key={event.id}
-                        data={event}
-                        user={entreprise}
-                      />
-                    );
-                  } else if (home.general) {
-                    return (
-                      <EventCard
-                        key={event.id}
-                        data={event}
-                        user={entreprise}
-                      />
-                    );
+              <Stack
+                spacing={4}
+                sx={{ pb: 10, margin: "0 auto", height: "100%" }}
+                maxWidth="md"
+                width={"100%"}
+                alignItems={"center"}
+              >
+                {events.map((event: EventType, index) => {
+                  if (category.food && event.category === "food") {
+                    if (event.present === "home" && home.home) {
+                      return (
+                        <EventCard
+                          key={event.id}
+                          data={event}
+                          user={entreprise}
+                        />
+                      );
+                    } else if (home.general) {
+                      return (
+                        <EventCard
+                          key={event.id}
+                          data={event}
+                          user={entreprise}
+                        />
+                      );
+                    }
                   }
-                }
-                if (category.activity && event.category === "activity") {
-                  if (event.present === "home" && home.home) {
-                    return (
-                      <EventCard
-                        key={event.id}
-                        data={event}
-                        user={entreprise}
-                      />
-                    );
-                  } else if (home.general) {
-                    return (
-                      <EventCard
-                        key={event.id}
-                        data={event}
-                        user={entreprise}
-                      />
-                    );
+                  if (category.activity && event.category === "activity") {
+                    if (event.present === "home" && home.home) {
+                      return (
+                        <EventCard
+                          key={event.id}
+                          data={event}
+                          user={entreprise}
+                        />
+                      );
+                    } else if (home.general) {
+                      return (
+                        <EventCard
+                          key={event.id}
+                          data={event}
+                          user={entreprise}
+                        />
+                      );
+                    }
                   }
-                }
-                if (category.free && event.category === "free") {
-                  if (event.present === "home" && home.home) {
-                    return (
-                      <EventCard
-                        key={event.id}
-                        data={event}
-                        user={entreprise}
-                      />
-                    );
-                  } else if (home.general) {
-                    return (
-                      <EventCard
-                        key={event.id}
-                        data={event}
-                        user={entreprise}
-                      />
-                    );
+                  if (category.free && event.category === "free") {
+                    if (event.present === "home" && home.home) {
+                      return (
+                        <EventCard
+                          key={event.id}
+                          data={event}
+                          user={entreprise}
+                        />
+                      );
+                    } else if (home.general) {
+                      return (
+                        <EventCard
+                          key={event.id}
+                          data={event}
+                          user={entreprise}
+                        />
+                      );
+                    }
                   }
-                }
-              })
+                })}
+              </Stack>
             ) : (
               <Stack
                 flexGrow={1}
                 alignItems="center"
                 justifyContent="center"
-                mt={-20}
+                height={"40vh"}
               >
                 <Stack
                   sx={{ width: "100%", color: "grey.500", maxWidth: 200 }}
                   spacing={2}
                   justifyContent="center"
+                  alignItems={"center"}
                 >
                   <img
-                    src="../assets/logo/square/square.svg"
+                    src={logo}
                     alt="Logo Powse"
+                    height={200}
                     className="logoSpinner"
                   />
                 </Stack>
                 <SubmitButton
-                  label={"Ajouter un evènement"}
+                  label={"Ajouter un événement"}
                   type={"button"}
                   href={"event"}
                 />

@@ -1,175 +1,84 @@
-import { Password, Visibility, VisibilityOff } from "@mui/icons-material";
-import {
-  Button,
-  FilledInput,
-  FormControl,
-  FormHelperText,
-  IconButton,
-  InputAdornment,
-  InputLabel,
-  Stack,
-} from "@mui/material";
+import { Box, FormHelperText, Stack, Link } from "@mui/material";
 import Typography from "@mui/material/Typography";
-import { confirmPasswordReset } from "firebase/auth";
-import { useEffect, useState } from "react";
+import { useRef, useState } from "react";
 import { useNavigate } from "react-router-dom";
-import { auth } from "../components/common/firebase/config";
-import Header from "../components/common/Header";
-
-interface State {
-  password: string;
-  showPassword: boolean;
-  confirmPassword: string;
-  passwordValid: boolean;
-  code: string;
-}
+import Logo from "../assets/Logo";
+import PasswordField from "../components/common/inputs/PasswordField";
+import SubmitButton from "../components/common/inputs/SubmitButton";
+import { useAuth } from "../contexts/AuthContext";
 
 const ResetPassword = () => {
   const navigate = useNavigate();
-  const [values, setValues] = useState<State>({
-    password: "",
-    showPassword: false,
-    confirmPassword: "",
-    passwordValid: false,
-    code: "",
-  });
+  const codeOob = new URLSearchParams(window.location.href).get("oobCode");
+  const passwordRef = useRef({ value: "" });
+  const { resetPassword } = useAuth();
+  const confirmPasswordRef = useRef({ value: "" });
+  const [passwordConfirm, setPasswordConfirm] = useState("");
 
   const handleSubmit = async (e: any) => {
-    // console.log(email);
+    const password = passwordRef.current.value;
+    const confirmPassword = confirmPasswordRef.current.value;
     e.preventDefault();
-    if (
-      values.password === values.confirmPassword &&
-      values.password.length >= 8
-    ) {
-      try {
-        console.log("good");
-        confirmPasswordReset(auth, values.code, values.password);
-        navigate("/login");
-      } catch (err) {
-        console.log(err);
+
+    try {
+      if (password !== confirmPassword) {
+        throw new Error("passwordconfirm");
       }
-    } else {
-      console.log("erroe");
+      resetPassword(codeOob, password);
+      navigate("/login");
+    } catch (err) {
+      console.log(err);
+      if (err.message === "passwordconfirm") {
+        setPasswordConfirm("Les mots de passe ne correspondent pas.");
+      } else {
+        setPasswordConfirm(
+          "Une erreur est survenue veuillez redemander un lien."
+        );
+      }
     }
   };
-  const codeOob = new URLSearchParams(window.location.href).get("oobCode");
-
-  useEffect(() => {
-    setValues({
-      ...values,
-      code: codeOob,
-    });
-    if (codeOob === "") {
-      navigate("/");
-    }
-  }, []);
-
-  const handleInput =
-    (prop: keyof State) => (event: React.ChangeEvent<HTMLInputElement>) => {
-      setValues({ ...values, [prop]: event.target.value });
-    };
-
-  const handleClickShowPassword = () => {
-    setValues({
-      ...values,
-      showPassword: !values.showPassword,
-    });
-  };
-
-  const handleMouseDownPassword = (
-    event: React.MouseEvent<HTMLButtonElement>
-  ) => {
-    event.preventDefault();
-  };
-  console.log(values);
+  //Get codeOob for reset password
+  if (!codeOob) {
+    navigate("/");
+  }
 
   return (
     <Stack
       spacing={8}
       justifyContent="center"
-      height={"100vh"}
+      height={"80vh"}
       textAlign="center"
       alignItems={"center"}
       maxWidth="sm"
       sx={{ margin: "0 auto" }}
     >
+      <Box component="span" mt={20}>
+        <Logo />
+      </Box>
       <form onSubmit={handleSubmit}>
-        <Header />
         <Typography variant="h1" sx={{ mb: 6 }}>
           Réinitialiser votre mot de passe
         </Typography>
         <Stack spacing={1} sx={{ width: "100%" }}>
-          <FormControl
-            variant="filled"
-            fullWidth
-            color="secondary"
-            sx={{ mb: 3 }}
-          >
-            <InputLabel htmlFor="password">Créer un mot de passe</InputLabel>
-            <FilledInput
-              id="password"
-              type={values.showPassword ? "text" : "password"}
-              value={values.password}
-              onChange={handleInput("password")}
-              endAdornment={
-                <InputAdornment position="end">
-                  <IconButton
-                    aria-label="toggle password visibility"
-                    onClick={handleClickShowPassword}
-                    onMouseDown={handleMouseDownPassword}
-                    edge="end"
-                  >
-                    {values.showPassword ? <VisibilityOff /> : <Visibility />}
-                  </IconButton>
-                </InputAdornment>
-              }
-            />
-            <FormHelperText id="my-helper-text">
-              Votre mot de passe doit faire minimum 8 charactères.
-            </FormHelperText>
-          </FormControl>
-          <FormControl
-            variant="filled"
-            fullWidth
-            color="secondary"
-            sx={{ mb: 3 }}
-          >
-            <InputLabel htmlFor="passwordConfiirm">
-              Confirmer le mot de passe
-            </InputLabel>
-            <FilledInput
-              id="passwordConfirm"
-              type={values.showPassword ? "text" : "password"}
-              value={values.confirmPassword}
-              onChange={handleInput("confirmPassword")}
-              endAdornment={
-                <InputAdornment position="end">
-                  <IconButton
-                    aria-label="toggle password visibility"
-                    onClick={handleClickShowPassword}
-                    onMouseDown={handleMouseDownPassword}
-                    edge="end"
-                  >
-                    {values.showPassword ? <VisibilityOff /> : <Visibility />}
-                  </IconButton>
-                </InputAdornment>
-              }
-            />
-            <FormHelperText id="my-helper-text">
-              Les mots de passe ne correspondent pas.
-            </FormHelperText>
-          </FormControl>
+          <PasswordField
+            passwordRef={passwordRef}
+            label={"Créer un mot de passe *"}
+            id={"new-password"}
+          />
+          <PasswordField
+            passwordRef={confirmPasswordRef}
+            label={"Confirmer le mot de passe *"}
+            id={"confirm-password"}
+            autoFocus={false}
+          />
+          <FormHelperText sx={{ textAlign: "center", mt: -2 }} error>
+            {passwordConfirm}
+          </FormHelperText>
         </Stack>
-        <Button
-          type="submit"
-          variant="contained"
-          color="primary"
-          sx={{ borderRadius: 25, textTransform: "unset", mt: 4, p: 1.5 }}
-          fullWidth
-        >
-          {" "}
-          Se connecter
-        </Button>
+        <SubmitButton label={"Se connecter"} type={"submit"} href={undefined} />
+        <Typography variant="body2" pb={5} pt={5}>
+          Redemandez un lien ? <Link href="/forgotpassword">Redemandez</Link>
+        </Typography>
       </form>
     </Stack>
   );

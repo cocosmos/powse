@@ -1,50 +1,29 @@
-import { Box, Button, Stack, TextField, Typography } from "@mui/material";
-import { useState } from "react";
-import { auth } from "../components/common/firebase/config";
-import { getAuth, sendPasswordResetEmail } from "firebase/auth";
-import ResetPassword from "./ResetPassword";
-import Header from "../components/common/Header";
+import { Box, FormHelperText, Stack, Typography } from "@mui/material";
+import { useRef, useState } from "react";
+import EmailField from "../components/common/inputs/EmailField";
+import SubmitButton from "../components/common/inputs/SubmitButton";
+import { useAuth } from "../contexts/AuthContext";
+import Logo from "../assets/Logo";
 
 const ForgotPassword = () => {
-  const [email, setEmail] = useState("");
-  const [alert, setAlert] = useState({
-    isAlert: false,
-    severity: "info",
-    message: "",
-    timeout: null,
-    location: "",
-  });
+  const emailRef = useRef({ value: "" });
+  const { forgotPassword } = useAuth();
+  const [emailSent, setEmailSent] = useState(
+    "Nous vous enverrons un lien pour réinitialiser votre mot de passe."
+  );
+
   const handleSubmit = async (e) => {
     e.preventDefault();
-
+    const email = emailRef.current.value;
     try {
-      await ResetPassword(email);
-      setAlert({
-        isAlert: false,
-        severity: "success",
-        message: "reset link has been sent to your email inbox",
-        timeout: 8000,
-        location: "main",
-      });
+      await forgotPassword(email);
+      setEmailSent(`Un lien vient d'être envoyé à ${email}`);
     } catch (error) {
-      setAlert({
-        isAlert: true,
-        severity: "error",
-        message: error.message,
-        timeout: 5000,
-        location: "modal",
-      });
+      console.log(error);
     }
   };
-
-  const ResetPassword = (email: string) => {
-    return sendPasswordResetEmail(auth, email);
-  };
-  console.log(email);
-
   return (
     <form onSubmit={handleSubmit}>
-      <Header />
       <Stack
         spacing={10}
         justifyContent="center"
@@ -54,39 +33,19 @@ const ForgotPassword = () => {
         maxWidth="sm"
         sx={{ margin: "0 auto" }}
       >
-        <Box sx={{ mt: 7 }}></Box>
+        <Box component="span" mt={20}>
+          <Logo />
+        </Box>
         <Typography variant="h1" sx={{ mt: 7, fontSize: 32 }}>
-          Mot de passe oublié
+          Mot de passe oublié?
         </Typography>
         <Stack spacing={2} sx={{ width: "100%" }}>
-          <TextField
-            id="email"
-            label="Adresse e-mail"
-            type={"email"}
-            variant="filled"
-            value={email}
-            onChange={(e) => setEmail(e.target.value)}
-            fullWidth
-            helperText={alert.message}
-            color="secondary"
-            sx={{ mb: 3 }}
-            required
-            error={alert.isAlert}
-          />
-          <Typography variant="subtitle1">
-            Nous vous enverrons un lien pour réinitialiser votre mot de passe.
-          </Typography>
+          <EmailField emailRef={emailRef} />
+          <FormHelperText sx={{ textAlign: "center", mt: -2 }}>
+            <Typography variant="body2">{emailSent}</Typography>
+          </FormHelperText>
         </Stack>
-        <Button
-          type="submit"
-          variant="contained"
-          color="primary"
-          sx={{ borderRadius: 25, textTransform: "unset", mt: 4, p: 1.5 }}
-          fullWidth
-        >
-          {" "}
-          Suivant
-        </Button>
+        <SubmitButton label={"Envoyer"} type={"submit"} href={undefined} />
       </Stack>
     </form>
   );

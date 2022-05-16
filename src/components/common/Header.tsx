@@ -9,13 +9,13 @@ const Header = () => {
       {matches ? (
         <Box textAlign={"left"} mt={1} mb={2}>
           <Link href="/" underline="none">
-            <object data={logo} type="image/svg+xml" width={125} />
+            <img src={logo} alt="Logo Powse" width={125} />
           </Link>
         </Box>
       ) : (
         <Box textAlign={"center"} mt={1} mb={2}>
           <Link href="/" underline="none">
-            <object data={logo} type="image/svg+xml" width={125} />
+            <img src={logo} alt="Logo Powse" width={125} />
           </Link>
         </Box>
       )}
