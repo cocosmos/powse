@@ -1,3 +1,4 @@
+//Activity break categories svg
 const Activity = () => {
   return (
     <svg

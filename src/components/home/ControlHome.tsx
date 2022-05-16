@@ -32,6 +32,7 @@ const ControlHome = ({ handleHome, home }) => {
   };
 
   return (
+     //switch général - télé-travail for change color 
     <RadioGroup
       row
       name="radioGeneral"
@@ -41,6 +42,7 @@ const ControlHome = ({ handleHome, home }) => {
         borderRadius: 32,
       }}
     >
+      {/**label for option général  */}
       <FormControlLabel
         value="general"
         control={<Radio sx={{ display: "none" }} />}
@@ -55,6 +57,7 @@ const ControlHome = ({ handleHome, home }) => {
           zIndex: indexP,
         }}
       />
+      {/**label for option télé-travail */}
       <FormControlLabel
         value="home"
         control={<Radio sx={{ display: "none" }} />}

@@ -12,6 +12,7 @@ import Activity from "../../assets/categories/Activity";
 import Free from "../../assets/categories/Free";
 import Food from "../../assets/categories/Food";
 
+//add site styling
 export default function Categories({ handleInput, category }) {
   const theme = useTheme();
   const [colorRadioA, setColorRadioA] = useState(
@@ -23,7 +24,7 @@ export default function Categories({ handleInput, category }) {
   const [colorRadioC, setColorRadioC] = useState(
     theme.palette.background.default
   );
-
+  //exporting foods, activities and free categories with the right style
   const handleRadioChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     handleInput(e);
 
@@ -54,6 +55,7 @@ export default function Categories({ handleInput, category }) {
   };
 
   return (
+    //this component allows you to select a single category
     <RadioGroup
       row
       name="category"
@@ -62,6 +64,7 @@ export default function Categories({ handleInput, category }) {
       onChange={handleRadioChange}
       sx={{ flexWrap: "nowrap" }}
     >
+      {/**element that defines the category: "Pause repas"*/}
       <FormControlLabel
         value="food"
         control={<Radio sx={{ display: "none" }} />}
@@ -84,6 +87,7 @@ export default function Categories({ handleInput, category }) {
         }
         labelPlacement="bottom"
       />
+      {/**element that defines the category: "Pause activités"*/}
       <FormControlLabel
         value="activity"
         control={<Radio sx={{ display: "none" }} />}
@@ -106,6 +110,7 @@ export default function Categories({ handleInput, category }) {
         }
         labelPlacement="bottom"
       />
+      {/**element that defines the category: "Pause libre"*/}
       <FormControlLabel
         value="free"
         control={<Radio sx={{ display: "none" }} />}

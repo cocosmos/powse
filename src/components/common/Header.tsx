@@ -1,6 +1,6 @@
 import { Box, Link, useMediaQuery, useTheme } from "@mui/material";
 import logo from "../../assets/logo/logo.svg";
-
+//header component, containing the site logo
 const Header = () => {
   const theme = useTheme();
   const matches = useMediaQuery(theme.breakpoints.up("lg"));
