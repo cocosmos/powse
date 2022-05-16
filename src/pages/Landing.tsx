@@ -81,12 +81,9 @@ const Landing = () => {
           <LinkedInIcon color="primary" />
         </IconButton>
       </Box>
-      <Container maxWidth="xl" sx={{ p: 0, height: "93vh", mt: 7 }}>
+      <Container maxWidth="xl" sx={{ p: 0, height: "91vh", mt: 8 }}>
         <Box
           display={"flex"}
-          /*    mt={5} */
-          //alignItems="center"
-          // width="100%"
           justifyContent={"center"}
           flexWrap="wrap"
           height={"100%"}

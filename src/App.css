@@ -1,2 +1,26 @@
 @import url("https://fonts.googleapis.com/css2?family=Inter&family=Spectral&display=swap");
 @import url("https://use.typekit.net/dxh4jxp.css");
+
+/* width */
+::-webkit-scrollbar {
+  width: 15px;
+}
+
+/* Track */
+::-webkit-scrollbar-track {
+  background: #5654d994;
+}
+
+/* Handle */
+::-webkit-scrollbar-thumb {
+  background: linear-gradient(
+    180deg,
+    rgba(87, 84, 217, 1) 0%,
+    rgba(209, 121, 179, 1) 73%
+  );
+}
+
+/* Handle on hover */
+::-webkit-scrollbar-thumb:hover {
+  background: rgb(87, 84, 217);
+}
