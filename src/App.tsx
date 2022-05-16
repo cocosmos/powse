@@ -15,6 +15,7 @@ import { theme } from "./theme/getPaletteMode";
 import { collection, doc, onSnapshot, query, where } from "firebase/firestore";
 import { db } from "./components/common/firebase/config";
 import Company from "./pages/Company";
+import Landing from "./pages/Landing";
 
 function App() {
   const { currentUser } = useContext(AuthContext);
@@ -150,6 +151,14 @@ function App() {
               element={
                 /*    <RequireAuthCompany> */
                 <Company />
+                /*    </RequireAuthCompany> */
+              }
+            />
+            <Route
+              path="/landing"
+              element={
+                /*    <RequireAuthCompany> */
+                <Landing />
                 /*    </RequireAuthCompany> */
               }
             />
