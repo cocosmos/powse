@@ -18,7 +18,6 @@ import Company from "./pages/Company";
 
 function App() {
   const { currentUser } = useContext(AuthContext);
-
   /* const docRef = doc(db, "users", currentUser.uid);
 
   // realtime collection data
