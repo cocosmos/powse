@@ -9,8 +9,10 @@ import AddCircleIcon from "@mui/icons-material/AddCircle";
 import {
   BottomNavigation,
   BottomNavigationAction,
+  Box,
   FormGroup,
   LinearProgress,
+  Link,
   Typography,
   useMediaQuery,
   useTheme,
@@ -27,6 +29,7 @@ import EventCard from "../components/home/EventCard";
 import "./home.css";
 import SubmitButton from "../components/common/inputs/SubmitButton";
 import logo from "../assets/logo/square/square.svg";
+import logoPowse from "../assets/logo/logo.svg";
 
 const Home = () => {
   const navigate = useNavigate();
@@ -108,11 +111,39 @@ const Home = () => {
   events.sort((a, b) => b.dateStart - a.dateStart);
   return (
     <>
-      <Header />
+      {matches ? (
+        <Box textAlign={"left"} mt={1} mb={2} position="fixed">
+          <Link href="/" underline="none">
+            <img src={logoPowse} alt="Logo Powse" width={125} />
+          </Link>
+        </Box>
+      ) : (
+        <Box
+          textAlign={"center"}
+          position="fixed"
+          justifyContent={"center"}
+          alignItems="center"
+          display={"flex"}
+          sx={{
+            backgroundColor: "background.default",
+            boxShadow: "1px -4px 20px -8px rgba(87,84,217,0.75)",
+            width: "100%",
+            zIndex: 999,
+            top: 0,
+            left: 0,
+            right: 0,
+            height: 50,
+          }}
+        >
+          <Link href="/" underline="none" width={"100%"}>
+            <img src={logoPowse} alt="Logo Powse" width={125} />
+          </Link>
+        </Box>
+      )}
       {/*debut de la card*/}
       <Stack
         spacing={4}
-        sx={{ pb: 10, margin: "0 auto", height: "100%" }}
+        sx={{ pb: 10, margin: "0 auto", height: "100%", mt: "50px" }}
         maxWidth="md"
       >
         <ControlHome handleHome={handleHome} home={home} />
