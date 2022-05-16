@@ -438,8 +438,13 @@ const Event = () => {
               type="submit"
               variant="contained"
               fullWidth
-              color="primary"
-              sx={{ borderRadius: 25, textTransform: "unset", mt: 4, p: 1.5 }}
+              sx={{
+                borderRadius: 25,
+                textTransform: "unset",
+                mt: 4,
+                p: 1.5,
+                backgroundColor: colorButton,
+              }}
             >
               {" "}
               Valider
