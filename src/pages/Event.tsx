@@ -202,10 +202,9 @@ const Event = () => {
   // or provide it yourself - see notes below
 
   return (
-    <>
+    <Box height={"90vh"}>
       <Header />
-
-      <Container sx={{ p: 0 }} maxWidth="lg">
+      <Container sx={{ p: 0, mt: 5, height: "80%" }} maxWidth="lg">
         <form
           onSubmit={handleSubmit}
           style={{
@@ -214,6 +213,7 @@ const Event = () => {
             alignItems: "center",
             flexWrap: "wrap",
             padding: 0,
+            alignContent: "center",
           }}
         >
           {/*  STACK PINCIPALE */}
@@ -492,9 +492,9 @@ const Event = () => {
             </Button>
           </Stack>
         </form>
-        <div style={{ width: "20px", height: "20px" }}></div>
+        {/*  <div style={{ width: "20px", height: "20px" }}></div> */}
       </Container>
-    </>
+    </Box>
   );
 };
 export default Event;
