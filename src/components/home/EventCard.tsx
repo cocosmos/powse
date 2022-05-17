@@ -17,11 +17,13 @@ import FmdGoodOutlinedIcon from "@mui/icons-material/FmdGoodOutlined";
 import CheckCircleIcon from "@mui/icons-material/CheckCircle";
 import DeleteOutlineIcon from "@mui/icons-material/DeleteOutline";
 import {
+  Alert,
   Box,
   Button,
   Chip,
   Grid,
   Link,
+  Snackbar,
   Stack,
   useMediaQuery,
   useTheme,
@@ -60,6 +62,7 @@ export default function EventCard(props: any) {
   const [participants, setParticipants] = useState<any>([{ id: "" }]);
   const [finish, setFinish] = useState("open");
   const { currentUser } = useContext(AuthContext);
+  const [open, setOpen] = useState(false);
 
   const [joined, setJoined] = useState(false);
   const days = [
@@ -214,15 +217,18 @@ export default function EventCard(props: any) {
   }, []);
   const theme = useTheme();
   const matches = useMediaQuery(theme.breakpoints.up("xs"));
-  console.log(props);
+
   //delete event
   const eventDelete = () => {
-    console.log("delete");
-    const docRef = doc(db, "events", props.data.id);
-
-    deleteDoc(docRef);
+    let result = window.confirm(
+      "Souhaitez-vous vraiment supprimer cet événement ?"
+    );
+    if (result) {
+      const docRef = doc(db, "events", props.data.id);
+      deleteDoc(docRef);
+    }
   };
-  console.log(props.author);
+
   return (
     <Card
       sx={{
