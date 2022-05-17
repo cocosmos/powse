@@ -41,11 +41,12 @@ const Landing = () => {
     }
   }, []);
 
-  let max = "20vh";
+  let max = "10vh";
   let foot = "10vh";
   let none = "none";
   let large = "medium";
-  let height = "80%";
+  let height = "100%";
+  let bottom = "80%";
 
   if (matches) {
     max = "40vh";
@@ -53,6 +54,7 @@ const Landing = () => {
     none = "flex";
     large = "large";
     height = "86vh";
+    bottom = "60%";
   }
 
   return (
@@ -75,7 +77,7 @@ const Landing = () => {
               top: 0,
               right: 0,
               left: 0,
-              bottom: "70%",
+              bottom: { bottom },
             }}
           ></Box>
           <img src={Logo} width="150" height={"50"} />
@@ -99,8 +101,9 @@ const Landing = () => {
           component={"main"}
           display={"flex"}
           height="100%"
-          alignItems="center"
+          alignItems="flex-start"
           zIndex={2}
+          mt={4}
         >
           <Box display="flex" justifyContent={"center"} mt={0} flexWrap="wrap">
             <Typography
