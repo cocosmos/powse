@@ -88,7 +88,8 @@ export const theme = responsiveFontSizes(
         // fontSize: 13,
       },
       subtitle1: {
-        fontSize: 15,
+        fontFamily: ["'bely', 'sans-serif'"].join(","),
+        fontSize: "0.9rem",
       },
       subtitle2: {
         fontFamily: ["'bely', 'sans-serif'"].join(","),
