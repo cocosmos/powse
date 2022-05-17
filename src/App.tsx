@@ -7,7 +7,13 @@ import ResetPassword from "./pages/ResetPassword";
 import ForgotPassword from "./pages/ForgotPassword";
 import Error from "./pages/Error";
 
-import { BrowserRouter, Navigate, Route, Routes } from "react-router-dom";
+import {
+  BrowserRouter,
+  Navigate,
+  Route,
+  Routes,
+  useNavigate,
+} from "react-router-dom";
 import { useContext, useEffect, useState } from "react";
 import { AuthContext } from "./contexts/AuthContext";
 import { Box, CssBaseline, ThemeProvider } from "@mui/material";
@@ -18,6 +24,8 @@ import Company from "./pages/Company";
 
 function App() {
   const { currentUser } = useContext(AuthContext);
+
+  const userData = JSON.parse(localStorage.getItem("data") || "{}");
   /* const docRef = doc(db, "users", currentUser.uid);
 
   // realtime collection data
@@ -29,8 +37,17 @@ function App() {
     });
   } */
 
+  /* useEffect(() => {
+    const docRef = doc(db, `users`, currentUser.uid);
+
+    onSnapshot(docRef, (doc) => {
+      setEntreprise({ ...doc.data(), id: doc.id });
+    });
+  }, [currentUser.uid]); */
+  //console.log(entreprise);
+
   const RequireAuth = ({ children }: any) => {
-    if (currentUser.uid) {
+    if (currentUser.uid && userData.entrepriseUid) {
       return children;
     } else {
       return <Navigate to="/register" />;
@@ -38,10 +55,10 @@ function App() {
   };
 
   const RequireAuthCompany = ({ children }: any) => {
-    if (currentUser.uid) {
-      return <Navigate to="/" />;
+    if (currentUser.uid && userData.entrepriseUid) {
+      return <Navigate to="/home" />;
     } else {
-      return <Navigate to="/register" />;
+      return children;
     }
   };
 
@@ -123,9 +140,9 @@ function App() {
             <Route
               path="/register"
               element={
-                <NoRequirement>
+                <RequireAuthCompany>
                   <Register />
-                </NoRequirement>
+                </RequireAuthCompany>
               }
             />
             <Route
@@ -142,14 +159,6 @@ function App() {
                 <NoRequirement>
                   <ForgotPassword />
                 </NoRequirement>
-              }
-            />
-            <Route
-              path="/company"
-              element={
-                /*    <RequireAuthCompany> */
-                <Company />
-                /*    </RequireAuthCompany> */
               }
             />
 

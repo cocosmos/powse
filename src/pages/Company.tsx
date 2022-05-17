@@ -9,7 +9,7 @@ import {
   updateDoc,
   where,
 } from "firebase/firestore";
-import { useContext, useRef, useState } from "react";
+import { useContext, useEffect, useRef, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { db } from "../components/common/firebase/config";
 import Header from "../components/common/Header";
@@ -19,10 +19,26 @@ import { AuthContext } from "../contexts/AuthContext";
 
 const Company = () => {
   const [value, setValue] = useState<any | null>(null);
+  /*   const [entreprise, setEntreprise] = useState<any | null>({}); */
   const { currentUser } = useContext(AuthContext);
   const companyRef = useRef({ value: "" });
+  const userData = JSON.parse(localStorage.getItem("data") || "{}");
 
   const navigate = useNavigate();
+  /*   useEffect(() => {
+    const docRef = doc(db, `users`, currentUser.uid);
+    try {
+      onSnapshot(docRef, (doc) => {
+        setEntreprise({ ...doc.data() });
+        if (doc.data().entrepriseUid) {
+          navigate("/home");
+        }
+      });
+    } catch (error) {
+      console.log(error);
+    }
+  }, []);
+ */
 
   const handleCompany = (e) => {
     e.preventDefault();
@@ -49,13 +65,16 @@ const Company = () => {
         companys.push(doc.data().name);
         companysId.push(doc.id);
       });
+
       if (companys[0] === entrepriseRef) {
         await updateDoc(doc(db, "/users/", currentUser.uid), {
           entreprise: entrepriseRef,
           entrepriseUid: companysId[0],
           timeStamp: serverTimestamp(),
         });
-        navigate("/");
+        window.location.reload();
+
+        // navigate("/home");
       } else {
         setDoc(doc(db, `entreprise`, result), {
           name: entrepriseRef,
@@ -67,7 +86,8 @@ const Company = () => {
           entrepriseUid: result,
           timeStamp: serverTimestamp(),
         });
-        navigate("/");
+        window.location.reload();
+        // navigate("/home");
       }
     });
   };

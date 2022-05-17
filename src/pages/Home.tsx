@@ -37,7 +37,6 @@ const Home = () => {
   const [entreprise, setEntreprise] = useState<any>({ entrepriseUid: "" });
   const { currentUser } = useContext(AuthContext);
   const [isLoading, setLoading] = useState(true);
-
   const [events, setEvents] = useState<any>([
     {
       present: "test",
@@ -67,26 +66,31 @@ const Home = () => {
       onSnapshot(docRef, (doc) => {
         setEntreprise({ ...doc.data() });
       });
+      /*  if (!entreprise.entrepriseUid) {
+        navigate("/company");
+      } */
     } catch (error) {
       console.log(error);
     }
   }, []);
 
   useEffect(() => {
-    const q = query(
-      collection(db, "events"),
-      where("entrepriseUid", "==", entreprise.entrepriseUid)
-    );
-    onSnapshot(q, (snapshot) => {
-      setEvents(
-        snapshot.docs.map((doc) => ({
-          ...doc.data(),
-          id: doc.id,
-        }))
+    if (entreprise.entrepriseUid) {
+      const q = query(
+        collection(db, "events"),
+        where("entrepriseUid", "==", entreprise.entrepriseUid)
       );
+      onSnapshot(q, (snapshot) => {
+        setEvents(
+          snapshot.docs.map((doc) => ({
+            ...doc.data(),
+            id: doc.id,
+          }))
+        );
 
-      setLoading(false);
-    });
+        setLoading(false);
+      });
+    }
   }, [entreprise.entrepriseUid]);
 
   const handleCategorie = (event: React.ChangeEvent<HTMLInputElement>) => {

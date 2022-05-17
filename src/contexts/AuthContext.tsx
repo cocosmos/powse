@@ -7,6 +7,7 @@ import {
   signInWithPopup,
   signOut,
 } from "firebase/auth";
+import { doc, onSnapshot } from "firebase/firestore";
 import {
   createContext,
   useContext,
@@ -14,7 +15,7 @@ import {
   useReducer,
   useState,
 } from "react";
-import { auth } from "../components/common/firebase/config";
+import { auth, db } from "../components/common/firebase/config";
 import AuthReducer from "./AuthReducer";
 
 interface ContextType {
@@ -24,11 +25,15 @@ interface ContextType {
 const INITIAL_STATE = {
   currentUser: JSON.parse(localStorage.getItem("user") || "{}"),
 };
+const INITIAL = {
+  userData: JSON.parse(localStorage.getItem("data") || "{}"),
+};
 export const useAuth = () => {
   return useContext(AuthContext);
 };
 
 export const AuthContext = createContext<ContextType | any>(INITIAL_STATE);
+export const AuthDataContext = createContext<any>(INITIAL);
 
 export const AuthContextProvider = ({ children }: any) => {
   const [state, dispatch] = useReducer(AuthReducer, INITIAL_STATE);
@@ -68,6 +73,18 @@ export const AuthContextProvider = ({ children }: any) => {
     localStorage.setItem("user", JSON.stringify(state.currentUser));
   }, [state.currentUser]);
 
+  const table = {};
+  useEffect(() => {
+    if (state.currentUser.uid) {
+      const docRef = doc(db, `users`, state.currentUser.uid);
+
+      onSnapshot(docRef, (doc) => {
+        const table = { ...doc.data(), id: doc.id };
+        localStorage.setItem("data", JSON.stringify(table));
+      });
+    }
+  }, [state.currentUser.uid]);
+
   const value = {
     signUp,
     login,
@@ -81,9 +98,13 @@ export const AuthContextProvider = ({ children }: any) => {
     setLoading,
     resetPassword,
     forgotPassword,
+    userData: table,
     currentUser: state.currentUser,
     dispatch,
   };
 
   return <AuthContext.Provider {...{ value }}>{children}</AuthContext.Provider>;
 };
+function setEntreprise(arg0: { [field: string]: any }) {
+  throw new Error("Function not implemented.");
+}

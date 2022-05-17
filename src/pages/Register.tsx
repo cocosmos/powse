@@ -1,6 +1,6 @@
 import { Box, FormHelperText, Link, Stack, Typography } from "@mui/material";
 import NameField from "../components/common/inputs/NameField";
-import { useState, useContext, useRef } from "react";
+import { useState, useContext, useRef, useEffect } from "react";
 import EmailField from "../components/common/inputs/EmailField";
 import PasswordField from "../components/common/inputs/PasswordField";
 import SubmitButton from "../components/common/inputs/SubmitButton";
@@ -9,6 +9,7 @@ import { doc, serverTimestamp, setDoc } from "firebase/firestore";
 import { db } from "../components/common/firebase/config";
 import { useNavigate } from "react-router-dom";
 import Header from "../components/common/Header";
+import Company from "./Company";
 
 const Register = () => {
   const emailRef = useRef({ value: "" });
@@ -18,10 +19,19 @@ const Register = () => {
   /*Error*/
   const [emailExist, setEmailExist] = useState(null);
   const [passwordConfirm, setPasswordConfirm] = useState("");
+  const [entreprise, setEntreprise] = useState(false);
 
   const { signUp, login } = useAuth();
-  const { dispatch } = useContext(AuthContext);
+  const { dispatch, currentUser } = useContext(AuthContext);
   const navigate = useNavigate();
+
+  console.log(currentUser);
+
+  useEffect(() => {
+    if (currentUser.uid) {
+      setEntreprise(true);
+    }
+  });
 
   const handleSignup = async (e: any) => {
     e.preventDefault();
@@ -50,7 +60,8 @@ const Register = () => {
         const user = userCredential.user;
         dispatch({ type: "LOGIN", payload: user, name: name });
       });
-      navigate("/company");
+      setEntreprise(true);
+      // navigate("/company");
       //display errot
     } catch (error) {
       switch (error.message) {
@@ -67,51 +78,65 @@ const Register = () => {
       }
     }
   };
-
+  console.log(entreprise);
   return (
     <>
-      <Header />
-      <Stack
-        spacing={5}
-        justifyContent="flex-start"
-        height={"80vh"}
-        textAlign="center"
-        alignItems={"center"}
-        maxWidth="sm"
-        sx={{ margin: "0 auto" }}
-      >
-        <Typography variant="h1" sx={{ mt: 5 }}>
-          Viens te Powser avec nous !{" "}
-        </Typography>
-        <Box display={"flex"} mt={0}>
-          <form onSubmit={handleSignup}>
-            <NameField nameRef={nameRef} label={"Nom complet"} />
+      {entreprise ? (
+        <Company />
+      ) : (
+        <>
+          <Header />
+          <Stack
+            spacing={5}
+            justifyContent="flex-start"
+            height={"80vh"}
+            textAlign="center"
+            alignItems={"center"}
+            maxWidth="sm"
+            sx={{ margin: "0 auto" }}
+          >
+            <Typography variant="h1" sx={{ mt: 5 }}>
+              Viens te Powser avec nous !{" "}
+            </Typography>
+            <Box display={"flex"} mt={0}>
+              <form onSubmit={handleSignup}>
+                <NameField nameRef={nameRef} label={"Nom complet"} />
 
-            <EmailField emailRef={emailRef} />
-            <FormHelperText sx={{ textAlign: "center", mb: 2, mt: -2 }} error>
-              {emailExist}
-            </FormHelperText>
-            <PasswordField
-              passwordRef={passwordRef}
-              label={"Créer un mot de passe *"}
-              id={"new-password"}
-            />
-            <PasswordField
-              passwordRef={confirmPasswordRef}
-              label={"Confirmer le mot de passe *"}
-              id={"confirm-password"}
-              autoFocus={false}
-            />
-            <FormHelperText sx={{ textAlign: "center", mt: -2 }} error>
-              {passwordConfirm}
-            </FormHelperText>
-            <SubmitButton label={"Suivant"} type={"submit"} href={undefined} />
-          </form>
-        </Box>
-        <Typography variant="body2" pb={5}>
-          Vous avez déjà un compte ? <Link href="/login">Connectez-vous</Link>
-        </Typography>
-      </Stack>
+                <EmailField emailRef={emailRef} />
+                <FormHelperText
+                  sx={{ textAlign: "center", mb: 2, mt: -2 }}
+                  error
+                >
+                  {emailExist}
+                </FormHelperText>
+                <PasswordField
+                  passwordRef={passwordRef}
+                  label={"Créer un mot de passe *"}
+                  id={"new-password"}
+                />
+                <PasswordField
+                  passwordRef={confirmPasswordRef}
+                  label={"Confirmer le mot de passe *"}
+                  id={"confirm-password"}
+                  autoFocus={false}
+                />
+                <FormHelperText sx={{ textAlign: "center", mt: -2 }} error>
+                  {passwordConfirm}
+                </FormHelperText>
+                <SubmitButton
+                  label={"Suivant"}
+                  type={"submit"}
+                  href={undefined}
+                />
+              </form>
+            </Box>
+            <Typography variant="body2" pb={5}>
+              Vous avez déjà un compte ?{" "}
+              <Link href="/login">Connectez-vous</Link>
+            </Typography>
+          </Stack>
+        </>
+      )}
     </>
   );
 };
