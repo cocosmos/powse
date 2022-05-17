@@ -3,7 +3,7 @@
     text-overflow: ellipsis;
     white-space: nowrap;
     overflow: hidden;
-    max-width: 170px;
+    max-width: 200px;
 
 }
 .content:hover {
