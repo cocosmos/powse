@@ -11,34 +11,30 @@ import {
 } from "firebase/firestore";
 import { useContext, useEffect, useRef, useState } from "react";
 import { useNavigate } from "react-router-dom";
-import { db } from "../components/common/firebase/config";
-import Header from "../components/common/Header";
-import CompanyField from "../components/common/inputs/CompanyField";
-import SubmitButton from "../components/common/inputs/SubmitButton";
+import { db } from "./common/firebase/config";
+import Header from "./common/Header";
+import CompanyField from "./common/inputs/CompanyField";
+import SubmitButton from "./common/inputs/SubmitButton";
 import { AuthContext } from "../contexts/AuthContext";
 
 const Company = () => {
   const [value, setValue] = useState<any | null>(null);
-  /*   const [entreprise, setEntreprise] = useState<any | null>({}); */
+  const [entreprise, setEntreprise] = useState<any | null>({});
   const { currentUser } = useContext(AuthContext);
   const companyRef = useRef({ value: "" });
-  const userData = JSON.parse(localStorage.getItem("data") || "{}");
+  // const userData = JSON.parse(localStorage.getItem("data") || "{}");
 
   const navigate = useNavigate();
-  /*   useEffect(() => {
+  /*useEffect(() => {
     const docRef = doc(db, `users`, currentUser.uid);
     try {
       onSnapshot(docRef, (doc) => {
         setEntreprise({ ...doc.data() });
-        if (doc.data().entrepriseUid) {
-          navigate("/home");
-        }
       });
     } catch (error) {
       console.log(error);
     }
-  }, []);
- */
+  }, []); */
 
   const handleCompany = (e) => {
     e.preventDefault();
@@ -72,9 +68,9 @@ const Company = () => {
           entrepriseUid: companysId[0],
           timeStamp: serverTimestamp(),
         });
-        window.location.reload();
+        //window.location.reload();
 
-        // navigate("/home");
+        navigate("/home");
       } else {
         setDoc(doc(db, `entreprise`, result), {
           name: entrepriseRef,
@@ -86,8 +82,8 @@ const Company = () => {
           entrepriseUid: result,
           timeStamp: serverTimestamp(),
         });
-        window.location.reload();
-        // navigate("/home");
+        // window.location.reload();
+        navigate("/home");
       }
     });
   };

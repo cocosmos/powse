@@ -66,9 +66,6 @@ const Home = () => {
       onSnapshot(docRef, (doc) => {
         setEntreprise({ ...doc.data() });
       });
-      /*  if (!entreprise.entrepriseUid) {
-        navigate("/company");
-      } */
     } catch (error) {
       console.log(error);
     }

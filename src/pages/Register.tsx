@@ -9,7 +9,7 @@ import { doc, serverTimestamp, setDoc } from "firebase/firestore";
 import { db } from "../components/common/firebase/config";
 import { useNavigate } from "react-router-dom";
 import Header from "../components/common/Header";
-import Company from "./Company";
+import Company from "../components/Company";
 
 const Register = () => {
   const emailRef = useRef({ value: "" });
@@ -24,8 +24,6 @@ const Register = () => {
   const { signUp, login } = useAuth();
   const { dispatch, currentUser } = useContext(AuthContext);
   const navigate = useNavigate();
-
-  console.log(currentUser);
 
   useEffect(() => {
     if (currentUser.uid) {
