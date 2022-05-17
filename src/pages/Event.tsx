@@ -189,11 +189,6 @@ const Event = () => {
 
   const colorButton = values.present === "home" ? "home.main" : "primary.main";
 
-  const labelRdv =
-    values.present === "home"
-      ? "Lien de la réunion..."
-      : "Lieu du rendez-vous...";
-
   // height of the TextField
 
   // magic number which must be set appropriately for height
@@ -515,15 +510,28 @@ const Event = () => {
 
               {/*label pour le lieu*/}
               <Stack>
-                <TextField
-                  fullWidth
-                  id="event-lieu"
-                  label={labelRdv}
-                  variant="filled"
-                  onChange={handleInput("location")}
-                  required
-                  inputProps={{ sx: { backgroundColor: backgroundInput } }}
-                />
+                {values.present === "general" ? (
+                  <TextField
+                    fullWidth
+                    id="event-lieu"
+                    label={"Lieu du rendez-vous..."}
+                    variant="filled"
+                    onChange={handleInput("location")}
+                    required
+                    inputProps={{ sx: { backgroundColor: backgroundInput } }}
+                  />
+                ) : (
+                  <TextField
+                    fullWidth
+                    id="event-lieu"
+                    label={"Lien de la réunion..."}
+                    variant="filled"
+                    type={"url"}
+                    onChange={handleInput("location")}
+                    required
+                    inputProps={{ sx: { backgroundColor: backgroundInput } }}
+                  />
+                )}
               </Stack>
               {/*    </Stack> */}
             </Stack>
