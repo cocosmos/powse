@@ -305,6 +305,7 @@ const Event = () => {
                   <InputLabel htmlFor="event-title">Titre</InputLabel>
                   <FilledInput
                     id="event-title"
+                    sx={{ backgroundColor: backgroundInput }}
                     inputProps={{
                       maxLength: 40,
                       sx: { backgroundColor: backgroundInput },
