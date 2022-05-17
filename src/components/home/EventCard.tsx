@@ -151,22 +151,6 @@ export default function EventCard(props: any) {
     }, [props.data.date]);
   }
 
-  //participants
-  useEffect(() => {
-    if (props.data.author) {
-      try {
-        onSnapshot(
-          collection(db, `events/${props.data.id}/users`),
-          (snapshot) => {
-            setParticipants(
-              snapshot.docs.map((doc) => ({ ...doc.data(), id: doc.id }))
-            );
-          }
-        );
-      } catch (er) {}
-    }
-  }, [props.data.author]);
-
   //show button finish
   useEffect(() => {
     participants.map((participant) => {
@@ -179,6 +163,7 @@ export default function EventCard(props: any) {
   //Number of participants
   const numbPartcipants = participants.length;
   let full = false;
+
   if (numbPartcipants === props.data.space && props.data.unlimited === false) {
     full = true;
   }
@@ -190,16 +175,36 @@ export default function EventCard(props: any) {
         onSnapshot(docRef, (doc) => {
           setUserDetails({ ...doc.data() });
         });
+
+        //Add author in event
         setDoc(doc(db, `/events/${props.data.id}/users`, props.data.author), {
           name: userDetails.name,
           timeStamp: serverTimestamp(),
         });
+
+        setParticipants((partici) => [
+          {
+            ...partici,
+            id: props.data.author,
+            name: userDetails.name,
+          },
+        ]);
+
+        onSnapshot(
+          collection(db, `events/${props.data.id}/users`),
+          (snapshot) => {
+            setParticipants(
+              snapshot.docs.map((doc) => ({ ...doc.data(), id: doc.id }))
+            );
+          }
+        );
       } catch (error) {
         console.log(error);
       }
     }
-  }, []);
-  /*Create participants*/
+  }, [userDetails.name]);
+
+  //Join event
   const handleButton = async (e) => {
     e.preventDefault();
     if (props.data.unlimited || props.data.space >= numbPartcipants) {
@@ -209,13 +214,12 @@ export default function EventCard(props: any) {
       });
     }
   };
+  //set joined
   useEffect(() => {
     if (props.data.author === currentUser.uid) {
       setJoined(true);
     }
   }, []);
-  const theme = useTheme();
-  const matches = useMediaQuery(theme.breakpoints.up("xs"));
 
   //delete event
   const eventDelete = () => {
@@ -224,6 +228,17 @@ export default function EventCard(props: any) {
     );
     if (result) {
       const docRef = doc(db, "events", props.data.id);
+      deleteDoc(docRef);
+    }
+  };
+
+  //cancel registration
+  const cancelRegistration = () => {
+    let result = window.confirm(
+      "Souhaitez-vous vraiment annuler votre participation ?"
+    );
+    if (result) {
+      const docRef = doc(db, `events/${props.data.id}/users`, currentUser.uid);
       deleteDoc(docRef);
     }
   };
@@ -364,12 +379,9 @@ export default function EventCard(props: any) {
           )}
         </Box>
         {joined ? (
-          <CheckCircleIcon
-            // color={props.data.present === "home" ? "home" : "primary"}
-            color="primary"
-            fontSize="medium"
-            sx={{ mr: 1.5, mt: -2 }}
-          />
+          <IconButton onClick={cancelRegistration} sx={{ mr: 1.5 }}>
+            <CheckCircleIcon color="primary" fontSize="medium" />
+          </IconButton>
         ) : full ? (
           <Chip label="Complet" color={"error"} size="medium" />
         ) : finish !== "end" ? (
@@ -382,7 +394,6 @@ export default function EventCard(props: any) {
               textTransform: "unset",
               pr: 4,
               pl: 4,
-              mt: -2,
               backgroundColor: colorButton,
             }}
           >
