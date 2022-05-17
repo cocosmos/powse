@@ -164,7 +164,7 @@ const Event = () => {
         author: currentUser.uid,
         entrepriseUid: entreprise.entrepriseUid,
       });
-      navigate("/");
+      navigate("/home");
       setHelperText("");
       setError(false);
     }
