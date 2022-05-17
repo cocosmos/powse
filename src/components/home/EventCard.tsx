@@ -306,7 +306,7 @@ export default function EventCard(props: any) {
           <Chip label="Terminé" size="small" color="error" variant="outlined" />
         ) : (
           <Chip
-            label="Ouvert"
+            label="Planifié"
             size="small"
             color="success"
             variant="outlined"
