@@ -6,7 +6,7 @@ import logo from "./assets/logo/square/transparent/512x512.png";
 import { AuthContextProvider } from "./contexts/AuthContext";
 import { registerSW } from "virtual:pwa-register";
 
-const updateSW = registerSW({
+registerSW({
   onNeedRefresh() {},
   onOfflineReady() {},
 });

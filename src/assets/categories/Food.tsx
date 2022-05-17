@@ -1,3 +1,4 @@
+//Meal break categories svg
 const Food = () => {
   return (
     <svg

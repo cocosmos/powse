@@ -24,6 +24,7 @@ interface ContextType {
 const INITIAL_STATE = {
   currentUser: JSON.parse(localStorage.getItem("user") || "{}"),
 };
+
 export const useAuth = () => {
   return useContext(AuthContext);
 };
@@ -87,3 +88,6 @@ export const AuthContextProvider = ({ children }: any) => {
 
   return <AuthContext.Provider {...{ value }}>{children}</AuthContext.Provider>;
 };
+function setEntreprise(arg0: { [field: string]: any }) {
+  throw new Error("Function not implemented.");
+}

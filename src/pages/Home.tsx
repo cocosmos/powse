@@ -4,7 +4,6 @@ import Stack from "@mui/material/Stack";
   /*importer tous les icons*/
 }
 import IconButton from "@mui/material/IconButton";
-import Header from "../components/common/Header";
 import AddCircleIcon from "@mui/icons-material/AddCircle";
 import {
   BottomNavigation,
@@ -37,7 +36,6 @@ const Home = () => {
   const [entreprise, setEntreprise] = useState<any>({ entrepriseUid: "" });
   const { currentUser } = useContext(AuthContext);
   const [isLoading, setLoading] = useState(true);
-
   const [events, setEvents] = useState<any>([
     {
       present: "test",
@@ -73,20 +71,22 @@ const Home = () => {
   }, []);
 
   useEffect(() => {
-    const q = query(
-      collection(db, "events"),
-      where("entrepriseUid", "==", entreprise.entrepriseUid)
-    );
-    onSnapshot(q, (snapshot) => {
-      setEvents(
-        snapshot.docs.map((doc) => ({
-          ...doc.data(),
-          id: doc.id,
-        }))
+    if (entreprise.entrepriseUid) {
+      const q = query(
+        collection(db, "events"),
+        where("entrepriseUid", "==", entreprise.entrepriseUid)
       );
+      onSnapshot(q, (snapshot) => {
+        setEvents(
+          snapshot.docs.map((doc) => ({
+            ...doc.data(),
+            id: doc.id,
+          }))
+        );
 
-      setLoading(false);
-    });
+        setLoading(false);
+      });
+    }
   }, [entreprise.entrepriseUid]);
 
   const handleCategorie = (event: React.ChangeEvent<HTMLInputElement>) => {

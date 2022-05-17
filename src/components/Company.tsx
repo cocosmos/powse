@@ -9,12 +9,12 @@ import {
   updateDoc,
   where,
 } from "firebase/firestore";
-import { useContext, useRef, useState } from "react";
+import { useContext, useEffect, useRef, useState } from "react";
 import { useNavigate } from "react-router-dom";
-import { db } from "../components/common/firebase/config";
-import Header from "../components/common/Header";
-import CompanyField from "../components/common/inputs/CompanyField";
-import SubmitButton from "../components/common/inputs/SubmitButton";
+import { db } from "./common/firebase/config";
+import Header from "./common/Header";
+import CompanyField from "./common/inputs/CompanyField";
+import SubmitButton from "./common/inputs/SubmitButton";
 import { AuthContext } from "../contexts/AuthContext";
 
 const Company = () => {
@@ -49,13 +49,15 @@ const Company = () => {
         companys.push(doc.data().name);
         companysId.push(doc.id);
       });
+
       if (companys[0] === entrepriseRef) {
         await updateDoc(doc(db, "/users/", currentUser.uid), {
           entreprise: entrepriseRef,
           entrepriseUid: companysId[0],
           timeStamp: serverTimestamp(),
         });
-        navigate("/");
+
+        navigate("/home");
       } else {
         setDoc(doc(db, `entreprise`, result), {
           name: entrepriseRef,
@@ -67,13 +69,15 @@ const Company = () => {
           entrepriseUid: result,
           timeStamp: serverTimestamp(),
         });
-        navigate("/");
+        navigate("/home");
       }
     });
   };
   return (
     <>
+      {/*header component, containing the site **/}
       <Header />
+      {/*main stack **/}
       <Stack
         spacing={5}
         justifyContent="center"
@@ -83,6 +87,7 @@ const Company = () => {
         maxWidth="sm"
         sx={{ margin: "0 auto" }}
       >
+        {/*beginning of the form*/}
         <form onSubmit={handleCompany}>
           <Stack
             spacing={10}
@@ -93,15 +98,19 @@ const Company = () => {
             maxWidth="sm"
             sx={{ margin: "0 auto" }}
           >
+            {/*title of the page*/}
             <Typography variant="h3">
               {` Salut, plus qu'une étape avant de prendre ta Powse.`}
             </Typography>
+
             <Stack spacing={2} sx={{ width: "100%" }}>
+              {/*importing components:"../components/common/inputs/CompanyField"*/}
               <CompanyField
                 value={value}
                 setValue={setValue}
                 companyRef={companyRef}
               />
+              {/*iinformation below the label*/}
               <Typography variant="body2">
                 Grâce à cette information, nous pourrons te proposer les powses
                 que tes collègues ont planifié.
@@ -109,7 +118,9 @@ const Company = () => {
             </Stack>
             <SubmitButton label={"Suivant"} type={"submit"} href={undefined} />
           </Stack>
+          {/*end of the form*/}
         </form>
+        {/*end of the main stack*/}
       </Stack>
     </>
   );

@@ -21,7 +21,6 @@ import { useNavigate } from "react-router-dom";
 import "./Event.css";
 import { AdapterDateFns } from "@mui/x-date-pickers/AdapterDateFns";
 import { LocalizationProvider } from "@mui/x-date-pickers/LocalizationProvider";
-import { DatePicker } from "@mui/x-date-pickers/DatePicker";
 
 {
   /*importer le compostant*/
@@ -40,11 +39,7 @@ import {
   Timestamp,
 } from "firebase/firestore";
 import { db } from "../components/common/firebase/config";
-import {
-  DesktopDatePicker,
-  MobileDatePicker,
-  MobileTimePicker,
-} from "@mui/x-date-pickers";
+import { MobileDatePicker, MobileTimePicker } from "@mui/x-date-pickers";
 
 const Event = () => {
   const theme = useTheme();
@@ -55,7 +50,7 @@ const Event = () => {
   );
 
   const [colorCounter, setColorCounter] = useState(theme.palette.info.main);
-  const { dispatch, currentUser } = useContext(AuthContext);
+  const { currentUser } = useContext(AuthContext);
   const [entreprise, setEntreprise] = useState<any>({ entrepriseUid: "" });
   const [fulldate, setFulldate] = useState<Date | null>(new Date(Date.now()));
   const [endDate, setEndDate] = useState<Date | null>(
@@ -169,7 +164,7 @@ const Event = () => {
         author: currentUser.uid,
         entrepriseUid: entreprise.entrepriseUid,
       });
-      navigate("/");
+      navigate("/home");
       setHelperText("");
       setError(false);
     }
@@ -202,10 +197,9 @@ const Event = () => {
   // or provide it yourself - see notes below
 
   return (
-    <>
+    <Box height={"90vh"}>
       <Header />
-
-      <Container sx={{ p: 0 }} maxWidth="lg">
+      <Container sx={{ p: 0, mt: 5, height: "80%" }} maxWidth="lg">
         <form
           onSubmit={handleSubmit}
           style={{
@@ -214,6 +208,7 @@ const Event = () => {
             alignItems: "center",
             flexWrap: "wrap",
             padding: 0,
+            alignContent: "center",
           }}
         >
           {/*  STACK PINCIPALE */}
@@ -492,9 +487,9 @@ const Event = () => {
             </Button>
           </Stack>
         </form>
-        <div style={{ width: "20px", height: "20px" }}></div>
+        {/*  <div style={{ width: "20px", height: "20px" }}></div> */}
       </Container>
-    </>
+    </Box>
   );
 };
 export default Event;
