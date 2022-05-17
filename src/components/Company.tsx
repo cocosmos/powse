@@ -19,22 +19,10 @@ import { AuthContext } from "../contexts/AuthContext";
 
 const Company = () => {
   const [value, setValue] = useState<any | null>(null);
-  // const [entreprise, setEntreprise] = useState<any | null>({});
   const { currentUser } = useContext(AuthContext);
   const companyRef = useRef({ value: "" });
-  // const userData = JSON.parse(localStorage.getItem("data") || "{}");
 
   const navigate = useNavigate();
-  /*useEffect(() => {
-    const docRef = doc(db, `users`, currentUser.uid);
-    try {
-      onSnapshot(docRef, (doc) => {
-        setEntreprise({ ...doc.data() });
-      });
-    } catch (error) {
-      console.log(error);
-    }
-  }, []); */
 
   const handleCompany = (e) => {
     e.preventDefault();
@@ -68,7 +56,6 @@ const Company = () => {
           entrepriseUid: companysId[0],
           timeStamp: serverTimestamp(),
         });
-        //window.location.reload();
 
         navigate("/home");
       } else {
@@ -82,7 +69,6 @@ const Company = () => {
           entrepriseUid: result,
           timeStamp: serverTimestamp(),
         });
-        // window.location.reload();
         navigate("/home");
       }
     });

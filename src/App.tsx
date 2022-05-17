@@ -44,10 +44,7 @@ function App() {
   return (
     <ThemeProvider theme={theme}>
       <CssBaseline />
-      <Box
-        component="main"
-        padding={2} /* pb={8} */ /* height={"calc(100vh)"} */
-      >
+      <Box component="main" padding={2}>
         <BrowserRouter>
           <Routes>
             <Route path="/" element={<Landing />} />
@@ -68,22 +65,8 @@ function App() {
               }
             />
 
-            <Route
-              path="/event"
-              element={
-                // <RequireAuth>
-                <Event />
-                /* </RequireAuth> */
-              }
-            />
-            <Route
-              path="/register"
-              element={
-                /* <RequireAuthCompany> */
-                <Register />
-                /*    </RequireAuthCompany> */
-              }
-            />
+            <Route path="/event" element={<Event />} />
+            <Route path="/register" element={<Register />} />
             <Route
               path="/resetpassword"
               element={

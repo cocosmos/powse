@@ -4,7 +4,6 @@ import Stack from "@mui/material/Stack";
   /*importer tous les icons*/
 }
 import IconButton from "@mui/material/IconButton";
-import Header from "../components/common/Header";
 import AddCircleIcon from "@mui/icons-material/AddCircle";
 import {
   BottomNavigation,

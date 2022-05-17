@@ -3,7 +3,6 @@ import {
   Button,
   Container,
   IconButton,
-  Link,
   Stack,
   Typography,
   useMediaQuery,
@@ -22,6 +21,7 @@ import { useContext, useEffect, useState } from "react";
 import { AuthContext } from "../contexts/AuthContext";
 import { doc, onSnapshot } from "firebase/firestore";
 import { db } from "../components/common/firebase/config";
+
 const Landing = () => {
   const { currentUser } = useContext(AuthContext);
   const theme = useTheme();
