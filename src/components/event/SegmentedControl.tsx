@@ -4,6 +4,7 @@ import { Box } from "@mui/material";
 
 export default function ColorToggleButton({ present, handleInput }) {
   return (
+    /**element that includes all*/
     <Box
       sx={{
         display: "flex",
@@ -16,6 +17,7 @@ export default function ColorToggleButton({ present, handleInput }) {
         width: "100%",
       }}
     >
+      {/**element that includes général and télé-travail + style*/}
       <ToggleButtonGroup
         color="standard"
         value={present}
@@ -27,6 +29,7 @@ export default function ColorToggleButton({ present, handleInput }) {
           borderRadius: 25,
         }}
       >
+        {/**for option général  */}
         <ToggleButton
           value="general"
           sx={{
@@ -37,6 +40,8 @@ export default function ColorToggleButton({ present, handleInput }) {
         >
           Général
         </ToggleButton>
+
+        {/**for option télé-travail */}
         <ToggleButton
           value="home"
           sx={{

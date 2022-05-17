@@ -1,3 +1,4 @@
+//CFree break categories svg
 const Free = () => {
   return (
     <svg

@@ -37,6 +37,7 @@ import { db } from "../common/firebase/config";
 import { AuthContext } from "../../contexts/AuthContext";
 //import { db } from "../common/firebase/config";
 //Now import this
+// For type, it's a boolean and nothing else
 interface ExpandMoreProps extends IconButtonProps {
   expand: boolean;
 }
@@ -86,7 +87,7 @@ export default function EventCard(props: any) {
     props.data.present === "home" ? "home.main" : "primary.main";
 
   let categoryEvent = null;
-
+//category
   switch (props.data.category) {
     case "activity":
       categoryEvent = <Activity />;

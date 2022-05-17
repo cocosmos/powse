@@ -55,6 +55,7 @@ export default function CategoriesHome({ handleInput, category }) {
   const matches = useMediaQuery(theme.breakpoints.up("lg"));
 
   return (
+    //this component allows you to select a single category
     <RadioGroup
       row
       name="category"
@@ -62,10 +63,12 @@ export default function CategoriesHome({ handleInput, category }) {
       value={category}
       sx={{ justifyContent: "space-evenly", width: "100%", maxWidth: 500 }}
     >
+      {/**element that defines the category: "Pause repas"*/}
       <FormControlLabel
         sx={{ marginTop: "3vh", mr: 1, ml: 1 }}
         value="food"
         control={
+          //checkbox according to the user's wishes, this serves as a filter in the "news feed" of the home page
           <Checkbox
             sx={{ display: "none" }}
             checked={category.food}
@@ -92,10 +95,12 @@ export default function CategoriesHome({ handleInput, category }) {
         }
         labelPlacement="bottom"
       />
+      {/**element that defines the category: "Pause activités"*/}
       <FormControlLabel
         sx={{ marginTop: "3vh", mr: 1, ml: 1 }}
         value="activity"
         control={
+          //checkbox according to the user's wishes, this serves as a filter in the "news feed" of the home page
           <Checkbox
             sx={{ display: "none" }}
             checked={category.activity}
@@ -122,10 +127,12 @@ export default function CategoriesHome({ handleInput, category }) {
         }
         labelPlacement="bottom"
       />
+      {/**element that defines the category: "Pause libre"*/}
       <FormControlLabel
         sx={{ marginTop: "3vh", mr: 1, ml: 1 }}
         value="free"
         control={
+          //checkbox according to the user's wishes, this serves as a filter in the "news feed" of the home page
           <Checkbox
             sx={{ display: "none" }}
             checked={category.free}
