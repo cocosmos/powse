@@ -197,9 +197,9 @@ const Event = () => {
   // or provide it yourself - see notes below
 
   return (
-    <Box height={"90vh"}>
+    <Box>
       <Header />
-      <Container sx={{ p: 0, mt: 5, height: "80%" }} maxWidth="lg">
+      <Container sx={{ p: 0, mt: 2, height: "80%" }} maxWidth="lg">
         <form
           onSubmit={handleSubmit}
           style={{

@@ -98,6 +98,7 @@ const Landing = () => {
           alignItems="flex-start"
           zIndex={2}
           mt={4}
+          mb={11}
         >
           <Box display="flex" justifyContent={"center"} mt={0} flexWrap="wrap">
             <Typography
