@@ -1,0 +1,12 @@
+.content {
+    display: inline-block;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    overflow: hidden;
+    max-width: 170px;
+
+}
+.content:hover {
+    overflow: visible;
+    white-space: normal;
+}
