@@ -274,9 +274,7 @@ const Landing = () => {
               position: "absolute",
               zIndex: 0,
             }}
-          >
-            ss
-          </Box>
+          ></Box>
           <Box
             display={"flex"}
             width="100%"
