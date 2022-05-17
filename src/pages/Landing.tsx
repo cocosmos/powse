@@ -261,7 +261,7 @@ const Landing = () => {
             bottom: 0,
             right: 0,
             left: 0,
-            position: "absolute",
+            position: "fixed",
           }}
         >
           <Box
