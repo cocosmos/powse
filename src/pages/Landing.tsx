@@ -57,7 +57,7 @@ const Landing = () => {
 
   return (
     <>
-      <Container maxWidth="xl" sx={{ p: 0, mb: 12, height: { height } }}>
+      <Container maxWidth="xl" sx={{ p: 0, height: { height } }}>
         <Box
           component={"header"}
           width="100%"
@@ -78,7 +78,7 @@ const Landing = () => {
               bottom: "70%",
             }}
           ></Box>
-          <img src={Logo} width="150" height={"50"} style={{ marginTop: 30 }} />
+          <img src={Logo} width="150" height={"50"} />
           <IconButton
             aria-label="linkedin"
             size="large"
@@ -89,192 +89,184 @@ const Landing = () => {
             <LinkedInIcon color="primary" />
           </IconButton>
         </Box>
-        <Box
+        {/*  <Box
           display={"flex"}
           justifyContent={"center"}
           flexWrap="wrap"
           height={"100%"}
+        > */}
+        <Box
+          component={"main"}
+          display={"flex"}
+          height="100%"
+          alignItems="center"
+          zIndex={2}
         >
-          <Box
-            component={"main"}
-            display={"flex"}
-            height="100%"
-            alignItems="center"
-            zIndex={1}
-          >
-            <Box
-              display="flex"
-              justifyContent={"center"}
-              mt={0}
-              flexWrap="wrap"
+          <Box display="flex" justifyContent={"center"} mt={0} flexWrap="wrap">
+            <Typography
+              variant="h1"
+              textAlign={"center"}
+              fontSize={20}
+              width="95%"
+              sx={{ fontFamily: "degular", mb: 4 }}
             >
-              <Typography
-                variant="h1"
-                textAlign={"center"}
-                fontSize={20}
-                width="95%"
-                sx={{ fontFamily: "degular", mb: 4 }}
-              >
-                La plateforme qui transforme<br></br> vos pauses en moments
-                uniques.
-              </Typography>
-              <Box
-                width={"100%"}
-                display="flex"
-                justifyContent="center"
-                alignItems={"center"}
-                flexWrap="wrap"
-                sx={{ mb: 4 }}
-              >
-                {user.name ? (
-                  <>
-                    <Typography
-                      variant="body1"
-                      sx={{ mr: 2, mb: 1 }}
-                      textAlign={"center"}
-                    >
-                      Bonjour <b>{user.name}</b>, les <b>POWSES</b> de{" "}
-                      <b>{user.entreprise}</b>:
-                    </Typography>
+              La plateforme qui transforme<br></br> vos pauses en moments
+              uniques.
+            </Typography>
+            <Box
+              width={"100%"}
+              display="flex"
+              justifyContent="center"
+              alignItems={"center"}
+              flexWrap="wrap"
+              sx={{ mb: 4 }}
+            >
+              {user.name ? (
+                <>
+                  <Typography
+                    variant="body1"
+                    sx={{ mr: 2, mb: 1 }}
+                    textAlign={"center"}
+                  >
+                    Bonjour <b>{user.name}</b>, les <b>POWSES</b> de{" "}
+                    <b>{user.entreprise}</b>:
+                  </Typography>
 
-                    <Button
-                      variant="contained"
-                      color="primary"
-                      href={"home"}
-                      sx={{
-                        borderRadius: 25,
-                        textTransform: "unset",
-                      }}
-                      size="medium"
-                    >
-                      C'est par ici
-                    </Button>
-                  </>
-                ) : (
-                  <>
-                    <Button
-                      variant="outlined"
-                      color="primary"
-                      href={"register"}
-                      sx={{
-                        borderRadius: 25,
-                        textTransform: "unset",
-                        mr: 2,
-                        pr: 3,
-                        pl: 3,
-                      }}
-                      size={matches ? "large" : "medium"}
-                    >
-                      S'inscrire
-                    </Button>
-                    <Button
-                      variant="contained"
-                      color="primary"
-                      href={"login"}
-                      sx={{
-                        borderRadius: 25,
-                        textTransform: "unset",
-                        pr: 3,
-                        pl: 3,
-                      }}
-                      size={matches ? "large" : "medium"}
-                    >
-                      Connexion
-                    </Button>
-                  </>
-                )}
-              </Box>
-              <Stack spacing={3}>
-                <Box
-                  sx={{
-                    backgroundColor: "slider.backgroundPri",
-                    p: 2,
-                    borderRadius: 5,
-                    boxShadow: "1px 5px 10px -8px rgb(87 84 217 / 75%)",
-                  }}
-                >
-                  <Typography
-                    variant="h3"
-                    fontSize={20}
-                    sx={{ fontFamily: "degular", mb: 2 }}
-                  >
-                    Consultez les différentes pauses de vos collègues.
-                  </Typography>
-                  <Typography variant="body2">
-                    Rejoignez celles qui vous correspondent le plus !
-                  </Typography>
-                </Box>
-                <Box
-                  sx={{
-                    backgroundColor: "slider.backgroundSec",
-                    p: 2,
-                    borderRadius: 5,
-                    boxShadow: "1px 5px 10px -8px rgb(87 84 217 / 75%)",
-                  }}
-                >
-                  <Typography
-                    variant="h3"
-                    fontSize={20}
-                    sx={{ fontFamily: "degular", mb: 2 }}
-                  >
-                    Un coin dédié au télétravail.
-                  </Typography>
-                  <Typography variant="body2">
-                    Idéal pour renouer des liens sociaux !
-                  </Typography>
-                </Box>
-                <Box
-                  sx={{
-                    backgroundColor: "slider.backgroundPri",
-                    p: 2,
-                    borderRadius: 5,
-                    boxShadow: "1px 5px 10px -8px rgb(87 84 217 / 75%)",
-                  }}
-                >
-                  <Typography
-                    variant="h3"
-                    fontSize={20}
+                  <Button
+                    variant="contained"
+                    color="primary"
+                    href={"home"}
                     sx={{
-                      fontFamily: "degular",
-                      mb: 2,
+                      borderRadius: 25,
+                      textTransform: "unset",
                     }}
+                    size="medium"
                   >
-                    Si vous êtes inspirés, créez votre propre pause.
-                  </Typography>
-                  <Typography variant="body2">
-                    Programmez-là facilement et vivez de nouvelles expériences
-                    en équipe.
-                  </Typography>
-                </Box>
-              </Stack>
+                    C'est par ici
+                  </Button>
+                </>
+              ) : (
+                <>
+                  <Button
+                    variant="outlined"
+                    color="primary"
+                    href={"register"}
+                    sx={{
+                      borderRadius: 25,
+                      textTransform: "unset",
+                      mr: 2,
+                      pr: 3,
+                      pl: 3,
+                    }}
+                    size={matches ? "large" : "medium"}
+                  >
+                    S'inscrire
+                  </Button>
+                  <Button
+                    variant="contained"
+                    color="primary"
+                    href={"login"}
+                    sx={{
+                      borderRadius: 25,
+                      textTransform: "unset",
+                      pr: 3,
+                      pl: 3,
+                    }}
+                    size={matches ? "large" : "medium"}
+                  >
+                    Connexion
+                  </Button>
+                </>
+              )}
             </Box>
-            <Box display={none} alignItems="center">
-              <img src={MockupHome} alt="mockup home" height={750} />
-            </Box>
+            <Stack spacing={3}>
+              <Box
+                sx={{
+                  backgroundColor: "slider.backgroundPri",
+                  p: 2,
+                  borderRadius: 5,
+                  boxShadow: "1px 5px 10px -8px rgb(87 84 217 / 75%)",
+                }}
+              >
+                <Typography
+                  variant="h3"
+                  fontSize={20}
+                  sx={{ fontFamily: "degular", mb: 2 }}
+                >
+                  Consultez les différentes pauses de vos collègues.
+                </Typography>
+                <Typography variant="body2">
+                  Rejoignez celles qui vous correspondent le plus !
+                </Typography>
+              </Box>
+              <Box
+                sx={{
+                  backgroundColor: "slider.backgroundSec",
+                  p: 2,
+                  borderRadius: 5,
+                  boxShadow: "1px 5px 10px -8px rgb(87 84 217 / 75%)",
+                }}
+              >
+                <Typography
+                  variant="h3"
+                  fontSize={20}
+                  sx={{ fontFamily: "degular", mb: 2 }}
+                >
+                  Un coin dédié au télétravail.
+                </Typography>
+                <Typography variant="body2">
+                  Idéal pour renouer des liens sociaux !
+                </Typography>
+              </Box>
+              <Box
+                sx={{
+                  backgroundColor: "slider.backgroundPri",
+                  p: 2,
+                  borderRadius: 5,
+                  boxShadow: "1px 5px 10px -8px rgb(87 84 217 / 75%)",
+                }}
+              >
+                <Typography
+                  variant="h3"
+                  fontSize={20}
+                  sx={{
+                    fontFamily: "degular",
+                    mb: 2,
+                  }}
+                >
+                  Si vous êtes inspirés, créez votre propre pause.
+                </Typography>
+                <Typography variant="body2">
+                  Programmez-là facilement et vivez de nouvelles expériences en
+                  équipe.
+                </Typography>
+              </Box>
+            </Stack>
+          </Box>
+          <Box display={none} alignItems="center">
+            <img src={MockupHome} alt="mockup home" height={750} />
           </Box>
         </Box>
+        {/*  </Box> */}
+
         <Stack
           component={"footer"}
           width="100%"
           height={foot}
           justifyContent="center"
-          mt={5}
+          mt={0}
           mb={0}
-          sx={{ zIndex: 1 }}
+          sx={{
+            zIndex: -2,
+            backgroundImage: `url(${WaveFooter})`,
+            backgroundRepeat: "no-repeat",
+            backgroundSize: "cover",
+            bottom: 0,
+            right: 0,
+            left: 0,
+            position: "absolute",
+          }}
         >
-          <Box
-            sx={{
-              backgroundImage: `url(${WaveFooter})`,
-              backgroundRepeat: "no-repeat",
-              backgroundSize: "cover",
-              top: "80%",
-              bottom: 0,
-              right: 0,
-              left: 0,
-              position: "absolute",
-              zIndex: 0,
-            }}
-          ></Box>
           <Box
             display={"flex"}
             width="100%"
@@ -290,6 +282,19 @@ const Landing = () => {
             ©2022 <b>Powse</b>, Tous droits reservé.
           </Typography>
         </Stack>
+        {/* <Box
+          sx={{
+            backgroundImage: `url(${WaveFooter})`,
+            backgroundRepeat: "no-repeat",
+            backgroundSize: "cover",
+
+            bottom: -195,
+            right: 0,
+            left: 0,
+            position: "absolute",
+            zIndex: 0,
+          }}
+        ></Box> */}
       </Container>
 
       {/*  <Box
