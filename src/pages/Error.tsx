@@ -9,6 +9,7 @@ const Error = () => {
     navigate("/");
   }
   return (
+    //main stack 
     <Stack
       spacing={10}
       sx={{
@@ -22,12 +23,15 @@ const Error = () => {
         margin: "0 auto",
       }}
     >
+      {/*image of logo*/}
       <img src={logo} alt="loading" width={300} />
-
+      
+      {/*title of the page*/}
       <Typography variant="h1" sx={{ width: "100%" }}>
         Error 404
       </Typography>
 
+      {/*redirection home */}
       <Button onClick={navi} variant="contained" sx={{ mt: 10 }} size="large">
         Go back Home
       </Button>
