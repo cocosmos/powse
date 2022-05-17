@@ -15,7 +15,9 @@ import { PersonSharp } from "@mui/icons-material";
 import Food from "../../assets/categories/Food";
 import FmdGoodOutlinedIcon from "@mui/icons-material/FmdGoodOutlined";
 import CheckCircleIcon from "@mui/icons-material/CheckCircle";
+import DeleteOutlineIcon from "@mui/icons-material/DeleteOutline";
 import {
+  Box,
   Button,
   Chip,
   Grid,
@@ -28,6 +30,7 @@ import Activity from "../../assets/categories/Activity";
 import Free from "../../assets/categories/Free";
 import {
   collection,
+  deleteDoc,
   doc,
   onSnapshot,
   serverTimestamp,
@@ -55,7 +58,7 @@ export default function EventCard(props: any) {
   const [expanded, setExpanded] = useState(false);
   const [userDetails, setUserDetails] = useState<any>({ name: "" });
   const [participants, setParticipants] = useState<any>([{ id: "" }]);
-  const [finish, setFinish] = useState(false);
+  const [finish, setFinish] = useState("open");
   const { currentUser } = useContext(AuthContext);
 
   const [joined, setJoined] = useState(false);
@@ -89,7 +92,7 @@ export default function EventCard(props: any) {
     props.data.present === "home" ? "home.main" : "primary.main";
 
   let categoryEvent = null;
-//category
+  //category
   switch (props.data.category) {
     case "activity":
       categoryEvent = <Activity />;
@@ -134,22 +137,21 @@ export default function EventCard(props: any) {
       dateEvent.getFullYear();
 
     setdate = { dateEvent: displayDate, dateHour: displayHours, dateEnd: "" };
+    //Status
     useEffect(() => {
       if (dateEnd < new Date()) {
-        setFinish(true);
+        setFinish("end");
+      } else if (dateStart < new Date()) {
+        setFinish("progress");
+      } else {
+        setFinish("open");
       }
     }, [props.data.date]);
   }
-  //author
+
+  //participants
   useEffect(() => {
     if (props.data.author) {
-      if (userDetails.name !== "") {
-        setDoc(doc(db, `/events/${props.data.id}/users`, props.data.author), {
-          name: userDetails.name,
-          timeStamp: serverTimestamp(),
-        });
-      }
-
       try {
         onSnapshot(
           collection(db, `events/${props.data.id}/users`),
@@ -162,6 +164,7 @@ export default function EventCard(props: any) {
       } catch (er) {}
     }
   }, [props.data.author]);
+
   //show button finish
   useEffect(() => {
     participants.map((participant) => {
@@ -171,6 +174,7 @@ export default function EventCard(props: any) {
     });
   }, [participants]);
 
+  //Number of participants
   const numbPartcipants = participants.length;
   let full = false;
   if (numbPartcipants === props.data.space && props.data.unlimited === false) {
@@ -183,6 +187,10 @@ export default function EventCard(props: any) {
       try {
         onSnapshot(docRef, (doc) => {
           setUserDetails({ ...doc.data() });
+        });
+        setDoc(doc(db, `/events/${props.data.id}/users`, props.data.author), {
+          name: userDetails.name,
+          timeStamp: serverTimestamp(),
         });
       } catch (error) {
         console.log(error);
@@ -206,7 +214,15 @@ export default function EventCard(props: any) {
   }, []);
   const theme = useTheme();
   const matches = useMediaQuery(theme.breakpoints.up("xs"));
+  console.log(props);
+  //delete event
+  const eventDelete = () => {
+    console.log("delete");
+    const docRef = doc(db, "events", props.data.id);
 
+    deleteDoc(docRef);
+  };
+  console.log(props.author);
   return (
     <Card
       sx={{
@@ -234,7 +250,12 @@ export default function EventCard(props: any) {
           {categoryEvent}
         </Avatar>
         <Stack flexGrow={1}>
-          <Typography className="content" variant="h3" sx={{ ml: 1 }} component="div">
+          <Typography
+            className="content"
+            variant="h3"
+            sx={{ ml: 1 }}
+            component="div"
+          >
             {props.data.title}
           </Typography>
           <Typography
@@ -302,16 +323,41 @@ export default function EventCard(props: any) {
       </CardContent>
       {/*bouton rejoindre*/}
       <CardActions sx={{ justifyContent: "space-between" }}>
-        {finish ? (
-          <Chip label="Terminé" size="small" color="error" variant="outlined" />
-        ) : (
-          <Chip
-            label="Ouvert"
-            size="small"
-            color="success"
-            variant="outlined"
-          />
-        )}
+        <Box>
+          {currentUser.uid === props.data.author ? (
+            <IconButton
+              color="error"
+              aria-label="delete événements"
+              onClick={eventDelete}
+            >
+              <DeleteOutlineIcon />
+            </IconButton>
+          ) : (
+            ""
+          )}
+          {finish === "end" ? (
+            <Chip
+              label="Terminé"
+              size="small"
+              color="error"
+              variant="outlined"
+            />
+          ) : finish === "progress" ? (
+            <Chip
+              label="En cours"
+              size="small"
+              color="warning"
+              variant="outlined"
+            />
+          ) : (
+            <Chip
+              label="Ouvert"
+              size="small"
+              color="success"
+              variant="outlined"
+            />
+          )}
+        </Box>
         {joined ? (
           <CheckCircleIcon
             // color={props.data.present === "home" ? "home" : "primary"}
@@ -321,7 +367,7 @@ export default function EventCard(props: any) {
           />
         ) : full ? (
           <Chip label="Complet" color={"error"} />
-        ) : !finish ? (
+        ) : finish !== "end" ? (
           <Button
             variant="contained"
             size="medium"
