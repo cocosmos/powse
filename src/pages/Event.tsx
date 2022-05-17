@@ -12,7 +12,9 @@ import {
   InputLabel,
   Stack,
   TextField,
+  useMediaQuery,
   useTheme,
+  Link,
 } from "@mui/material";
 import AddIcon from "@mui/icons-material/Add";
 import RemoveIcon from "@mui/icons-material/Remove";
@@ -40,6 +42,8 @@ import {
 } from "firebase/firestore";
 import { db } from "../components/common/firebase/config";
 import { MobileDatePicker, MobileTimePicker } from "@mui/x-date-pickers";
+import logoPowse from "../assets/logo/logo.svg";
+import ArrowBackIosNewIcon from "@mui/icons-material/ArrowBackIosNew";
 
 const Event = () => {
   const theme = useTheme();
@@ -187,19 +191,66 @@ const Event = () => {
       : "Lieu du rendez-vous...";
 
   // height of the TextField
-  const height = "70%";
 
   // magic number which must be set appropriately for height
-  const labelOffset = -6;
 
   // get this from your form library, for instance in
   // react-final-form it's fieldProps.meta.active
   // or provide it yourself - see notes below
+  const matches = useMediaQuery(theme.breakpoints.up("lg"));
 
   return (
     <Box>
-      <Header />
-      <Container sx={{ p: 0, mt: 2, height: "80%" }} maxWidth="lg">
+      {matches ? (
+        <Box
+          textAlign={"left"}
+          mt={1}
+          mb={2}
+          position="fixed"
+          sx={{
+            top: 0,
+            left: 0,
+            right: 0,
+          }}
+        >
+          <Link href="/" underline="none">
+            <img src={logoPowse} alt="Logo Powse" width={125} />
+          </Link>
+        </Box>
+      ) : (
+        <Box
+          textAlign={"center"}
+          position="fixed"
+          justifyContent={"center"}
+          alignItems="center"
+          display={"flex"}
+          sx={{
+            backgroundColor: "background.default",
+            boxShadow: "1px -4px 20px -8px rgba(87,84,217,0.75)",
+            width: "100%",
+            zIndex: 999,
+            top: 0,
+            left: 0,
+            right: 0,
+            height: 50,
+          }}
+        >
+          <IconButton
+            href="/home"
+            sx={{
+              position: "fixed",
+              top: 0,
+              left: 0,
+            }}
+          >
+            <ArrowBackIosNewIcon color="primary" />
+          </IconButton>
+          <Link href="/" underline="none" width={"100%"}>
+            <img src={logoPowse} alt="Logo Powse" width={125} />
+          </Link>
+        </Box>
+      )}
+      <Container sx={{ p: 0, mt: 7, height: "80%" }} maxWidth="lg">
         <form
           onSubmit={handleSubmit}
           style={{
@@ -472,7 +523,6 @@ const Event = () => {
               className="button-alignement"
               type="submit"
               variant="contained"
-              fullWidth
               color="primary"
               sx={{
                 borderRadius: 25,

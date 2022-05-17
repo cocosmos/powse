@@ -62,7 +62,6 @@ export default function EventCard(props: any) {
   const [participants, setParticipants] = useState<any>([{ id: "" }]);
   const [finish, setFinish] = useState("open");
   const { currentUser } = useContext(AuthContext);
-  const [open, setOpen] = useState(false);
 
   const [joined, setJoined] = useState(false);
   const days = [
@@ -368,11 +367,11 @@ export default function EventCard(props: any) {
           <CheckCircleIcon
             // color={props.data.present === "home" ? "home" : "primary"}
             color="primary"
-            fontSize="large"
+            fontSize="medium"
             sx={{ mr: 1.5, mt: -2 }}
           />
         ) : full ? (
-          <Chip label="Complet" color={"error"} />
+          <Chip label="Complet" color={"error"} size="medium" />
         ) : finish !== "end" ? (
           <Button
             variant="contained"
