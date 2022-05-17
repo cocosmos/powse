@@ -349,6 +349,7 @@ export default function EventCard(props: any) {
               color="error"
               aria-label="delete événements"
               onClick={eventDelete}
+              size="small"
             >
               <DeleteOutlineIcon />
             </IconButton>
@@ -380,7 +381,7 @@ export default function EventCard(props: any) {
         </Box>
         {joined ? (
           <IconButton onClick={cancelRegistration} sx={{ mr: 1.5 }}>
-            <CheckCircleIcon color="primary" fontSize="medium" />
+            <CheckCircleIcon fontSize="medium" sx={{ color: colorButton }} />
           </IconButton>
         ) : full ? (
           <Chip label="Complet" color={"error"} size="medium" />

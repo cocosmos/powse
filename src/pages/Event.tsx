@@ -49,11 +49,6 @@ const Event = () => {
   const theme = useTheme();
   const navigate = useNavigate();
 
-  const [colorChecked, setColorCheked] = useState(
-    theme.palette.background.paper
-  );
-
-  const [colorCounter, setColorCounter] = useState(theme.palette.info.main);
   const { currentUser } = useContext(AuthContext);
   const [entreprise, setEntreprise] = useState<any>({ entrepriseUid: "" });
   const [fulldate, setFulldate] = useState<Date | null>(new Date(Date.now()));
@@ -76,7 +71,25 @@ const Event = () => {
     id: "",
     author: "",
   });
+  const backgroundInput =
+    values.present === "general"
+      ? "slider.backgroundPri"
+      : "slider.backgroundSec";
+  const backgroundSlider =
+    values.present === "general" ? "slider.primary" : "slider.secondary";
 
+  const colorBack =
+    values.present === "general"
+      ? "slider-backgroundPri"
+      : "slider-backgroundSec";
+
+  const [colorChecked, setColorCheked] = useState(backgroundInput);
+  const [colorCounter, setColorCounter] = useState(backgroundSlider);
+
+  useEffect(() => {
+    setColorCheked(backgroundInput);
+    setColorCounter(backgroundSlider);
+  }, [values.present]);
   const handleInput =
     (prop: keyof EventType) => (event: React.ChangeEvent<HTMLInputElement>) => {
       setValues({ ...values, [prop]: event.target.value });
@@ -91,15 +104,15 @@ const Event = () => {
         unlimited: true,
         space: 1,
       }));
-      setColorCheked(theme.palette.info.main);
-      setColorCounter(theme.palette.background.paper);
+      setColorCheked(backgroundSlider);
+      setColorCounter(backgroundInput);
     } else {
       setValues((preState) => ({
         ...preState,
         unlimited: false,
       }));
-      setColorCounter(theme.palette.info.main);
-      setColorCheked(theme.palette.background.paper);
+      setColorCounter(backgroundSlider);
+      setColorCheked(backgroundInput);
     }
   };
 
@@ -108,8 +121,8 @@ const Event = () => {
       ...preState,
       unlimited: false,
     }));
-    setColorCounter(theme.palette.info.main);
-    setColorCheked(theme.palette.background.paper);
+    setColorCounter(backgroundSlider);
+    setColorCheked(backgroundInput);
   };
 
   const [error, setError] = useState(false);
@@ -174,17 +187,8 @@ const Event = () => {
     }
   };
 
-  const backgroundBox =
-    values.present === "general"
-      ? "slider.backgroundPri"
-      : "slider.backgroundSec";
-  const backgroundButton =
-    values.present === "general" ? "slider.primary" : "slider.secondary";
-
   const colorButton = values.present === "home" ? "home.main" : "primary.main";
-  const focused = "";
-  const colorHome =
-    values.present === "home" ? "home.contrastText" : "background.paper";
+
   const labelRdv =
     values.present === "home"
       ? "Lien de la réunion..."
@@ -243,7 +247,7 @@ const Event = () => {
               left: 0,
             }}
           >
-            <ArrowBackIosNewIcon color="primary" />
+            <ArrowBackIosNewIcon sx={{ color: colorButton }} />
           </IconButton>
           <Link href="/" underline="none" width={"100%"}>
             <img src={logoPowse} alt="Logo Powse" width={125} />
@@ -306,7 +310,10 @@ const Event = () => {
                   <InputLabel htmlFor="event-title">Titre</InputLabel>
                   <FilledInput
                     id="event-title"
-                    inputProps={{ maxLength: 40 }}
+                    inputProps={{
+                      maxLength: 40,
+                      sx: { backgroundColor: backgroundInput },
+                    }}
                     onChange={handleInput("title")}
                     endAdornment={
                       <InputAdornment position="end">
@@ -318,7 +325,7 @@ const Event = () => {
               </Box>
 
               {/* Field date */}
-              <Box>
+              <Box className={colorBack}>
                 <LocalizationProvider
                   dateAdapter={AdapterDateFns}
                   locale={frLocale}
@@ -349,7 +356,12 @@ const Event = () => {
             {/* Heure */}
             {/* deuxième Stack gauche */}
             <Stack className="stack-right" spacing={2}>
-              <Stack spacing={2} direction="row" sx={{ width: "100%" }}>
+              <Stack
+                spacing={2}
+                direction="row"
+                sx={{ width: "100%" }}
+                className={colorBack}
+              >
                 {/*label pour le debut*/}
                 <LocalizationProvider
                   dateAdapter={AdapterDateFns}
@@ -407,7 +419,7 @@ const Event = () => {
                 <Box
                   width="100%"
                   sx={{
-                    backgroundColor: "background.paper",
+                    backgroundColor: backgroundInput,
                     borderRadius: 3,
                     padding: "0.8rem",
                     paddingTop: "1rem",
@@ -510,6 +522,7 @@ const Event = () => {
                   variant="filled"
                   onChange={handleInput("location")}
                   required
+                  inputProps={{ sx: { backgroundColor: backgroundInput } }}
                 />
               </Stack>
               {/*    </Stack> */}

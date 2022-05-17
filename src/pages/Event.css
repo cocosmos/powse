@@ -1,43 +1,46 @@
 /* mobile first */
-.stack-right{
-    width: 100%;
-    margin-top: 25px;
-
+.stack-right {
+  width: 100%;
+  margin-top: 25px;
 }
-.stack-left{
-    width: 100%;
+.stack-left {
+  width: 100%;
+}
 
-} 
-
-.button-alignement{
-    width: 100%;
+.button-alignement {
+  width: 100%;
 }
 
 /* Medium devices (tablets, 768px and up)*/
-@media (min-width: 768px) { 
-    .stack-right{
-        width: 48%;
-        padding-top: 0px;
-        margin-left: 2%;
-        margin-top: 10px;
-        margin-bottom: 30px;
+@media (min-width: 768px) {
+  .stack-right {
+    width: 48%;
+    padding-top: 0px;
+    margin-left: 2%;
+    margin-top: 10px;
+    margin-bottom: 30px;
+  }
+  .stack-left {
+    width: 48%;
+    margin-right: 2%;
+  }
 
-    }
-    .stack-left{
-        width: 48%;
-        margin-right: 2%;
-    }  
+  .button-alignement {
+    width: 50%;
+  }
 
-    .button-alignement{
-        width: 50%;
-    }
-
-    .marge-desk{
-        margin-bottom: 15px;
-    }
+  .marge-desk {
+    margin-bottom: 15px;
+  }
 }
 
+.css-m3auwj-MuiTypography-root {
+  font-size: 0;
+}
 
-.css-m3auwj-MuiTypography-root{
-    font-size: 0;
+.slider-backgroundPri input {
+  background-color: #f3effa !important;
+}
+.slider-backgroundSec input {
+  background-color: #eff5fa !important;
 }
