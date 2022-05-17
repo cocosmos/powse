@@ -19,7 +19,7 @@ import { AuthContext } from "../contexts/AuthContext";
 
 const Company = () => {
   const [value, setValue] = useState<any | null>(null);
-  const [entreprise, setEntreprise] = useState<any | null>({});
+  // const [entreprise, setEntreprise] = useState<any | null>({});
   const { currentUser } = useContext(AuthContext);
   const companyRef = useRef({ value: "" });
   // const userData = JSON.parse(localStorage.getItem("data") || "{}");
@@ -89,7 +89,7 @@ const Company = () => {
   };
   return (
     <>
-    {/*header component, containing the site **/}
+      {/*header component, containing the site **/}
       <Header />
       {/*main stack **/}
       <Stack
