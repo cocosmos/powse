@@ -10,3 +10,18 @@
     overflow: visible;
     white-space: normal;
 }
+
+@media (min-width: 768px) { 
+    .content {
+        display: inline-block;
+        text-overflow: ellipsis;
+        white-space: nowrap;
+        overflow: hidden;
+        max-width: 400px;
+    
+    }
+    .content:hover {
+        overflow: visible;
+        white-space: normal;
+    }
+}
