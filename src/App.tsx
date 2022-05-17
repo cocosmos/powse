@@ -8,15 +8,14 @@ import ForgotPassword from "./pages/ForgotPassword";
 import Error from "./pages/Error";
 
 import { BrowserRouter, Navigate, Route, Routes } from "react-router-dom";
-import { useContext, useEffect, useState } from "react";
+import { useContext } from "react";
 import { AuthContext } from "./contexts/AuthContext";
 import { Box, CssBaseline, ThemeProvider } from "@mui/material";
 import { theme } from "./theme/getPaletteMode";
+import Landing from "./pages/Landing";
 
 function App() {
   const { currentUser } = useContext(AuthContext);
-
-  const userData = JSON.parse(localStorage.getItem("data") || "{}");
 
   const RequireAuth = ({ children }: any) => {
     if (currentUser.uid) {
@@ -51,14 +50,7 @@ function App() {
       >
         <BrowserRouter>
           <Routes>
-            <Route
-              path="/"
-              element={
-                <RequireAuth>
-                  <Home />
-                </RequireAuth>
-              }
-            />
+            <Route path="/" element={<Landing />} />
             <Route
               path="/home"
               element={
