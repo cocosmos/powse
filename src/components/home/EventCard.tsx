@@ -240,6 +240,7 @@ export default function EventCard(props: any) {
     if (result) {
       const docRef = doc(db, `events/${props.data.id}/users`, currentUser.uid);
       deleteDoc(docRef);
+      setJoined(false);
     }
   };
 
