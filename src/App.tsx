@@ -24,15 +24,6 @@ function App() {
       return <Navigate to="/register" />;
     }
   };
-
-  const RequireAuthCompany = ({ children }: any) => {
-    if (currentUser.uid) {
-      return <Navigate to="/home" />;
-    } else {
-      return children;
-    }
-  };
-
   const NoRequirement = ({ children }: any) => {
     if (currentUser.uid) {
       return <Navigate to="/home" />;

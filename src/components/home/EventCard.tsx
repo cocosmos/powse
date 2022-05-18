@@ -189,7 +189,7 @@ export default function EventCard(props: any) {
             name: userDetails.name,
           },
         ]);
-
+        //get all participants
         onSnapshot(
           collection(db, `events/${props.data.id}/users`),
           (snapshot) => {

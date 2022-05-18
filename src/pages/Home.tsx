@@ -36,6 +36,9 @@ const Home = () => {
   const [entreprise, setEntreprise] = useState<any>({ entrepriseUid: "" });
   const { currentUser } = useContext(AuthContext);
   const [isLoading, setLoading] = useState(true);
+  const [home, setHome] = useState({ general: true, home: false });
+  const colorHome = home.home ? "home.main" : "primary.main";
+  const matches = useMediaQuery(theme.breakpoints.up("lg"));
   const [events, setEvents] = useState<any>([
     {
       present: "test",
@@ -55,21 +58,15 @@ const Home = () => {
     activity: true,
     free: true,
   });
-  const [home, setHome] = useState({ general: true, home: false });
-
-  const colorHome = home.home ? "home.main" : "primary.main";
-
+  //Get info of the user
   useEffect(() => {
     const docRef = doc(db, `users`, currentUser.uid);
-    try {
-      onSnapshot(docRef, (doc) => {
-        setEntreprise({ ...doc.data() });
-      });
-    } catch (error) {
-      console.log(error);
-    }
-  }, []);
 
+    onSnapshot(docRef, (doc) => {
+      setEntreprise({ ...doc.data() });
+    });
+  }, []);
+  // get events from the correct entreprise
   useEffect(() => {
     if (entreprise.entrepriseUid) {
       const q = query(
@@ -88,13 +85,14 @@ const Home = () => {
       });
     }
   }, [entreprise.entrepriseUid]);
-
+  //Categorie
   const handleCategorie = (event: React.ChangeEvent<HTMLInputElement>) => {
     setCategory({
       ...category,
       [event.target.name]: event.target.checked,
     });
   };
+  //select only home or general
   const handleHome = (event: React.ChangeEvent<HTMLInputElement>) => {
     if (event.target.value === "general") {
       setHome({ ...home, home: false, general: true });
@@ -103,11 +101,11 @@ const Home = () => {
       setHome({ ...home, general: false, home: true });
     }
   };
-
+  //go to page event
   function navi() {
     navigate("/event");
   }
-  const matches = useMediaQuery(theme.breakpoints.up("lg"));
+  //sort events
   events.sort((a, b) => b.dateStart - a.dateStart);
   return (
     <>

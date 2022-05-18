@@ -4,7 +4,6 @@ import {
   FormControlLabel,
   RadioGroup,
   Stack,
-  useMediaQuery,
   useTheme,
 } from "@mui/material";
 import Typography from "@mui/material/Typography";
@@ -52,7 +51,6 @@ export default function CategoriesHome({ handleInput, category }) {
         break;
     }
   };
-  const matches = useMediaQuery(theme.breakpoints.up("lg"));
 
   return (
     //this component allows you to select a single category

@@ -23,7 +23,6 @@ const Register = () => {
 
   const { signUp, login } = useAuth();
   const { dispatch, currentUser } = useContext(AuthContext);
-  const navigate = useNavigate();
 
   useEffect(() => {
     if (currentUser.uid) {
@@ -47,19 +46,21 @@ const Register = () => {
       if (password !== confirmPassword) {
         throw new Error("passwordconfirm");
       }
+      //register user
       const res = await signUp(email, password, name);
       await setDoc(doc(db, "users", res.user.uid), {
         name: name,
         email: email,
         timeStamp: serverTimestamp(),
       });
+      //login
       login(email, password).then((userCredential) => {
         // Signed in
         const user = userCredential.user;
         dispatch({ type: "LOGIN", payload: user, name: name });
       });
+
       setEntreprise(true);
-      // navigate("/company");
       //display errot
     } catch (error) {
       switch (error.message) {
@@ -76,7 +77,6 @@ const Register = () => {
       }
     }
   };
-  console.log(entreprise);
   return (
     <>
       {entreprise ? (

@@ -22,29 +22,27 @@ const Login = () => {
     const password = passwordRef.current.value;
     setEmailExist(null);
     setWrongPassword("");
-    if (email) {
-      await login(email, password)
-        .then((userCredential) => {
+    try {
+      if (email) {
+        await login(email, password).then((userCredential) => {
           // Signed in
           const user = userCredential.user;
           dispatch({ type: "LOGIN", payload: user });
-          navigate("/");
-        })
-        .catch((error) => {
-          //error if email not registred
-          if (error.message === "Firebase: Error (auth/user-not-found).") {
-            setEmailExist(
-              <Typography variant="caption">
-                Cet email n'est pas enregistré.{" "}
-                <Link href="/register">S'enregistrer</Link>
-              </Typography>
-            );
-          } else if (
-            error.message === "Firebase: Error (auth/wrong-password)."
-          ) {
-            setWrongPassword("Mauvais mot de passe.");
-          }
+          navigate("/home");
         });
+      }
+    } catch (error) {
+      //error if email not registred
+      if (error.message === "Firebase: Error (auth/user-not-found).") {
+        setEmailExist(
+          <Typography variant="caption">
+            Cet email n'est pas enregistré.{" "}
+            <Link href="/register">S'enregistrer</Link>
+          </Typography>
+        );
+      } else if (error.message === "Firebase: Error (auth/wrong-password).") {
+        setWrongPassword("Mauvais mot de passe.");
+      }
     }
   };
 

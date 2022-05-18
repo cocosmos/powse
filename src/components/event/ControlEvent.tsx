@@ -1,7 +1,7 @@
 import { FormControlLabel, Radio, RadioGroup, useTheme } from "@mui/material";
 import { useState } from "react";
 
-const ControlEvent = ({ handleHome, home }) => {
+const ControlEvent = ({ handleHome }) => {
   const theme = useTheme();
   const [colorHome, setColorHome] = useState(theme.palette.background.paper);
   const [colorPresent, setColorPresent] = useState(theme.palette.info.main);
@@ -32,7 +32,7 @@ const ControlEvent = ({ handleHome, home }) => {
   };
 
   return (
-    //switch général - télé-travail for change color 
+    //switch général - télé-travail for change color
     <RadioGroup
       row
       name="radioGeneral"

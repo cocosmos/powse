@@ -27,7 +27,6 @@ const ResetPassword = () => {
       resetPassword(codeOob, password);
       navigate("/login");
     } catch (err) {
-      console.log(err);
       if (err.message === "passwordconfirm") {
         setPasswordConfirm("Les mots de passe ne correspondent pas.");
       } else {

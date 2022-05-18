@@ -29,6 +29,7 @@ const Company = () => {
     const entrepriseRef = companyRef.current.value;
     let companys = [];
     let companysId = [];
+    //generate uid
     let characters = "abcdefghijklmnopqrstuvwxyz0123456789";
     let result = "";
     let chaactersLength = characters.length;

@@ -56,7 +56,9 @@ const Event = () => {
     new Date(Date.now() + 900000)
   );
   const [startDate, setStartDate] = useState<Date | null>(new Date(Date.now()));
-
+  const matches = useMediaQuery(theme.breakpoints.up("lg"));
+  const [error, setError] = useState(false);
+  const [helperText, setHelperText] = useState("");
   const [values, setValues] = useState<EventType>({
     present: "general",
     category: "",
@@ -71,6 +73,7 @@ const Event = () => {
     id: "",
     author: "",
   });
+  //Color background
   const backgroundInput =
     values.present === "general"
       ? "slider.backgroundPri"
@@ -85,17 +88,12 @@ const Event = () => {
 
   const [colorChecked, setColorCheked] = useState(backgroundInput);
   const [colorCounter, setColorCounter] = useState(backgroundSlider);
+  const colorButton = values.present === "home" ? "home.main" : "primary.main";
 
   useEffect(() => {
     setColorCheked(backgroundInput);
     setColorCounter(backgroundSlider);
   }, [values.present]);
-  const handleInput =
-    (prop: keyof EventType) => (event: React.ChangeEvent<HTMLInputElement>) => {
-      setValues({ ...values, [prop]: event.target.value });
-      setHelperText("");
-      setError(false);
-    };
 
   const handleCheckbox = (event: React.ChangeEvent<HTMLInputElement>) => {
     if (event.target.checked === true) {
@@ -125,12 +123,16 @@ const Event = () => {
     setColorCheked(backgroundInput);
   };
 
-  const [error, setError] = useState(false);
-  const [helperText, setHelperText] = useState("");
+  //Get data from input
+  const handleInput =
+    (prop: keyof EventType) => (event: React.ChangeEvent<HTMLInputElement>) => {
+      setValues({ ...values, [prop]: event.target.value });
+      setHelperText("");
+      setError(false);
+    };
 
   //Date
   const tzoffset = new Date().getTimezoneOffset() * 60000;
-
   const dateFullString = new Date(fulldate.getTime() - tzoffset)
     .toISOString()
     .slice(0, -1);
@@ -150,6 +152,9 @@ const Event = () => {
   const dateStartFi = Timestamp.fromDate(new Date(datetimeStart)).toDate();
   const dateEndFi = Timestamp.fromDate(new Date(datetimeEnd)).toDate();
   //end date
+
+  //get data from user
+
   useEffect(() => {
     const docRef = doc(db, `users`, currentUser.uid);
     try {
@@ -160,6 +165,8 @@ const Event = () => {
       console.log(error);
     }
   }, []);
+
+  //Submit form
 
   const handleSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
@@ -186,17 +193,6 @@ const Event = () => {
       setError(false);
     }
   };
-
-  const colorButton = values.present === "home" ? "home.main" : "primary.main";
-
-  // height of the TextField
-
-  // magic number which must be set appropriately for height
-
-  // get this from your form library, for instance in
-  // react-final-form it's fieldProps.meta.active
-  // or provide it yourself - see notes below
-  const matches = useMediaQuery(theme.breakpoints.up("lg"));
 
   return (
     <Box>

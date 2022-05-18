@@ -11,6 +11,7 @@ const ForgotPassword = () => {
   const [emailSent, setEmailSent] = useState(
     "Nous vous enverrons un lien pour réinitialiser votre mot de passe."
   );
+  const [success, setSuccess] = useState("");
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -18,8 +19,10 @@ const ForgotPassword = () => {
     try {
       await forgotPassword(email);
       setEmailSent(`Un lien vient d'être envoyé à ${email}`);
+      setSuccess("green");
     } catch (error) {
-      console.log(error);
+      setEmailSent(error.message);
+      setSuccess("red");
     }
   };
   return (
@@ -41,7 +44,7 @@ const ForgotPassword = () => {
         </Typography>
         <Stack spacing={2} sx={{ width: "100%" }}>
           <EmailField emailRef={emailRef} />
-          <FormHelperText sx={{ textAlign: "center", mt: -2 }}>
+          <FormHelperText sx={{ textAlign: "center", mt: -2, color: success }}>
             <Typography variant="body2">{emailSent}</Typography>
           </FormHelperText>
         </Stack>
