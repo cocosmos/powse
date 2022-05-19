@@ -2,7 +2,7 @@
 ##  Workshop DEVxDA
 
 ### Information :
-- Dev : Mipam Guillott & Maylie Alsina
+- Dev : Mipam Guillot & Maylie Alsina
 - DA : Thomas Pitzalis, Théo Galzin, Daira Blanco Ayala, Ella Adatte
 - 18/05/2022
 - Firebase, React.js
